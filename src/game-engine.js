@@ -132,6 +132,33 @@ function narrativeLayers(state) {
     .map((layer) => layer.text);
 }
 
+function journalEntries(section, state) {
+  const context = { state, input: {} };
+  return (activeDatabase.journal?.[section] ?? [])
+    .filter((entry) => matchesRequirements(entry.requires, context))
+    .map((entry) => ({
+      ...entry,
+      updates: (entry.updates ?? []).filter((update) => matchesRequirements(update.requires, context)),
+    }));
+}
+
+/** Returns campaign-authored notebook entries whose conditions are now known. */
+export function getJournal(state) {
+  const people = journalEntries("people", state);
+  const plot = journalEntries("plot", state);
+  return { people, plot, all: [...people, ...plot] };
+}
+
+function journalIds(state) {
+  return new Set(getJournal(state).all.map((entry) => entry.id));
+}
+
+function journalDiscoveryEvents(previousIds, state) {
+  return getJournal(state).all
+    .filter((entry) => !previousIds.has(entry.id) && entry.discovery)
+    .map((entry) => outputFrom({ text: entry.discovery, type: "system", consumesTurn: false }, state));
+}
+
 function fixedChoiceAvailable(choice, state) {
   if (!matchesRequirements(choice.requires, { state, input: {} })) return false;
   return choice.once === false || !(state.memory?.exploredChoices ?? []).includes(choice.id);
@@ -152,6 +179,7 @@ function mergeNarration(first, second) {
 export function resolveChoice(state, choiceId) {
   const choice = getChoices(state).find((entry) => entry.id === choiceId);
   if (!choice) return outputFrom(activeDatabase.defaults.other.result, state);
+  const journalBefore = journalIds(state);
   state.memory ??= {};
   state.memory.exploredChoices ??= [];
   state.memory.visitedScenes ??= {};
@@ -175,6 +203,8 @@ export function resolveChoice(state, choiceId) {
     consumesTurn: choice.consumesTurn !== false,
   };
   result = runTimers(state, { choiceId }, result);
+  const discoveries = journalDiscoveryEvents(journalBefore, state);
+  if (discoveries.length) result = { ...result, events: [...(result.events ?? []), ...discoveries] };
   remember(state, result.message);
   for (const event of result.events ?? []) remember(state, event.message);
   return result;
@@ -359,6 +389,7 @@ export function createGameEngine(database) {
     getStatuses: (state) => withDatabase(database, () => getStatuses(state)),
     getExpeditionMeters: (state) => withDatabase(database, () => getExpeditionMeters(state)),
     getWorldMap: (state) => withDatabase(database, () => getWorldMap(state)),
+    getJournal: (state) => withDatabase(database, () => getJournal(state)),
     getChoices: (state) => withDatabase(database, () => getChoices(state)),
     resolveChoice: (state, choiceId) => withDatabase(database, () => resolveChoice(state, choiceId)),
     isDeadlineSecured: (state) => withDatabase(database, () => isDeadlineSecured(state)),

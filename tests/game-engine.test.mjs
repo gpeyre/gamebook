@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { getChoices, getWorldMap, resolveChoice } from "../src/game-engine.js";
+import { getChoices, getJournal, getWorldMap, resolveChoice } from "../src/game-engine.js";
 import { GAME_DB } from "../src/game-db.js";
 import { createInitialState } from "../src/game-state.js";
 
@@ -15,6 +15,22 @@ test("a consumed authored choice is permanently removed", () => {
   choose(state, "read-notice");
   assert.ok(!getChoices(state).some((choice) => choice.id === "read-notice"));
   assert.ok(getChoices(state).some((choice) => choice.id === "descend-river"));
+});
+
+test("the data-defined notebook reveals people and investigation facts as they are discovered", () => {
+  const state = createInitialState("en");
+  const geyma = choose(state, "meet-geyma");
+  assert.ok(geyma.events?.some((event) => /Notebook opened.*Geyma/i.test(event.message.en)));
+  assert.deepEqual(getJournal(state).people.map((entry) => entry.id), ["geyma"]);
+
+  choose(state, "descend-river");
+  const edras = choose(state, "visit-workers");
+  assert.ok(edras.events?.some((event) => /Edras/i.test(event.message.en)));
+  const shields = choose(state, "study-shields");
+  assert.ok(shields.events?.some((event) => /not protections/i.test(event.message.en)));
+  const notebook = getJournal(state);
+  assert.ok(notebook.people.some((entry) => entry.id === "edras"));
+  assert.ok(notebook.plot.some((entry) => entry.id === "shield_symbols"));
 });
 
 test("the campaign has no turn limit or automatic flood ending", () => {
@@ -155,6 +171,31 @@ test("the annex stories form a multi-branch route back into the main investigati
   assert.equal(state.currentScene, "gallery_procession");
   assert.ok(state.clues.includes("courier_seal"));
   assert.ok(getChoices(state).some((choice) => choice.id === "decipher-rite"));
+});
+
+test("the final sequence resolves the rite, the gate, the shields, then the public case", () => {
+  const state = createInitialState("en");
+  choose(state, "descend-river");
+  choose(state, "follow-fissure");
+  choose(state, "follow-water");
+  choose(state, "light-lantern");
+  choose(state, "board-barge");
+  choose(state, "open-ledger");
+  choose(state, "share-ledger");
+  choose(state, "escort-witnesses");
+  choose(state, "decipher-rite");
+  choose(state, "free-poupiquet");
+  choose(state, "take-poupiquet");
+  choose(state, "break-rite");
+  choose(state, "cross-breach");
+  choose(state, "inspect-wedge");
+  choose(state, "remove-wedge");
+  choose(state, "disarm-shields");
+  assert.equal(state.currentScene, "public_reckoning");
+  assert.equal(state.flags.disabledSabotage, true);
+  assert.equal(state.flags.disarmedShields, true);
+  choose(state, "save-city");
+  assert.equal(state.currentScene, "ending_dawn");
 });
 
 test("the forgotten outskirts add local side stories that return to established districts", () => {

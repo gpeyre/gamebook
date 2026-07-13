@@ -16,6 +16,9 @@ test("hydrating a saved state preserves progress and adds newly introduced campa
   assert.equal(state.version, STATE_VERSION);
   assert.equal(state.currentScene, "utruz_gallery");
   assert.equal(state.flags.lanternLit, true);
+  assert.equal(state.flags.disarmedShields, false);
+  assert.equal(state.flags.metNeris, false);
+  assert.equal(state.relationships.ysilde, 0);
   assert.equal("workersAlerted" in state.flags, false);
   assert.equal("riverRumbling" in state.flags, false);
   assert.deepEqual(state.memory.exploredChoices, []);
