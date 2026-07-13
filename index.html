@@ -24,6 +24,7 @@
           <span class="ornament-folio"></span>
         </div>
         <div class="top-actions">
+          <button id="projectInfoButton" class="quiet" type="button">Le projet</button>
           <button id="languageButton" class="quiet" type="button">EN</button>
         </div>
       </header>
@@ -105,6 +106,18 @@
         <div class="card-heading-row"><div><p class="eyebrow">Orientation</p><h2 id="mapDialogTitle">Carte des lieux</h2></div><button id="mapCloseButton" class="dialog-close" aria-label="Close" type="button">×</button></div>
         <p id="mapDialogHint" class="card-hint"></p>
         <div id="largeMap" class="large-map"></div>
+      </section>
+    </dialog>
+
+    <dialog id="projectInfoDialog" class="project-info-dialog">
+      <section class="dialog-card project-info-card" aria-labelledby="projectInfoTitle">
+        <div class="card-heading-row">
+          <div><p id="projectInfoEyebrow" class="eyebrow"></p><h2 id="projectInfoTitle"></h2></div>
+          <button id="projectInfoCloseButton" class="dialog-close" aria-label="Close" type="button">×</button>
+        </div>
+        <p id="projectInfoIntro" class="project-info-intro"></p>
+        <dl id="projectStats" class="project-stats"></dl>
+        <p id="projectInfoMethod" class="card-hint project-info-method"></p>
       </section>
     </dialog>
 

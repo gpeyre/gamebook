@@ -1,9 +1,10 @@
 import { GAME_DB } from "./game-db.js";
+import { getCampaignStats } from "./campaign-stats.js";
 import { t, UI_TEXT } from "./i18n.js";
 import { getChoices, getExpeditionMeters, getJournal, getScene, getStatuses, getWorldMap } from "./game-engine.js";
 
 const ids = [
-  "gameEyebrow", "gameTitle", "languageButton", "storyPanel", "modelStatus", "chapterLabel", "sceneTitle", "transcript",
+  "gameEyebrow", "gameTitle", "projectInfoButton", "projectInfoDialog", "projectInfoEyebrow", "projectInfoTitle", "projectInfoIntro", "projectStats", "projectInfoMethod", "projectInfoCloseButton", "languageButton", "storyPanel", "modelStatus", "chapterLabel", "sceneTitle", "transcript",
   "choicesHeading", "suggestions",
   "objectiveHeading", "objectiveText", "partyHeading", "partyHint", "partyList", "expeditionHeading", "expeditionList", "inventoryHeading", "inventoryList", "cluesHeading", "cluesList", "journalHeading", "journalHint", "peopleHeading", "peopleJournalCount", "peopleJournalList", "plotHeading", "plotJournalCount", "plotJournalList", "worldHeading", "worldList", "mapHeading", "mapHint", "mapExpandButton", "minimap", "mapDialog", "mapDialogTitle", "mapDialogHint", "mapCloseButton", "largeMap",
   "gameHeading", "saveButton", "loadButton", "restartButton", "clearButton",
@@ -132,6 +133,31 @@ function renderMinimap(state) {
   renderMap(state, elements.largeMap, true);
 }
 
+function renderProjectInfo(language) {
+  const ui = UI_TEXT[language];
+  const stats = getCampaignStats(GAME_DB);
+  const entries = [
+    [ui.projectStatWords, stats.wordCount[language]],
+    [ui.projectStatNodes, stats.sceneCount],
+    [ui.projectStatChoices, stats.choiceCount],
+    [ui.projectStatEndings, stats.endingCount],
+    [ui.projectStatCharacters, stats.characterCount],
+    [ui.projectStatRegions, stats.regionCount],
+  ];
+  elements.projectInfoButton.textContent = ui.projectInfoButton;
+  elements.projectInfoEyebrow.textContent = ui.projectInfoEyebrow;
+  elements.projectInfoTitle.textContent = ui.projectInfoTitle;
+  elements.projectInfoIntro.textContent = ui.projectInfoIntro;
+  elements.projectInfoMethod.textContent = ui.projectInfoMethod;
+  elements.projectInfoCloseButton.setAttribute("aria-label", ui.closeProjectInfo);
+  elements.projectStats.replaceChildren();
+  for (const [labelText, value] of entries) {
+    const term = document.createElement("dt"); term.textContent = labelText;
+    const definition = document.createElement("dd"); definition.textContent = new Intl.NumberFormat(language === "fr" ? "fr-FR" : "en-GB").format(value);
+    elements.projectStats.append(term, definition);
+  }
+}
+
 export function render(state, objective, onChoice) {
   const ui = UI_TEXT[state.language]; const scene = getScene(state); document.documentElement.lang = state.language;
   elements.languageButton.textContent = state.language === "fr" ? "EN" : "FR";
@@ -143,6 +169,7 @@ export function render(state, objective, onChoice) {
   elements.peopleJournalCount.textContent = ui.journalCount(journal.people.length); elements.plotJournalCount.textContent = ui.journalCount(journal.plot.length);
   renderExpeditionMeters(state); renderList(elements.inventoryList, state.inventory.map((id) => t(GAME_DB.entities.items[id]?.name ?? id, state.language)), ui.empty); renderList(elements.cluesList, state.clues.map((id) => t(GAME_DB.entities.clues[id] ?? id, state.language)), ui.empty); renderJournalList(elements.peopleJournalList, journal.people, state.language, ui.journalEmptyPeople); renderJournalList(elements.plotJournalList, journal.plot, state.language, ui.journalEmptyPlot); renderList(elements.worldList, getStatuses(state).map((status) => t(status, state.language)), ui.empty);
   renderSceneArt(state); renderTranscript(state); renderChoices(state, onChoice); renderParty(state); renderMinimap(state);
+  renderProjectInfo(state.language);
 }
 
 export function appendEntry(entry, language) { const p = document.createElement("p"); p.className = `entry ${entry.type}`; p.textContent = t(entry.text, language); elements.transcript.append(p); elements.transcript.scrollTop = elements.transcript.scrollHeight; }

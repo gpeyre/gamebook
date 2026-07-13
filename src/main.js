@@ -49,6 +49,12 @@ elements.languageButton.addEventListener("click", () => {
   fullRender();
 });
 
+elements.projectInfoButton.addEventListener("click", () => elements.projectInfoDialog.showModal());
+elements.projectInfoCloseButton.addEventListener("click", () => elements.projectInfoDialog.close());
+elements.projectInfoDialog.addEventListener("click", (event) => {
+  if (event.target === elements.projectInfoDialog) elements.projectInfoDialog.close();
+});
+
 elements.saveButton.addEventListener("click", () => {
   saveGame(state);
   addSystem(UI_TEXT[state.language].saved);
