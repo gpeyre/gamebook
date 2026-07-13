@@ -1,6 +1,6 @@
 import { GAME_DB } from "./game-db.js";
 
-export const STATE_VERSION = 14;
+export const STATE_VERSION = 17;
 
 export function createInitialState(language = "fr", database = GAME_DB) {
   return {

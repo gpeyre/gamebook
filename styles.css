@@ -59,14 +59,25 @@ h3 { color: var(--gold); font-size: 1.06rem; margin-bottom: 12px; letter-spacing
 .story-panel, .card {
   border: 1px solid var(--line); background: linear-gradient(135deg, rgba(30,43,34,.98), rgba(17,26,21,.98)); box-shadow: 0 22px 58px var(--shadow), inset 0 1px 0 var(--edge-highlight);
 }
-.story-panel { position: relative; min-height: 74vh; display: flex; flex-direction: column; overflow: hidden; border-radius: 13px; }
+.story-panel {
+  position: relative;
+  min-height: 74vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 13px;
+  background:
+    linear-gradient(90deg, rgba(15, 24, 18, .96) 0%, rgba(15, 24, 18, .77) 60%, rgba(9, 15, 11, .91) 100%),
+    linear-gradient(180deg, rgba(6, 12, 8, .10), rgba(6, 12, 8, .52)),
+    url("assets/art/drained-river-gates.png") center / cover no-repeat;
+}
 .story-panel::before { content: ""; position: absolute; top: 0; right: 10%; left: 24px; height: 2px; background: linear-gradient(90deg, var(--gold), rgba(215,170,88,.08)); }
-.scene-heading { padding: 27px 30px 24px; border-bottom: 1px solid rgba(79,96,81,.72); background: linear-gradient(100deg, rgba(215,170,88,.055), transparent 52%); }
+.scene-heading { padding: 27px 30px 24px; border-bottom: 1px solid rgba(79,96,81,.72); background: linear-gradient(100deg, rgba(19,31,23,.82), rgba(19,31,23,.42) 66%, rgba(9,15,11,.66)); backdrop-filter: blur(2px); }
 .status-pill { color: var(--muted); border: 1px solid rgba(87,108,91,.8); border-radius: 999px; padding: 7px 11px; font-size: .7rem; letter-spacing: .04em; white-space: nowrap; background: rgba(10,17,12,.35); }
 .status-pill.ready { color: var(--water); border-color: #416e66; }
 .status-pill.loading { color: var(--gold); }
 
-.transcript { flex: 1; min-height: 420px; max-height: 60vh; overflow-y: auto; padding: 34px 30px 28px; scroll-behavior: smooth; background: linear-gradient(90deg, rgba(4,8,5,.12), transparent 15%); scrollbar-color: #556c5c transparent; scrollbar-width: thin; }
+.transcript { flex: 1; min-height: 420px; max-height: 60vh; overflow-y: auto; padding: 34px 30px 28px; scroll-behavior: smooth; background: linear-gradient(90deg, rgba(8,14,10,.28), rgba(8,14,10,.07) 54%, rgba(8,14,10,.20)); scrollbar-color: #556c5c transparent; scrollbar-width: thin; }
 .entry { margin: 0 0 27px; line-height: 1.8; max-width: 68ch; white-space: pre-line; font-size: 1.01rem; text-wrap: pretty; }
 .entry.narration::first-letter { color: var(--gold); font-family: Georgia, serif; font-size: 1.75em; line-height: .85; padding-right: .05em; }
 .entry.player { max-width: 60ch; margin-left: auto; padding: 10px 0 10px 22px; color: #d2dbd0; font-style: italic; text-align: right; border-right: 2px solid rgba(215,170,88,.55); }
@@ -74,7 +85,7 @@ h3 { color: var(--gold); font-size: 1.06rem; margin-bottom: 12px; letter-spacing
 .entry.system { color: var(--muted); border-left: 2px solid rgba(123,184,178,.45); padding: 5px 0 5px 13px; font-size: .84rem; }
 .entry.error { color: #e49a8d; }
 
-.command-form { position: relative; border-top: 1px solid rgba(79,96,81,.78); padding: 21px 30px 25px; background: linear-gradient(120deg, rgba(35,50,39,.98), rgba(21,31,25,.98)); }
+.command-form { position: relative; border-top: 1px solid rgba(79,96,81,.78); padding: 21px 30px 25px; background: linear-gradient(120deg, rgba(29,43,33,.96), rgba(16,25,20,.97)); backdrop-filter: blur(3px); }
 .command-form h3 { margin-bottom: 6px; }
 button { color: var(--ink); background: rgba(9,15,10,.22); border: 1px solid rgba(79,96,81,.8); border-radius: 6px; padding: 9px 12px; transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease; }
 button:hover { border-color: var(--gold-dark); }
@@ -105,7 +116,12 @@ button:disabled { opacity: .55; cursor: wait; }
 .compact-list li { padding: 8px 0; border-top: 1px solid rgba(73,91,77,.65); }
 .compact-list li:first-child { border-top: 0; }
 .compact-list .empty { color: var(--muted); font-style: italic; }
-.journal-card { background: linear-gradient(135deg, rgba(53, 43, 27, .98), rgba(22, 32, 25, .98)); box-shadow: inset 3px 0 0 rgba(215,170,88,.5), 0 22px 58px var(--shadow), inset 0 1px 0 var(--edge-highlight); }
+.journal-card {
+  background:
+    linear-gradient(145deg, rgba(48, 38, 23, .96), rgba(17, 28, 23, .94)),
+    url("assets/art/underwater-archives.png") center / cover no-repeat;
+  box-shadow: inset 3px 0 0 rgba(215,170,88,.5), 0 22px 58px var(--shadow), inset 0 1px 0 var(--edge-highlight);
+}
 .journal-card details + details { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(52,68,57,.65); }
 .journal-card summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--gold); cursor: pointer; font-family: Georgia, "Times New Roman", serif; font-size: .95rem; }
 .journal-card summary::marker { color: var(--water); }

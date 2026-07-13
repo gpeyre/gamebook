@@ -33,6 +33,72 @@ test("the data-defined notebook reveals people and investigation facts as they a
   assert.ok(notebook.plot.some((entry) => entry.id === "shield_symbols"));
 });
 
+test("the deeper lore branches reveal recurring witnesses and the erased flood doctrine", () => {
+  const state = createInitialState("en");
+  choose(state, "browse-lanterns");
+  choose(state, "arcade-to-votive-roof");
+  const sava = choose(state, "meet-sava");
+  assert.ok(sava.events?.some((event) => /Sava Rhyss/i.test(event.message.en)));
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "sava"));
+
+  state.currentScene = "old_customs";
+  choose(state, "customs-to-mirror-archive");
+  choose(state, "meet-ilyra");
+  const restored = choose(state, "restore-fifth-quarter");
+  assert.ok(restored.events?.some((event) => /wave's target/i.test(event.message.en)));
+  assert.ok(state.clues.includes("erased_quarters"));
+  assert.ok(getJournal(state).plot.some((entry) => entry.id === "erased_quarters"));
+
+  state.currentScene = "echo_well";
+  choose(state, "well-to-moonwell");
+  choose(state, "meet-kos");
+  choose(state, "name-fifth-ring");
+  assert.ok(state.clues.includes("fifth_name"));
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "kos"));
+});
+
+test("the second lore layer connects the warning system, civic law, and displaced families", () => {
+  const state = createInitialState("fr");
+  state.currentScene = "rooftop_cistern";
+  choose(state, "cistern-to-aviary");
+  choose(state, "meet-nival");
+  const warning = choose(state, "trace-silent-route");
+  assert.ok(warning.events?.some((event) => /silence des quartiers bas/i.test(event.message.fr)));
+  assert.ok(state.clues.includes("unseen_bell"));
+
+  state.currentScene = "river_shrine";
+  choose(state, "shrine-to-reliquary");
+  choose(state, "meet-darel");
+  choose(state, "read-scratched-disc");
+  assert.ok(state.clues.includes("brass_concord"));
+
+  state.currentScene = "moss_orchard";
+  choose(state, "orchard-to-exiles");
+  choose(state, "meet-maera");
+  choose(state, "copy-exile-keys");
+  assert.ok(state.clues.includes("first_exiles"));
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "maera"));
+  assert.ok(getJournal(state).plot.some((entry) => entry.id === "brass_concord"));
+});
+
+test("the final choice carries the discovered history into a public or protected record", () => {
+  const publicState = createInitialState("en");
+  publicState.currentScene = "public_reckoning";
+  publicState.flags.disarmedShields = true;
+  publicState.clues.push("valdrick_manifest", "water_rite", "brass_concord", "first_exiles");
+  const publicEnding = choose(publicState, "save-city");
+  assert.equal(publicState.flags.publicRecord, true);
+  assert.match(publicEnding.message.en, /Council to reopen the name of Low Vire/i);
+
+  const quietState = createInitialState("en");
+  quietState.currentScene = "public_reckoning";
+  quietState.flags.disarmedShields = true;
+  quietState.clues.push("brass_concord");
+  const quietEnding = choose(quietState, "save-quietly");
+  assert.equal(quietState.flags.keptArchive, true);
+  assert.match(quietEnding.message.en, /Silence is a choice of survival/i);
+});
+
 test("the campaign has no turn limit or automatic flood ending", () => {
   const state = createInitialState("en");
   state.turns = 10000;

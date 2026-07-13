@@ -647,7 +647,7 @@ const CORE_SCENES = {
   },
   gallery_procession: {
     title: l("La procession d'Utruz", "The Utruz procession"),
-    description: l("La galerie a été taillée pour que le visiteur baisse la tête. À la lumière, les glyphes se déroulent comme un chant sans voix : quatre anneaux retiennent la force de l'eau, un porteur lui indique une direction, et le cinquième anneau — absent de la fresque — représente celui qui choisit de rompre le rite.", "The gallery was cut so that visitors must bow their heads. In the light, its glyphs unfold like a voiceless song: four rings contain water's force, one bearer gives it direction, and the fifth ring—absent from the fresco—represents the person who chooses to break the rite."),
+    description: l("La galerie a été taillée pour que le visiteur baisse la tête. À la lumière, les glyphes se déroulent comme un chant sans voix : quatre anneaux retiennent la force de l'eau, un porteur lui indique une direction, et le cinquième anneau — absent de la fresque — oblige ce porteur à répondre de celles et ceux qu'il laisse exposés. Rompre le rite ne consiste donc pas à détruire l'eau, mais à lui refuser une cible.", "The gallery was cut so that visitors must bow their heads. In the light, its glyphs unfold like a voiceless song: four rings contain water's force, one bearer gives it direction, and the fifth ring—absent from the fresco—compels that bearer to answer for those left exposed. To break the rite is therefore not to destroy water, but to deny it a target."),
     revisitDescription: l("Les glyphes n'ont pas changé, mais votre regard oui. Après avoir vu les boucliers et la barge, la procession ne ressemble plus à une légende religieuse : c'est un manuel de sabotage écrit dans une langue sacrée.", "The glyphs have not changed, but your gaze has. After seeing the shields and the barge, the procession no longer resembles a religious legend: it is a sabotage manual written in a sacred language."),
   },
   poupiquet_cell: {
@@ -665,7 +665,7 @@ const CORE_SCENES = {
   },
   rite_broken: {
     title: l("Le cinquième anneau", "The fifth ring"),
-    description: l("Vous ne portez pas le collier. Vous le retournez sur l'autel, suivant la ligne manquante des glyphes. Les serpents se défont en filets d'eau claire et une brèche s'ouvre dans le mur : elle conduit à la chambre des portes. Le rite n'est pas détruit; il est rendu à sa fonction première, protéger plutôt que punir.", "You do not wear the necklace. You turn it upon the altar, following the glyphs' missing line. The serpents unmake themselves into streams of clear water and a breach opens in the wall: it leads to the gate chamber. The rite is not destroyed; it is returned to its first purpose, to protect rather than punish."),
+    description: l("Vous ne portez pas le collier. Vous le retournez sur l'autel, suivant la ligne manquante des glyphes. Les serpents se défont en filets d'eau claire et une brèche s'ouvre dans le mur : elle conduit à la chambre des portes. Le rite n'est pas détruit; il est rendu à sa fonction première : empêcher qu'une décision humaine se dissimule derrière la force de l'eau.", "You do not wear the necklace. You turn it upon the altar, following the glyphs' missing line. The serpents unmake themselves into streams of clear water and a breach opens in the wall: it leads to the gate chamber. The rite is not destroyed; it is returned to its first purpose: preventing a human decision from hiding behind the force of water."),
   },
   gate_chamber: {
     title: l("La chambre des portes", "The gate chamber"),
@@ -679,7 +679,7 @@ const CORE_SCENES = {
   },
   shield_terrace: {
     title: l("La terrasse des quatre boucliers", "The terrace of four shields"),
-    description: l("Derrière la berge, les quatre boucliers forment une rose de métal tournée vers les quartiers bas. Le gond sécurisé ne suffit pas : tant que cette rose garde sa direction, une vague peut être détournée sans faire céder les portes. Le rite indique peut-être comment les éteindre sans les briser.", "Beyond the bank, the four shields form a metal rose turned toward the lower districts. Securing the hinge is not enough: while that rose keeps its direction, a wave can be diverted without breaking the gates. The rite may show how to silence them without shattering them."),
+    description: l("Derrière la berge, les quatre boucliers forment une rose de métal tournée vers les quartiers bas. Le gond sécurisé ne suffit pas : tant que cette rose reçoit une direction, une vague peut être détournée sans faire céder les portes. Les anneaux ne choisissent rien seuls; ils obéissent à une décision transmise par les câbles, les signaux et le rite. Il faut leur refuser cette décision sans les briser.", "Beyond the bank, the four shields form a metal rose turned toward the lower districts. Securing the hinge is not enough: while that rose receives a direction, a wave can be diverted without breaking the gates. The rings choose nothing by themselves; they obey a decision passed through cables, signals, and the rite. You must deny them that decision without shattering them."),
     visitDescriptions: [{ requires: { path: "state.flags.disarmedShields", equals: true }, text: l("Les quatre boucliers ne renvoient plus qu'une lumière terne. La menace immédiate est finie; ce qui demeure est la question des responsables, et de la vérité que vous choisirez de porter à la surface.", "The four shields now return only dull light. The immediate threat is over; what remains is the question of those responsible, and of the truth you choose to carry to the surface.") }],
   },
   city_steps: {
@@ -693,14 +693,88 @@ const CORE_SCENES = {
   },
   public_reckoning: {
     title: l("L'heure blanche", "The white hour"),
-    description: l("La menace immédiate est passée, mais personne ne parle encore d'une même voix. Geyma tient les preuves que vous avez rapportées; le sergent attend de savoir si elles suffiront à arrêter des hommes puissants. En contrebas, les faux ouvriers comprennent que leur silence ne les protège plus. Reste une décision : exposer le réseau avec ce que vous pouvez prouver, ou laisser la ville croire à un simple accident évité.", "The immediate threat has passed, but no one yet speaks with one voice. Geyma holds the proof you brought; the sergeant waits to know whether it will be enough to arrest powerful people. Below, the false workers understand their silence no longer protects them. One decision remains: expose the network with what you can prove, or let the city believe a simple accident was avoided."),
+    description: l("La menace immédiate est passée, mais personne ne parle encore d'une même voix. Geyma tient les preuves que vous avez rapportées; le sergent attend de savoir si elles suffiront à arrêter des hommes puissants. En contrebas, les faux ouvriers comprennent que leur silence ne les protège plus. Reste une décision : exposer le réseau avec ce que vous pouvez prouver, ou laisser la ville croire à un simple accident évité. Selon ce que vous avez découvert, l'affaire peut aussi forcer Laelith à regarder l'ancienne règle qui rendait certains quartiers plus sacrifiables que d'autres.", "The immediate threat has passed, but no one yet speaks with one voice. Geyma holds the proof you brought; the sergeant waits to know whether it will be enough to arrest powerful people. Below, the false workers understand their silence no longer protects them. One decision remains: expose the network with what you can prove, or let the city believe a simple accident was avoided. Depending on what you discovered, the case may also force Laelith to face the old rule that made some wards more sacrificial than others."),
     visitDescriptions: [{ requires: { all: [{ path: "state.flags.freedCaptives", equals: true }, { path: "state.flags.freedPoupiquet", equals: true }, { path: "state.clues", includes: "council_ledger" }] }, text: l("Les voyageurs nomment les hommes de Souleyna; Poupiquet déroule ses calculs; les registres donnent un visage municipal à leur complice. Cette fois, le sergent n'écoute pas seulement une alerte : il reçoit une affaire complète.", "The travellers name Souleyna's men; Poupiquet unrolls his calculations; the ledgers give their accomplice a municipal face. This time, the sergeant is not merely hearing an alarm: he is receiving a complete case.") }],
   },
   ending_dawn: { title: l("Une ville qui se souvient", "A city that remembers"), description: l("La vague revient, mais les portes tiennent. Les boucliers, privés de leur direction, boivent leur propre lumière puis retombent inertes dans la vase. Les preuves ne résolvent pas tous les mensonges de Laelith, mais elles suffisent pour que les responsables ne puissent plus les cacher.\n\nFIN — L'eau retrouve son cours; la ville retrouve sa voix.", "The wave returns, but the gates hold. Deprived of their direction, the shields drink their own light and fall inert into the mud. The evidence does not solve every lie in Laelith, but it is enough that those responsible can no longer hide them.\n\nTHE END — Water finds its course; the city finds its voice."), ending: true },
   ending_silent: { title: l("Le salut sans témoin", "Salvation without witnesses"), description: l("Le coin est retiré et les boucliers sont rendus inertes avant le retour de l'eau. La ville n'apprendra jamais toute l'histoire : les mercenaires fuient, Valdrick nie, et les preuves les plus fragiles disparaissent dans le tumulte. Pourtant les portes tiennent, les quartiers bas dorment, et quelques personnes savent qu'une catastrophe a été empêchée dans le silence.\n\nFIN — Vous avez sauvé Laelith, mais pas encore sa vérité.", "The wedge is removed and the shields are made inert before the water returns. The city will never learn the whole story: mercenaries flee, Valdrick denies everything, and the most fragile evidence vanishes in the tumult. Yet the gates hold, the lower districts sleep, and a few people know a catastrophe was prevented in silence.\n\nTHE END — You saved Laelith, but not yet its truth."), ending: true },
 };
 
-export const FIXED_SCENES = { ...CORE_SCENES, ...WORLD_EXPANSION_SCENES, ...ANNEX_SCENES };
+// A third authored layer deepens the city's older fault line. These places do
+// not replace the immediate sabotage: they reveal why the city was already
+// capable of imagining that some districts could be sacrificed.
+const LORE_EXPANSION_SCENES = {
+  votive_roof: {
+    title: l("Le toit des prières sans adresse", "The roof of unaddressed prayers"),
+    description: l("Au-dessus de la galerie des lanternes, des milliers de feuilles votives ont été nouées aux gouttières. La pluie les a soudées en une dentelle de papier brun. Sava Rhyss, collectrice de vœux pour le sanctuaire, les détache une à une avec des pinces d'orfèvre. Elle affirme que certaines prières reviennent toujours sans destinataire — celles des rues que les registres ont cessé de nommer.", "Above the lantern arcade, thousands of votive sheets have been tied to the gutters. Rain has fused them into lacework of brown paper. Sava Rhyss, the shrine's collector of vows, loosens them one by one with jeweller's tongs. She claims some prayers always return without an addressee—those from streets the registers have stopped naming."),
+    visitDescriptions: [{ requires: { path: "state.flags.metSava", equals: true }, text: l("Sava a séparé pour vous une feuille restée blanche au milieu des autres. « Les villes mentent rarement en brûlant les preuves, dit-elle. Elles commencent par oublier à qui répondre. »", "Sava has set aside for you a sheet that remained blank among the others. “Cities rarely lie by burning proof,” she says. “They begin by forgetting whom to answer.”") }],
+  },
+  veil_theatre: {
+    title: l("Le théâtre des voiles", "The theatre of veils"),
+    description: l("Derrière le marché des masques, un ancien théâtre conserve ses gradins sous des tentures humides. Orthe Kair y répète seul les voix des puissants : il peut faire parler un douanier, une ambassadrice ou un juge avec une exactitude inquiétante. Il jure qu'il ne les imite pas pour les tromper, mais pour savoir à quel moment leurs phrases cessent d'être les leurs.", "Behind the mask market, an old theatre keeps its tiers beneath damp drapes. Orthe Kair rehearses the voices of the powerful there alone: he can speak as a customs officer, an ambassador, or a judge with unsettling accuracy. He swears he does not mimic them to deceive, but to learn when their sentences cease to be their own."),
+    visitDescriptions: [{ requires: { path: "state.flags.metOrthe", equals: true }, text: l("Orthe a changé les sièges de place. Il prétend que cela suffit à faire avouer une salle entière, puis vous demande lequel de vos alliés vous craignez le plus de voir parler à votre place.", "Orthe has moved the seats around. He claims that is enough to make an entire room confess, then asks which of your allies you most fear hearing speak in your place.") }],
+  },
+  mirror_archive: {
+    title: l("L'archive des encres miroirs", "The archive of mirror inks"),
+    description: l("Sous le cloître, des plaques d'étain reflètent les feuillets à contre-jour. Ilyra Morn, restauratrice disgraciée, y fait remonter les mots grattés avec une eau noire qui brûle les doigts. Elle a autrefois effacé des noms sur ordre du Conseil; depuis, elle ne restaure rien sans vous demander qui profitera de la vérité retrouvée.", "Beneath the cloister, tin plates reflect folios against the light. Ilyra Morn, a disgraced restorer, brings scraped words back with black water that burns the fingers. She once erased names on the Council's orders; since then, she restores nothing without asking who will profit from the truth recovered."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "erased_quarters" }, text: l("L'encre miroir a rendu un quartier à la carte, mais Ilyra garde le dernier feuillet sous sa paume. Il porte le nom de la personne qui a demandé l'effacement. Elle veut savoir si vous cherchez une affaire, ou quelqu'un à livrer.", "Mirror ink has returned a district to the map, but Ilyra keeps the last folio beneath her palm. It bears the name of the person who ordered the erasure. She wants to know whether you seek a case, or someone to hand over.") }],
+  },
+  wicker_docks: {
+    title: l("Les quais des paniers creux", "The hollow-basket docks"),
+    description: l("Les barges de pêche sont rangées si serrées que l'on marche de pont en pont. Sous des piles de paniers à anguilles, Noma Pell tresse des doubles fonds avec une patience presque tendre. Les coursiers paient pour ses paniers; les familles des quartiers bas y cachent aussi leurs lettres quand les patrouilles lisent trop vite.", "Fishing barges are packed so closely that one walks from deck to deck. Beneath stacks of eel baskets, Noma Pell weaves false bottoms with almost tender patience. Couriers pay for her baskets; families from the lower wards also hide letters in them when patrols read too quickly."),
+    visitDescriptions: [{ requires: { path: "state.flags.metNoma", equals: true }, text: l("Noma n'a pas déplacé ses paniers, seulement les ombres qu'ils projettent. Elle vous montre deux voies identiques sur l'eau : l'une mène au réseau, l'autre à celles et ceux qui essaient de lui survivre.", "Noma has not moved her baskets, only the shadows they cast. She shows you two identical paths on the water: one leads to the network, the other to those trying to survive it.") }],
+  },
+  moonwell_grotto: {
+    title: l("La grotte du puits-lune", "The moonwell grotto"),
+    description: l("Une cavité ronde s'ouvre sous le puits des échos, lisse comme l'intérieur d'une coupe. Kos Veyr, ancien plongeur des sondes, a suspendu des coquilles au plafond; il lit leur tremblement comme d'autres lisent les étoiles. Il sait qu'il y avait un cinquième anneau dans le rite, mais refuse d'abord de prononcer le nom qui allait avec : sa dernière mission a emporté son frère dans un quartier que personne ne commémore.", "A round hollow opens beneath the echo well, smooth as the inside of a cup. Kos Veyr, a former sounding diver, has hung shells from the ceiling; he reads their trembling as others read stars. He knows there was a fifth ring in the rite, but at first refuses to speak the name that went with it: his last mission took his brother in a district no one commemorates."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "fifth_name" }, text: l("Kos a cessé d'écouter les coquilles. Il écoute votre silence à présent, comme s'il voulait savoir si vous avez compris que le cinquième nom n'était pas une arme, mais une obligation.", "Kos has stopped listening to the shells. He listens to your silence now, as if he wants to know whether you understand that the fifth name was not a weapon, but an obligation.") }],
+  },
+  glass_catacomb: {
+    title: l("La nécropole des lentilles", "The necropolis of lenses"),
+    description: l("Sous les fours, des générations de lentilles de signal ratées ont été empilées dans des niches funéraires. Elles captent encore la lumière et la rendent par fragments bleus. Vess Tar, ancien apprenti de Maëlin, y classe les éclats selon les voix qu'ils ont portées. Il s'est enfui de la cour des verriers après avoir compris que certains verres n'avertissaient pas du danger : ils choisissaient qui devait le recevoir.", "Beneath the furnaces, generations of failed signal lenses have been stacked in funerary niches. They still catch light and return it in blue fragments. Vess Tar, Maelin's former apprentice, sorts the shards by the voices they carried. He fled the glasswrights' yard after learning that some glasses did not warn of danger: they chose who was meant to receive it."),
+    visitDescriptions: [{ requires: { path: "state.flags.metVess", equals: true }, text: l("Vess vous laisse tenir une lentille fêlée. À travers elle, les quatre boucliers semblent pointer non vers la ville entière, mais vers des noms précis. Il attend de voir si vous la reposez, ou si vous lui demandez lesquels.", "Vess lets you hold a cracked lens. Through it, the four shields seem to point not at the whole city, but at particular names. He waits to see whether you set it down, or ask him which ones.") }],
+  },
+  tide_ossuary: {
+    title: l("L'ossuaire des marées", "The tide ossuary"),
+    description: l("Sous l'oratoire noyé, des ossements reposent dans des jarres scellées au goudron. Theska Mor, gardienne des morts d'eau, date chaque jarre à la couche de limon collée aux côtes. Ses registres prouvent qu'une crue ancienne a déjà frappé les mêmes rues que les boucliers visent aujourd'hui. Elle ne parle pas de malédiction : elle parle de décisions répétées par des gens qui se disent raisonnables.", "Beneath the drowned oratory, bones rest in jars sealed with tar. Theska Mor, keeper of the water-dead, dates each jar by the silt layer clinging to its ribs. Her records prove an old flood already struck the same streets the shields target today. She does not speak of a curse: she speaks of decisions repeated by people who call themselves reasonable."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "black_oath" }, text: l("Theska a ajouté une jarre vide sur l'étagère la plus basse. « Celle-ci est pour la prochaine excuse », dit-elle. Les morts, chez elle, ne sont jamais des symboles : ce sont des absents qui avaient une adresse.", "Theska has added an empty jar to the lowest shelf. “This one is for the next excuse,” she says. In her keeping, the dead are never symbols: they are absences that once had an address.") }],
+  },
+};
+
+const SECOND_LORE_SCENES = {
+  copper_aviary: {
+    title: l("La volière de cuivre", "The copper aviary"),
+    description: l("Sous les tuiles les plus hautes de Laelith, des martinets vivent dans des cages de cuivre ouvertes sur le ciel. Nival Sorn lit les rubans attachés à leurs pattes sans jamais les détacher. Les messages d'alerte de la ville passent ici avant les cloches; elle vous montre que certains trajets ont été raccourcis, comme si des quartiers n'avaient jamais mérité d'être prévenus.", "Beneath Laelith's highest tiles, swifts live in copper cages open to the sky. Nival Sorn reads the ribbons tied to their legs without ever removing them. The city's warning messages pass here before the bells; she shows you that some routes were shortened, as though certain wards had never deserved warning."),
+    visitDescriptions: [{ requires: { path: "state.flags.metNival", equals: true }, text: l("Nival laisse un martinet choisir votre main. L'oiseau porte un ruban sans sceau, destiné à une rue qui n'existe plus sur les plans. Elle vous avertit que les messages perdus ont parfois de meilleurs souvenirs que les personnes qui les ont écrits.", "Nival lets a swift choose your hand. The bird bears an unsealed ribbon addressed to a street no longer on maps. She warns that lost messages sometimes have better memories than those who wrote them.") }],
+  },
+  house_of_measures: {
+    title: l("La maison des mesures", "The house of measures"),
+    description: l("Des règles de bronze couvrent les murs de cette petite administration oubliée. Rissa Vaun, ancienne magistrate des jauges, continue d'y aligner des poids sans avoir plus d'autorité sur rien. Elle a contresigné le Concordat de laiton lorsqu'elle croyait sauver les portes; elle sait aujourd'hui que la formule a transformé une précaution en permission de choisir qui compterait comme perte acceptable.", "Bronze rules cover the walls of this small forgotten office. Rissa Vaun, former magistrate of gauges, still aligns weights there despite having no authority over anything. She countersigned the Brass Concord when she believed she was saving the gates; she now knows the formula turned a precaution into permission to choose who would count as acceptable loss."),
+    visitDescriptions: [{ requires: { path: "state.flags.metRissa", equals: true }, text: l("Rissa a retiré de son bureau la balance qui servait aux audiences de crue. Elle dit qu'aucun poids ne devrait décider d'une vie, mais conserve le contrepoids dans un tissu, comme une preuve qu'elle n'ose pas encore brûler.", "Rissa has removed from her desk the scale used in flood hearings. She says no weight should decide a life, yet keeps its counterweight wrapped in cloth, as proof she cannot yet bring herself to burn.") }],
+  },
+  brass_reliquary: {
+    title: l("Le reliquaire de laiton", "The brass reliquary"),
+    description: l("Derrière le sanctuaire, une porte minuscule ouvre sur les objets que personne n'ose jeter : cloches fendues, jauges de crue, clés sans serrure. Darel Fenn, gardien sans titre, les astique comme s'ils pouvaient encore répondre. Il vous montre un disque de laiton gravé d'Eshra, puis la rayure qui a tenté de convertir son nom en simple numéro de procédure.", "Behind the shrine, a tiny door opens onto objects no one dares discard: cracked bells, flood gauges, keys without locks. Darel Fenn, keeper without a title, polishes them as if they might still answer. He shows you a brass disc engraved with Eshra, then the scratch that tried to turn her name into a mere procedure number."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "brass_concord" }, text: l("Le disque de Darel paraît plus lourd depuis que vous connaissez son histoire. Il ne contient aucune magie spectaculaire; seulement la trace d'une ville qui a poli sa conscience jusqu'à la rendre administrative.", "Darel's disc seems heavier now that you know its history. It holds no spectacular magic; only the trace of a city that polished its conscience until it became administrative.") }],
+  },
+  exile_courtyard: {
+    title: l("La cour des maisons déplacées", "The court of moved houses"),
+    description: l("Derrière des façades rapiécées, une cour conserve des portes récupérées dans des rues disparues. Maëra Doss, qui en garde les clés, n'appelle pas les siens des réfugiés : « nous avons été déplacés par une phrase », dit-elle. Ses aïeux ont survécu à Vire-Basse, mais la ville les a disséminés avant qu'ils puissent raconter où l'eau avait été envoyée.", "Behind patched façades, a courtyard keeps doors salvaged from vanished streets. Maera Doss, who keeps their keys, does not call her people refugees: “we were moved by a sentence,” she says. Her forebears survived Low Vire, but the city scattered them before they could say where the water had been sent."),
+    visitDescriptions: [{ requires: { path: "state.flags.metMaera", equals: true }, text: l("Maëra a laissé une porte entrouverte pour vous. De l'autre côté, il n'y a pas de passage secret, seulement une cuisine où l'on raconte les rues par leurs odeurs. C'est une carte que le Conseil n'a jamais su confisquer.", "Maera has left a door ajar for you. Beyond it lies no secret passage, only a kitchen where streets are remembered by their smells. It is a map the Council never knew how to seize.") }],
+  },
+  silt_observatory: {
+    title: l("L'observatoire du limon", "The silt observatory"),
+    description: l("À l'extrémité d'un canal mort, des vitres inclinées donnent sur des colonnes de sédiments. Siren Hyl, hydrologue des jardins, y conserve les couches de chaque grande crue. Elle a découvert une chose impossible : la couche de Vire-Basse contient du verre bleu, preuve qu'un avertissement a été préparé puis retenu. Elle ne sait pas encore qui a ordonné le silence; elle sait que la rivière n'a jamais choisi seule.", "At the end of a dead canal, slanted panes look down upon columns of sediment. Siren Hyl, hydrologist of the gardens, keeps layers from every great flood there. She discovered something impossible: Low Vire's layer contains blue glass, proof that a warning was prepared then withheld. She does not yet know who ordered the silence; she knows the river never chose alone."),
+    visitDescriptions: [{ requires: { path: "state.flags.metSiren", equals: true }, text: l("Siren a marqué la couche actuelle d'une épingle de cuivre. Elle vous demande de revenir après l'aube, non pour voir si elle avait raison, mais pour s'assurer qu'il y aura encore une couche à lire.", "Siren has marked the current layer with a copper pin. She asks you to return after dawn, not to see whether she was right, but to make sure there will still be a layer to read.") }],
+  },
+  drowned_mailroom: {
+    title: l("Le bureau des lettres noyées", "The office of drowned letters"),
+    description: l("Une ancienne poste s'est affaissée au bord du quai. Ses casiers de bois contiennent des sacs de courrier gonflés d'eau, jamais ouverts parce que personne ne pouvait décider à qui appartenaient les mauvaises nouvelles. Oren Fael, dernier trieur, les sèche feuille à feuille. Il a repéré des convocations de crue parties vers les quartiers hauts — et leurs copies, jamais envoyées, destinées à Vire-Basse.", "An old post office has slumped at the dock's edge. Its wooden pigeonholes hold mailbags swollen with water, never opened because no one could decide who owned bad news. Oren Fael, the last sorter, dries them sheet by sheet. He found flood summons sent to the upper wards—and their never-sent copies addressed to Low Vire."),
+    visitDescriptions: [{ requires: { path: "state.flags.metOren", equals: true }, text: l("Oren a classé les lettres par silence plutôt que par nom. Il vous tend une enveloppe vide et dit que c'est la plus honnête de toutes : elle n'a même pas prétendu que quelqu'un serait prévenu.", "Oren has sorted the letters by silence rather than by name. He hands you an empty envelope and says it is the most honest of all: it never even pretended someone would be warned.") }],
+  },
+};
+
+export const FIXED_SCENES = { ...CORE_SCENES, ...WORLD_EXPANSION_SCENES, ...ANNEX_SCENES, ...LORE_EXPANSION_SCENES, ...SECOND_LORE_SCENES };
 
 // Geographic layout is campaign data. Coordinates are deliberately separate
 // from prose and rules, so another campaign can supply a wholly different map.
@@ -746,6 +820,13 @@ export const WORLD_MAP = {
     { id: "submerged_granary", x: 895, y: 116 }, { id: "salt_tunnels", x: 970, y: 150 },
     { id: "ancient_pump_room", x: 895, y: 195 }, { id: "paper_mill", x: 970, y: 230 },
     { id: "archivist_cellar", x: 895, y: 275 }, { id: "ruined_bell_tower", x: 970, y: 320 },
+    { id: "votive_roof", x: 535, y: 132 }, { id: "veil_theatre", x: 782, y: 22 },
+    { id: "mirror_archive", x: 418, y: 136 }, { id: "wicker_docks", x: 700, y: 235 },
+    { id: "moonwell_grotto", x: 405, y: 344 }, { id: "glass_catacomb", x: 842, y: 340 },
+    { id: "tide_ossuary", x: 930, y: 380 },
+    { id: "copper_aviary", x: 540, y: 22 }, { id: "house_of_measures", x: 535, y: 112 },
+    { id: "brass_reliquary", x: 307, y: 126 }, { id: "exile_courtyard", x: 88, y: 236 },
+    { id: "silt_observatory", x: 700, y: 330 }, { id: "drowned_mailroom", x: 700, y: 210 },
   ],
 };
 
@@ -854,6 +935,96 @@ export const NARRATIVE_LAYERS = [
     when: { scene: ["bell_foundry", "signal_gallery", "city_steps", "public_reckoning"] },
     text: l("Maëlin a fermé ses fours plutôt que de laisser le réseau emprunter encore son savoir. Elle ne se dit pas courageuse; elle demande seulement que ses apprentis puissent continuer à fabriquer des objets qui n'ordonnent rien à personne.", "Maelin shut her furnaces rather than let the network borrow her craft again. She does not call herself brave; she only asks that her apprentices may keep making objects that command no one."),
   },
+  {
+    id: "sava-returns", priority: 17,
+    requires: { path: "state.flags.metSava", equals: true },
+    when: { scene: ["votive_roof", "river_shrine", "festival_arcade"] },
+    text: l("Entre les rubans et les prières, vous reconnaissez le travail silencieux de Sava : elle recueille les noms que la ville laisse tomber. Cette attention fragile devient une piste, presque une méthode.", "Among ribbons and prayers, you recognize Sava's quiet work: she gathers the names the city lets fall. That fragile attention becomes a lead, almost a method."),
+  },
+  {
+    id: "ilyra-returns", priority: 19,
+    requires: { path: "state.flags.metIlyra", equals: true },
+    when: { scene: ["mirror_archive", "archive_cloister", "hidden_scriptorium", "tribunal_gallery"] },
+    text: l("Les marges, les contre-signatures et les blancs ne paraissent plus innocents. Ilyra vous a appris que l'archive parle autant par ce qu'elle retire que par ce qu'elle conserve.", "Margins, countersignatures, and blanks no longer look innocent. Ilyra has taught you that an archive speaks as much through what it removes as through what it preserves."),
+  },
+  {
+    id: "kos-returns", priority: 16,
+    requires: { path: "state.flags.metKos", equals: true },
+    when: { scene: ["moonwell_grotto", "echo_well", "water_chapel", "gallery_procession"] },
+    text: l("À chaque vibration de pierre ou de coque, vous pensez au cinquième nom de Kos. Il ne promettait pas de dominer l'eau, seulement d'empêcher quelqu'un de la livrer à une cible.", "At every tremor of stone or hull, you think of Kos's fifth name. It promised not to master water, only to stop someone from delivering it to a target."),
+  },
+  {
+    id: "noma-returns", priority: 15,
+    requires: { path: "state.flags.metNoma", equals: true },
+    when: { scene: ["wicker_docks", "black_lantern_pier", "undersluice_dock", "ropewalk"] },
+    text: l("Les paniers de Noma ont changé votre regard sur les cargaisons : chacune peut être une preuve, une cachette ou une lettre que quelqu'un espère encore voir arriver.", "Noma's baskets have changed how you see cargo: each can be evidence, a hiding place, or a letter someone still hopes to see arrive."),
+  },
+  {
+    id: "orthe-returns", priority: 13,
+    requires: { path: "state.flags.metOrthe", equals: true },
+    when: { scene: ["veil_theatre", "mask_exchange", "embassy_vestry", "council_antechamber"] },
+    text: l("Les voix officielles ont désormais une couture visible. Orthe vous a appris à entendre, derrière une formule parfaite, la personne qui a peur de la prononcer.", "Official voices now have a visible seam. Orthe has taught you to hear, behind a perfect formula, the person afraid to speak it."),
+  },
+  {
+    id: "theska-returns", priority: 21,
+    requires: { path: "state.flags.metTheska", equals: true },
+    when: { scene: ["tide_ossuary", "drowned_oratory", "water_chapel", "shield_terrace"] },
+    text: l("Theska a refusé que les morts deviennent un argument abstrait. Les quartiers menacés reprennent un poids précis : des maisons, des absents, des noms inscrits dans le limon.", "Theska refused to let the dead become an abstract argument. The threatened districts regain a precise weight: homes, absences, names written in silt."),
+  },
+  {
+    id: "nival-returns", priority: 15,
+    requires: { path: "state.flags.metNival", equals: true },
+    when: { scene: ["copper_aviary", "rooftop_cistern", "ember_observatory", "city_steps"] },
+    text: l("Les martinets de Nival passent au-dessus de vous comme des phrases qu'on ne peut plus retenir. Leur trajet vous rappelle que l'alerte commence toujours quelque part — et qu'on peut choisir de l'y laisser mourir.", "Nival's swifts pass above you like sentences that can no longer be held back. Their route reminds you that warning always begins somewhere—and can be chosen to die there."),
+  },
+  {
+    id: "rissa-darel-returns", priority: 20,
+    requires: { any: [{ path: "state.flags.metRissa", equals: true }, { path: "state.flags.metDarel", equals: true }] },
+    when: { scene: ["house_of_measures", "brass_reliquary", "river_shrine", "tribunal_gallery", "council_antechamber"] },
+    text: l("Entre les poids de Rissa et le disque de Darel, le passé cesse d'être une légende commode. Quelqu'un a traduit une obligation envers les personnes menacées en droit de les classer.", "Between Rissa's weights and Darel's disc, the past stops being a convenient legend. Someone translated an obligation toward the threatened into a right to classify them."),
+  },
+  {
+    id: "maera-oren-returns", priority: 18,
+    requires: { any: [{ path: "state.flags.metMaera", equals: true }, { path: "state.flags.metOren", equals: true }] },
+    when: { scene: ["exile_courtyard", "drowned_mailroom", "wicker_docks", "black_lantern_pier", "moss_orchard"] },
+    text: l("Les clés de Maëra et les lettres d'Oren rendent aux quartiers bas une mémoire matérielle. Vous ne poursuivez plus seulement un sabotage : vous portez des voix que l'organisation de la ville avait séparées.", "Maera's keys and Oren's letters restore a material memory to the lower wards. You are no longer only pursuing sabotage: you carry voices the city's organization had separated."),
+  },
+  {
+    id: "siren-returns", priority: 16,
+    requires: { path: "state.flags.metSiren", equals: true },
+    when: { scene: ["silt_observatory", "tide_garden", "water_chapel", "signal_gallery", "shield_terrace"] },
+    text: l("Siren vous a appris à lire le limon comme un registre sans mensonge. La rivière ne demande pas quel quartier mérite l'eau; cette question appartient entièrement aux personnes qui dirigent les vannes.", "Siren taught you to read silt as a ledger without lies. The river does not ask which ward deserves water; that question belongs entirely to those directing the sluices."),
+  },
+  {
+    id: "rite-restored-context", priority: 27,
+    requires: { all: [{ path: "state.clues", includes: "fifth_name" }, { path: "state.clues", includes: "brass_concord" }] },
+    when: { scene: ["gallery_procession", "water_chapel", "rite_broken", "gate_chamber", "shield_terrace"] },
+    text: l("Eshra et le Concordat donnent enfin au rite toute sa cohérence : ce qui devait empêcher le pouvoir de choisir une cible a été converti en procédure pour rendre ce choix acceptable. Inverser le rite, c'est aussi défaire cette traduction.", "Eshra and the Concord finally give the rite its full coherence: what was meant to stop power from choosing a target was converted into procedure to make that choice acceptable. Reversing the rite also undoes that translation."),
+  },
+  {
+    id: "warning-system-context", priority: 25,
+    requires: { all: [{ path: "state.clues", includes: "unseen_bell" }, { any: [{ path: "state.clues", includes: "flood_schedule" }, { path: "state.clues", includes: "water_rite" }] }] },
+    when: { scene: ["signal_bell", "signal_gallery", "ember_observatory", "gate_chamber", "shield_terrace"] },
+    text: l("Vous voyez maintenant la chaîne entière : verre, martinets, cloche, anneaux. Le réseau n'a pas créé une vague à partir de rien; il s'est greffé sur une alerte ancienne dont certains quartiers avaient déjà été exclus.", "You now see the whole chain: glass, swifts, bell, rings. The network did not create a wave from nothing; it grafted itself onto an old warning system from which some wards had already been excluded."),
+  },
+  {
+    id: "witnesses-and-exiles", priority: 23,
+    requires: { all: [{ path: "state.flags.freedCaptives", equals: true }, { path: "state.clues", includes: "first_exiles" }] },
+    when: { scene: ["city_steps", "public_reckoning", "ending_dawn", "ending_silent"] },
+    text: l("Les voyageurs sauvés et les familles déplacées se répondent à travers les années : les uns peuvent dire ce qui se prépare, les autres ce qui s'est déjà produit. Ensemble, ils empêchent que l'affaire soit réduite à une anomalie technique.", "The rescued travellers and displaced families answer each other across the years: some can say what is being prepared, the others what already happened. Together, they prevent the case from being reduced to a technical anomaly."),
+  },
+  {
+    id: "public-memory-ending", priority: 40,
+    requires: { all: [{ path: "state.flags.publicRecord", equals: true }, { path: "state.clues", includes: "brass_concord" }, { path: "state.clues", includes: "first_exiles" }] },
+    when: { scene: "ending_dawn" },
+    text: l("Le dossier public ne s'arrête pas aux mercenaires de Valdrick. Les lettres, les clés et le Concordat obligent le Conseil à rouvrir le nom de Vire-Basse. La justice reste lente et contestée, mais la ville ne peut plus faire passer son ancienne règle pour une fatalité de la rivière.", "The public case does not stop with Valdrick's mercenaries. Letters, keys, and the Concord force the Council to reopen the name of Low Vire. Justice remains slow and contested, but the city can no longer pass its old rule off as the river's fate."),
+  },
+  {
+    id: "kept-memory-ending", priority: 40,
+    requires: { all: [{ path: "state.flags.keptArchive", equals: true }, { any: [{ path: "state.clues", includes: "brass_concord" }, { path: "state.clues", includes: "first_exiles" }, { path: "state.clues", includes: "unseen_bell" }] }] },
+    when: { scene: "ending_silent" },
+    text: l("Vous ne livrez pas encore toute l'histoire à la ville, mais elle ne disparaît pas avec le tumulte. Ilyra, Sava, Oren et les autres conservent des copies dans des mains différentes. Le silence est un choix de survie, pas une seconde disparition.", "You do not yet give the whole story to the city, but it does not vanish in the tumult. Ilyra, Sava, Oren, and the others keep copies in different hands. Silence is a choice of survival, not a second disappearance."),
+  },
 ];
 
 const CORE_CHOICES = {
@@ -960,8 +1131,8 @@ const CORE_CHOICES = {
     { id: "return-gates", label: l("Redescendre finir de neutraliser les boucliers", "Descend to finish neutralising the shields"), requires: { path: "state.flags.disabledSabotage", equals: true }, to: "shield_terrace" },
   ],
   public_reckoning: [
-    { id: "save-city", label: l("Faire arrêter les saboteurs et exposer le réseau", "Have the saboteurs arrested and expose the network"), requires: { all: [{ path: "state.flags.disarmedShields", equals: true }, { any: [{ path: "state.flags.freedCaptives", equals: true }, { path: "state.clues", includes: "valdrick_manifest" }, { path: "state.clues", includes: "council_ledger" }] }, { any: [{ path: "state.clues", includes: "water_rite" }, { path: "state.clues", includes: "flood_schedule" }, { path: "state.clues", includes: "old_flood_map" }] }] }, to: "ending_dawn" },
-    { id: "save-quietly", label: l("Choisir le salut discret avant l'aube", "Choose quiet salvation before dawn"), requires: { path: "state.flags.disarmedShields", equals: true }, to: "ending_silent" },
+    { id: "save-city", label: l("Faire arrêter les saboteurs et exposer le réseau", "Have the saboteurs arrested and expose the network"), requires: { all: [{ path: "state.flags.disarmedShields", equals: true }, { any: [{ path: "state.flags.freedCaptives", equals: true }, { path: "state.clues", includes: "valdrick_manifest" }, { path: "state.clues", includes: "council_ledger" }] }, { any: [{ path: "state.clues", includes: "water_rite" }, { path: "state.clues", includes: "flood_schedule" }, { path: "state.clues", includes: "old_flood_map" }] }] }, effects: [{ op: "set", path: "flags.publicRecord", value: true }], to: "ending_dawn" },
+    { id: "save-quietly", label: l("Choisir le salut discret avant l'aube", "Choose quiet salvation before dawn"), requires: { path: "state.flags.disarmedShields", equals: true }, effects: [{ op: "set", path: "flags.keptArchive", value: true }], to: "ending_silent" },
   ],
 };
 
@@ -1227,6 +1398,127 @@ const DENSE_WEB_CHOICES = {
   ],
 };
 
+const LORE_EXPANSION_CHOICES = {
+  festival_arcade: [
+    { id: "arcade-to-votive-roof", label: l("Suivre les prières mouillées jusqu'aux toits", "Follow the rain-soaked prayers to the rooftops"), to: "votive_roof" },
+    { id: "arcade-to-veil-theatre", label: l("Passer derrière les masques vers le théâtre", "Pass behind the masks toward the theatre"), to: "veil_theatre" },
+  ],
+  archive_cloister: [
+    { id: "cloister-to-mirror-archive", label: l("Descendre vers les encres qui rendent les noms", "Descend to the inks that return names"), to: "mirror_archive" },
+  ],
+  old_customs: [
+    { id: "customs-to-mirror-archive", label: l("Faire lire les grattages par une restauratrice", "Have a restorer read the scraped lines"), to: "mirror_archive" },
+    { id: "customs-to-wicker-docks", label: l("Suivre les cachets de plomb jusqu'aux paniers", "Follow the lead seals to the baskets"), to: "wicker_docks" },
+  ],
+  mask_exchange: [
+    { id: "mask-to-veil-theatre", label: l("Chercher la voix qui imite les notables", "Seek the voice that imitates the notables"), to: "veil_theatre" },
+  ],
+  black_lantern_pier: [
+    { id: "pier-to-wicker-docks", label: l("Passer entre les barges jusqu'aux paniers creux", "Pass between the barges to the hollow baskets"), to: "wicker_docks" },
+  ],
+  echo_well: [
+    { id: "well-to-moonwell", label: l("Suivre le second écho sous la margelle", "Follow the second echo beneath the wellhead"), to: "moonwell_grotto" },
+  ],
+  glasswright_yard: [
+    { id: "glass-to-catacomb", label: l("Descendre là où dorment les lentilles refusées", "Descend where rejected lenses sleep"), to: "glass_catacomb" },
+  ],
+  water_chapel: [
+    { id: "chapel-to-ossuary", label: l("Suivre les jarres scellées vers les morts d'eau", "Follow the sealed jars to the water-dead"), to: "tide_ossuary" },
+  ],
+  votive_roof: [
+    { id: "meet-sava", label: l("Aider Sava à trier les prières sans adresse", "Help Sava sort the unaddressed prayers"), effects: [{ op: "set", path: "flags.metSava", value: true }, { op: "increment", path: "relationships.sava", value: 1 }], result: { text: l("Sava vous confie trois feuilles dont les noms ont été grattés au même outil. Sous l'une d'elles apparaît une ligne : « cinquième quartier, aucune réponse exigée ». Elle ne sait pas qui a écrit cela; elle sait seulement que les prières de cette rue sont revenues pendant vingt ans.", "Sava gives you three sheets whose names were scraped by the same tool. Beneath one appears a line: “fifth district, no reply required.” She does not know who wrote it; she only knows prayers from that street returned for twenty years.") } },
+    { id: "roof-to-shrine", label: l("Porter les feuilles au sanctuaire des rives", "Carry the sheets to the riverside shrine"), to: "river_shrine" },
+    { id: "roof-to-steps", label: l("Suivre les gouttières jusqu'aux marches de la ville", "Follow the gutters to the city steps"), to: "city_steps" },
+  ],
+  veil_theatre: [
+    { id: "meet-orthe", label: l("Demander à Orthe de rejouer la voix du conseiller", "Ask Orthe to replay the councillor's voice"), effects: [{ op: "set", path: "flags.metOrthe", value: true }, { op: "increment", path: "relationships.orthe", value: 1 }], result: { text: l("Orthe ne donne pas un nom. Il vous fait entendre trois fois la même formule administrative, puis s'arrête sur une respiration trop courte. « Quelqu'un a appris cette phrase par peur, pas par métier. Trouvez qui la répète quand personne ne regarde. »", "Orthe gives no name. He makes you hear the same administrative formula three times, then stops on a breath taken too soon. “Someone learned that sentence through fear, not through work. Find who repeats it when no one is looking.”") } },
+    { id: "theatre-to-embassy", label: l("Suivre les coulisses jusqu'à la sacristie de l'ambassade", "Follow the backstage passage to the embassy vestry"), to: "embassy_vestry" },
+    { id: "theatre-to-submerged", label: l("Descendre par la trappe vers le théâtre noyé", "Descend through the trapdoor to the submerged theatre"), to: "submerged_theater" },
+  ],
+  mirror_archive: [
+    { id: "meet-ilyra", label: l("Laisser Ilyra interroger les blancs du registre", "Let Ilyra question the ledger's blanks"), effects: [{ op: "set", path: "flags.metIlyra", value: true }, { op: "increment", path: "relationships.ilyra", value: 1 }], result: { text: l("Ilyra pose une plaque d'étain sur le papier et l'encre oubliée remonte comme une cicatrice. Elle ne vous montre encore qu'une initiale — R. — mais vous apprend que le Conseil a payé pour que certains sinistrés disparaissent avant même que la crue ne les atteigne.", "Ilyra lays a tin plate over the paper and forgotten ink rises like a scar. She shows you only an initial—R.—but teaches you that the Council paid for some victims to disappear before the flood ever reached them.") } },
+    { id: "restore-fifth-quarter", label: l("Restaurer le plan du cinquième quartier", "Restore the map of the fifth district"), effects: [{ op: "addUnique", path: "clues", value: "erased_quarters" }, { op: "increment", path: "expedition.morale", value: -1 }], result: { text: l("Le plan révèle le quartier de Vire-Basse, rayé des copies officielles après une ancienne crue. Les quatre boucliers pointent aujourd'hui vers les mêmes rues. Le complot n'invente pas une cible : il réactive une habitude que la ville a pris soin d'oublier.", "The map reveals the district of Low Vire, crossed out of official copies after an old flood. The four shields point toward the same streets today. The plot does not invent a target: it revives a habit the city took care to forget.") } },
+    { id: "mirror-to-tribunal", label: l("Remonter par la gaine des dossiers jusqu'au Tribunal", "Climb the file shaft to the Tribunal"), to: "tribunal_gallery" },
+  ],
+  wicker_docks: [
+    { id: "meet-noma", label: l("Aider Noma à tresser un double fond", "Help Noma weave a false bottom"), effects: [{ op: "set", path: "flags.metNoma", value: true }, { op: "increment", path: "relationships.noma", value: 1 }, { op: "increment", path: "expedition.supplies", value: 1 }], result: { text: l("Noma vous montre que les mêmes marques servent à guider les caisses de Souleyna et les lettres de Vire-Basse. « Un chemin n'est pas coupable, dit-elle. Celui qui décide qui a le droit de l'emprunter, oui. »", "Noma shows you that the same marks guide Souleyna crates and Low Vire letters. “A route is not guilty,” she says. “The one who decides who may use it is.”") } },
+    { id: "read-basket-oath", label: l("Lire le serment caché dans les fibres de jonc", "Read the oath hidden in the rush fibres"), effects: [{ op: "addUnique", path: "clues", value: "black_oath" }, { op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Dans la fibre goudronnée, un ancien serment de transport lie les notables, les passeurs et les maisons de commerce : en cas de crue, les quais hauts passent avant les quais bas. Valdrick paie aujourd'hui ce que Laelith a jadis écrit elle-même.", "In the tarred fibre, an old transport oath binds notables, ferrymen, and trading houses: in flood, high quays come before low quays. Valdrick pays today for what Laelith once wrote for itself.") } },
+    { id: "docks-to-pier", label: l("Rejoindre le quai des lanternes par les ponts de barque", "Reach the lantern pier by boat bridges"), to: "black_lantern_pier" },
+  ],
+  moonwell_grotto: [
+    { id: "meet-kos", label: l("Écouter Kos compter les vibrations de la rivière", "Listen to Kos count the river's tremors"), effects: [{ op: "set", path: "flags.metKos", value: true }, { op: "increment", path: "relationships.kos", value: 1 }], result: { text: l("Kos compte quatre vibrations, puis une cinquième qu'il refuse d'appeler un anneau. « Celui-là n'ordonne rien, dit-il. Il oblige le porteur à nommer qui sera épargné. C'est pour cela qu'ils l'ont retiré des murs. »", "Kos counts four tremors, then a fifth he refuses to call a ring. “That one commands nothing,” he says. “It forces the bearer to name who will be spared. That is why they took it off the walls.”") } },
+    { id: "name-fifth-ring", label: l("Demander le nom du cinquième anneau", "Ask for the fifth ring's name"), effects: [{ op: "addUnique", path: "clues", value: "fifth_name" }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Après un long silence, Kos vous donne le nom : Eshra, « celle qui revient demander ». Le rite n'était pas un moyen de choisir une victime; il devait rendre ce choix impossible à oublier.", "After a long silence, Kos gives you the name: Eshra, “she who returns to ask.” The rite was not a way to choose a victim; it was meant to make that choice impossible to forget.") } },
+    { id: "moonwell-to-aqueduct", label: l("Prendre la veine sèche vers l'aqueduc", "Take the dry vein to the aqueduct"), to: "aqueduct_gallery" },
+  ],
+  glass_catacomb: [
+    { id: "meet-vess", label: l("Laisser Vess classer l'éclat que vous portez", "Let Vess classify the shard you carry"), effects: [{ op: "set", path: "flags.metVess", value: true }, { op: "increment", path: "relationships.vess", value: 1 }], result: { text: l("Vess reconnaît la formule d'une lentille de priorité civile. Elle ne guide pas la vague : elle signale quelles maisons doivent recevoir l'avertissement. Les quartiers bas n'ont jamais figuré dans la liste.", "Vess recognizes the formula of a civic-priority lens. It does not guide the wave: it signals which houses must receive warning. The lower wards never appeared on the list.") } },
+    { id: "align-buried-lenses", label: l("Aligner les lentilles sur la lumière des boucliers", "Align the buried lenses with the shields' light"), effects: [{ op: "addUnique", path: "clues", value: "erased_quarters" }, { op: "increment", path: "expedition.fatigue", value: 1 }], result: { text: l("Les éclats recomposent le contour de Vire-Basse, puis celui de deux autres ruelles promises au débordement. La carte d'Ilyra n'était pas une exception : elle est la première couche d'un système entier.", "The shards reconstruct the outline of Low Vire, then that of two other lanes promised to overflow. Ilyra's map was not an exception: it is the first layer of an entire system.") } },
+    { id: "catacomb-to-signals", label: l("Suivre les conduits de verre jusqu'à la galerie des signaux", "Follow the glass conduits to the signal gallery"), to: "signal_gallery" },
+  ],
+  tide_ossuary: [
+    { id: "meet-theska", label: l("Aider Theska à relire les jarres de limon", "Help Theska read the silt jars"), effects: [{ op: "set", path: "flags.metTheska", value: true }, { op: "increment", path: "relationships.theska", value: 1 }], result: { text: l("Theska vous fait ouvrir une jarre dont la terre date de la crue de Vire-Basse. À l'intérieur, une bague de passeur porte le même motif que les boucliers. Les morts savaient déjà où l'eau avait été envoyée.", "Theska has you open a jar whose earth dates from the Low Vire flood. Inside, a ferryman's ring bears the same motif as the shields. The dead already knew where the water had been sent.") } },
+    { id: "read-water-dead-register", label: l("Copier le registre des morts d'eau", "Copy the register of the water-dead"), effects: [{ op: "addUnique", path: "clues", value: "black_oath" }, { op: "increment", path: "expedition.morale", value: -1 }], result: { text: l("Le registre associe les morts de la vieille crue à la même clause de priorité que Noma a trouvée dans les paniers. Votre accusation gagne une profondeur terrible : il ne s'agit plus d'un seul crime, mais d'une règle que la ville a laissé survivre.", "The register links the old flood's dead to the same priority clause Noma found in the baskets. Your accusation gains terrible depth: this is no longer one crime, but a rule the city allowed to survive.") } },
+    { id: "ossuary-to-oratory", label: l("Revenir vers l'oratoire noyé", "Return toward the drowned oratory"), to: "drowned_oratory" },
+  ],
+};
+
+const SECOND_LORE_CHOICES = {
+  rooftop_cistern: [
+    { id: "cistern-to-aviary", label: l("Suivre les martinets jusqu'à la volière de cuivre", "Follow the swifts to the copper aviary"), to: "copper_aviary" },
+  ],
+  embassy_vestry: [
+    { id: "vestry-to-aviary", label: l("Suivre un ruban diplomatique jusqu'aux martinets", "Follow a diplomatic ribbon to the swifts"), to: "copper_aviary" },
+  ],
+  tribunal_gallery: [
+    { id: "tribunal-to-measures", label: l("Chercher l'ancienne magistrate des jauges", "Seek the former magistrate of gauges"), to: "house_of_measures" },
+  ],
+  council_antechamber: [
+    { id: "council-to-measures", label: l("Comparer la parole du Conseil aux poids de bronze", "Compare the Council's words with bronze weights"), to: "house_of_measures" },
+  ],
+  river_shrine: [
+    { id: "shrine-to-reliquary", label: l("Demander à voir les objets que le sanctuaire cache", "Ask to see what the shrine keeps hidden"), to: "brass_reliquary" },
+  ],
+  moss_orchard: [
+    { id: "orchard-to-exiles", label: l("Suivre les anciennes portes jusqu'aux maisons déplacées", "Follow the old doors to the moved houses"), to: "exile_courtyard" },
+  ],
+  tide_garden: [
+    { id: "garden-to-observatory", label: l("Porter les roseaux au laboratoire du limon", "Carry the reeds to the silt observatory"), to: "silt_observatory" },
+  ],
+  black_lantern_pier: [
+    { id: "pier-to-mailroom", label: l("Entrer dans le bureau où sèchent les lettres noyées", "Enter the office where drowned letters dry"), to: "drowned_mailroom" },
+  ],
+  copper_aviary: [
+    { id: "meet-nival", label: l("Aider Nival à lire les rubans de patte", "Help Nival read the leg ribbons"), effects: [{ op: "set", path: "flags.metNival", value: true }, { op: "increment", path: "relationships.nival", value: 1 }], result: { text: l("Nival déroule une chaîne de rubans d'alerte. Chaque itinéraire contourne Vire-Basse d'un geste net, comme une phrase qu'on s'interdit de finir. Elle vous donne une plume bleue : les cloches ne furent jamais le premier avertissement.", "Nival unrolls a chain of warning ribbons. Every route bypasses Low Vire with a clean gesture, like a sentence one forbids oneself to finish. She gives you a blue feather: bells were never the first warning.") } },
+    { id: "trace-silent-route", label: l("Tracer les vols qui n'ont jamais atteint Vire-Basse", "Trace flights that never reached Low Vire"), effects: [{ op: "addUnique", path: "clues", value: "unseen_bell" }, { op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Les rubans dessinent une alarme en deux temps : les quartiers hauts reçoivent les martinets, puis la cloche; les quartiers bas ne reçoivent ni l'un ni l'autre. Le sabotage actuel exploite une cécité déjà inscrite dans les procédures.", "The ribbons draw a two-stage alarm: upper wards receive swifts, then the bell; lower wards receive neither. The current sabotage exploits a blindness already written into procedure.") } },
+    { id: "aviary-to-cistern", label: l("Redescendre vers la citerne par les toits", "Descend to the cistern across the rooftops"), to: "rooftop_cistern" },
+  ],
+  house_of_measures: [
+    { id: "meet-rissa", label: l("Demander à Rissa pourquoi elle a signé", "Ask Rissa why she signed"), effects: [{ op: "set", path: "flags.metRissa", value: true }, { op: "increment", path: "relationships.rissa", value: 1 }, { op: "increment", path: "expedition.morale", value: -1 }], result: { text: l("Rissa ne se défend pas. Elle dit qu'elle avait devant elle trois portes, deux quartiers et un calcul qui promettait de sauver davantage de vies. « J'ai cru qu'une bonne formule rendait un mauvais choix moins réel. »", "Rissa does not defend herself. She says she faced three gates, two wards, and a calculation that promised to save more lives. “I believed a good formula made a bad choice less real.”") } },
+    { id: "unseal-brass-concord", label: l("Déplier le Concordat de laiton", "Unfold the Brass Concord"), effects: [{ op: "addUnique", path: "clues", value: "brass_concord" }], result: { text: l("Le Concordat transforme le nom d'Eshra en article de procédure : une personne doit signer la liste des rues épargnées, afin que les autres deviennent un résultat de calcul. Valdrick n'a pas forgé cette arme; il a trouvé comment la faire sonner de nouveau.", "The Concord turns Eshra's name into an article of procedure: one person must sign the list of spared streets, so the others become a calculation's result. Valdrick did not forge this weapon; he found how to make it sound again.") } },
+    { id: "measures-to-tribunal", label: l("Rapporter les poids au Tribunal", "Carry the weights back to the Tribunal"), to: "tribunal_gallery" },
+  ],
+  brass_reliquary: [
+    { id: "meet-darel", label: l("Écouter Darel raconter l'origine du disque", "Hear Darel tell the disc's origin"), effects: [{ op: "set", path: "flags.metDarel", value: true }, { op: "increment", path: "relationships.darel", value: 1 }], result: { text: l("Darel vous apprend que le premier gardien n'était pas un mage mais une veuve de Vire-Basse. Elle avait exigé qu'Eshra soit prononcée avant chaque réglage, pour que les décideurs regardent les gens derrière les chiffres.", "Darel tells you the first keeper was not a mage but a widow of Low Vire. She required Eshra to be spoken before every adjustment, so decision-makers would see the people behind the numbers.") } },
+    { id: "read-scratched-disc", label: l("Lire la rayure qui a mutilé le nom d'Eshra", "Read the scratch that mutilated Eshra's name"), effects: [{ op: "addUnique", path: "clues", value: "brass_concord" }, { op: "addUnique", path: "clues", value: "fifth_name" }], result: { text: l("La rayure ne supprime pas le nom : elle le divise en chiffres. Vous comprenez comment la ville a pu garder le rite tout en retirant sa conscience.", "The scratch does not erase the name: it divides it into figures. You understand how the city kept the rite while removing its conscience.") } },
+    { id: "reliquary-to-shrine", label: l("Revenir vers la statue sans visage", "Return toward the faceless statue"), to: "river_shrine" },
+  ],
+  exile_courtyard: [
+    { id: "meet-maera", label: l("Écouter Maëra nommer les rues par leurs odeurs", "Listen as Maera names streets by their smells"), effects: [{ op: "set", path: "flags.metMaera", value: true }, { op: "increment", path: "relationships.maera", value: 1 }], result: { text: l("Maëra vous apprend trois noms que les plans ont perdus, puis vous corrige : « Ce ne sont pas des ruelles. Ce sont des cuisines, des ateliers, des gens qui savaient où frapper. » Elle refuse que Vire-Basse devienne votre meilleure pièce à conviction.", "Maera teaches you three names maps have lost, then corrects you: “They are not lanes. They are kitchens, workshops, people who knew where to knock.” She refuses to let Low Vire become your best exhibit.") } },
+    { id: "copy-exile-keys", label: l("Copier la liste des clés des maisons disparues", "Copy the key list for vanished houses"), effects: [{ op: "addUnique", path: "clues", value: "first_exiles" }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Les clés portent les noms des familles déplacées, pas des morts. La vieille crue n'a pas seulement tué : elle a dispersé les témoins, puis a prétendu que personne ne se souvenait du choix.", "The keys bear the names of displaced families, not the dead. The old flood did not only kill: it scattered witnesses, then pretended no one remembered the choice.") } },
+    { id: "courtyard-to-orchard", label: l("Reprendre le chemin du verger sous la vase", "Return to the orchard beneath the silt"), to: "moss_orchard" },
+  ],
+  silt_observatory: [
+    { id: "meet-siren", label: l("Aider Siren à comparer les couches de crue", "Help Siren compare the flood layers"), effects: [{ op: "set", path: "flags.metSiren", value: true }, { op: "increment", path: "relationships.siren", value: 1 }], result: { text: l("Siren vous fait toucher le grain bleu pris dans le limon de l'ancienne crue. Il est identique à celui des sphères de Maëlin. La catastrophe d'hier avait déjà besoin d'un signal; seul son langage a changé.", "Siren has you touch the blue grain trapped in the old flood's silt. It matches Maelin's spheres. Yesterday's disaster already needed a signal; only its language changed.") } },
+    { id: "compare-warning-silt", label: l("Comparer le verre bleu aux couches de Vire-Basse", "Compare blue glass to Low Vire's layers"), effects: [{ op: "addUnique", path: "clues", value: "unseen_bell" }, { op: "increment", path: "expedition.supplies", value: -1 }], result: { text: l("Les particules de verre prouvent qu'une alerte avait été préparée puis coupée avant d'atteindre Vire-Basse. L'absence de cloche n'était pas une panne : elle était le dernier geste d'une décision.", "The glass particles prove a warning was prepared then cut before reaching Low Vire. The missing bell was not a failure: it was the final gesture of a decision.") } },
+    { id: "observatory-to-garden", label: l("Revenir aux jardins par le canal de mesure", "Return to the gardens by the measuring canal"), to: "tide_garden" },
+  ],
+  drowned_mailroom: [
+    { id: "meet-oren", label: l("Aider Oren à sécher les convocations de crue", "Help Oren dry the flood summons"), effects: [{ op: "set", path: "flags.metOren", value: true }, { op: "increment", path: "relationships.oren", value: 1 }], result: { text: l("Oren ne vous montre que les copies non distribuées. Il n'a jamais détruit les originaux : quelqu'un avait déjà décidé qu'ils ne sortiraient pas. Il vous demande si mettre ces lettres au jour sauvera des gens, ou seulement votre récit.", "Oren shows you only the undelivered copies. He never destroyed the originals: someone had already decided they would not leave. He asks whether bringing these letters to light will save people, or only your story.") } },
+    { id: "sort-unsent-summons", label: l("Classer les convocations jamais envoyées", "Sort the summons never sent"), effects: [{ op: "addUnique", path: "clues", value: "first_exiles" }, { op: "addUnique", path: "clues", value: "unseen_bell" }], result: { text: l("Les convocations associent les familles déplacées aux rubans d'alerte arrêtés chez Nival. Les survivants de Vire-Basse n'ont pas été oubliés par accident : leur silence a été distribué avec le courrier.", "The summons link displaced families to the warning ribbons stopped at Nival's. Low Vire's survivors were not forgotten by accident: their silence was distributed with the mail.") } },
+    { id: "mailroom-to-pier", label: l("Rejoindre les lanternes noires par le quai", "Rejoin the black lanterns by the quay"), to: "black_lantern_pier" },
+  ],
+};
+
 const FINAL_DENSE_CHOICES = {
   silt_archive: [
     { id: "silt-to-workers", label: l("Suivre les traces blanches vers les ouvriers", "Follow white tracks to the workers"), to: "workers_bank" },
@@ -1341,6 +1633,6 @@ const REGIONAL_ROUTING_CHOICES = Object.fromEntries(
 );
 
 export const FIXED_CHOICES = Object.fromEntries(
-  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES)])]
-    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? [])]]),
+  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES), ...Object.keys(LORE_EXPANSION_CHOICES), ...Object.keys(SECOND_LORE_CHOICES)])]
+    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? []), ...(LORE_EXPANSION_CHOICES[sceneId] ?? []), ...(SECOND_LORE_CHOICES[sceneId] ?? [])]]),
 );
