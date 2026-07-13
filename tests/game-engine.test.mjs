@@ -177,6 +177,26 @@ test("a high-fatigue party can take a scripted breather without reopening spent 
   assert.ok(!getChoices(state).some((choice) => choice.id === "catch-breath"));
 });
 
+test("local resting choices restore the expedition without becoming reusable shortcuts", () => {
+  const shrineState = createInitialState("fr");
+  shrineState.currentScene = "river_shrine";
+  shrineState.expedition.fatigue = 5;
+  assert.ok(getChoices(shrineState).some((choice) => choice.id === "rest-at-shrine"));
+  const shrineRest = choose(shrineState, "rest-at-shrine");
+  assert.match(shrineRest.message.fr, /moins lourdes/i);
+  assert.equal(shrineState.expedition.fatigue, 3);
+  assert.equal(shrineState.heroConditions.party, "steady");
+  assert.ok(!getChoices(shrineState).some((choice) => choice.id === "rest-at-shrine"));
+
+  const hospiceState = createInitialState("en");
+  hospiceState.currentScene = "lantern_hospice";
+  hospiceState.expedition.fatigue = 4;
+  hospiceState.expedition.wounds = 1;
+  choose(hospiceState, "rest-at-hospice");
+  assert.equal(hospiceState.expedition.fatigue, 2);
+  assert.equal(hospiceState.expedition.wounds, 0);
+});
+
 test("the expanded city route joins festival, underground orchard, baths, and investigation", () => {
   const state = createInitialState("en");
   choose(state, "browse-lanterns");

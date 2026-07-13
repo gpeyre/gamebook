@@ -39,14 +39,34 @@ body::before {
   mask-image: radial-gradient(circle at 50% 18%, black, transparent 74%);
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -2;
+  right: clamp(-172px, -8vw, -74px);
+  bottom: -178px;
+  width: min(43vw, 575px);
+  height: min(72vh, 790px);
+  pointer-events: none;
+  opacity: .105;
+  background: url("assets/art/byzantine-epistle-folio.jpg") center / contain no-repeat;
+  filter: sepia(.72) saturate(.62) contrast(1.12);
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(to top, transparent 1%, black 27%, black 72%, transparent);
+}
+
 button { font: inherit; cursor: pointer; }
 
 .shell { width: min(1380px, 100%); margin: 0 auto; padding: 30px 34px 42px; }
 .topbar, .scene-heading, .top-actions {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
-.topbar { position: relative; margin: 0 6px 28px; padding-bottom: 18px; }
+.topbar { position: relative; margin: 0 6px 28px; padding-bottom: 18px; overflow: hidden; }
 .topbar::after { content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 1px; background: linear-gradient(90deg, rgba(215,170,88,.68), rgba(52,68,57,.8) 36%, transparent 82%); }
+.topbar-ornament { position: absolute; right: 74px; bottom: 11px; width: 142px; height: 66px; overflow: hidden; opacity: .78; pointer-events: none; }
+.topbar-ornament span { position: absolute; display: block; background-repeat: no-repeat; }
+.ornament-dragon { inset: -15px -18px -22px -4px; background: url("assets/art/medieval-dragon-sculpture.jpg") center 41% / cover; filter: sepia(.45) saturate(.82) contrast(1.18); mask-image: linear-gradient(90deg, transparent, black 30%, black 78%, transparent); }
+.ornament-folio { inset: 1px 0 0 72px; border-left: 1px solid rgba(215,170,88,.42); background: url("assets/art/byzantine-epistle-folio.jpg") 50% 29% / 116px auto; mix-blend-mode: screen; opacity: .44; mask-image: linear-gradient(90deg, transparent, black 36%); }
 h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; margin: 0; font-weight: 500; }
 h1 { font-size: clamp(1.75rem, 3.5vw, 2.55rem); letter-spacing: .025em; text-shadow: 0 2px 18px rgba(0,0,0,.32); }
 h2 { font-size: clamp(1.55rem, 2.7vw, 2.2rem); letter-spacing: .01em; }
@@ -72,20 +92,26 @@ h3 { color: var(--gold); font-size: 1.06rem; margin-bottom: 12px; letter-spacing
     url("assets/art/drained-river-gates.png") center / cover no-repeat;
 }
 .story-panel::before { content: ""; position: absolute; top: 0; right: 10%; left: 24px; height: 2px; background: linear-gradient(90deg, var(--gold), rgba(215,170,88,.08)); }
-.scene-heading { padding: 27px 30px 24px; border-bottom: 1px solid rgba(79,96,81,.72); background: linear-gradient(100deg, rgba(19,31,23,.82), rgba(19,31,23,.42) 66%, rgba(9,15,11,.66)); backdrop-filter: blur(2px); }
+.story-panel::after { content: ""; position: absolute; z-index: 0; right: -16%; bottom: 76px; width: min(50%, 440px); height: 55%; pointer-events: none; opacity: .16; background: url("assets/art/medieval-dragon-sculpture.jpg") center / contain no-repeat; filter: sepia(.58) saturate(.7) contrast(1.22); mix-blend-mode: screen; mask-image: radial-gradient(ellipse at center, black 28%, transparent 70%); }
+.scene-heading { position: relative; z-index: 1; padding: 27px 30px 24px; border-bottom: 1px solid rgba(79,96,81,.72); background: linear-gradient(100deg, rgba(19,31,23,.82), rgba(19,31,23,.42) 66%, rgba(9,15,11,.66)); backdrop-filter: blur(2px); }
 .status-pill { color: var(--muted); border: 1px solid rgba(87,108,91,.8); border-radius: 999px; padding: 7px 11px; font-size: .7rem; letter-spacing: .04em; white-space: nowrap; background: rgba(10,17,12,.35); }
 .status-pill.ready { color: var(--water); border-color: #416e66; }
 .status-pill.loading { color: var(--gold); }
 
-.transcript { flex: 1; min-height: 420px; max-height: 60vh; overflow-y: auto; padding: 34px 30px 28px; scroll-behavior: smooth; background: linear-gradient(90deg, rgba(8,14,10,.28), rgba(8,14,10,.07) 54%, rgba(8,14,10,.20)); scrollbar-color: #556c5c transparent; scrollbar-width: thin; }
+.transcript { --narrative-ink: var(--ink); --initial-ink: var(--gold); --narrative-opacity: 1; --narrative-weight: 420; --narrative-spacing: 0; --narrative-shadow: none; position: relative; z-index: 1; flex: 1; min-height: 420px; max-height: 60vh; overflow-y: auto; padding: 34px 30px 28px; scroll-behavior: smooth; background: linear-gradient(90deg, rgba(8,14,10,.38), rgba(8,14,10,.16) 54%, rgba(8,14,10,.27)); scrollbar-color: #556c5c transparent; scrollbar-width: thin; }
 .entry { margin: 0 0 27px; line-height: 1.8; max-width: 68ch; white-space: pre-line; font-size: 1.01rem; text-wrap: pretty; }
-.entry.narration::first-letter { color: var(--gold); font-family: Georgia, serif; font-size: 1.75em; line-height: .85; padding-right: .05em; }
+.entry.narration { color: var(--narrative-ink); opacity: var(--narrative-opacity); font-weight: var(--narrative-weight); letter-spacing: var(--narrative-spacing); font-variation-settings: "wght" var(--narrative-weight), "opsz" 16; text-shadow: var(--narrative-shadow); transition: color .35s ease, opacity .35s ease, letter-spacing .35s ease, font-weight .35s ease; }
+.transcript.fatigue-tired { --narrative-ink: #d2d4ca; --initial-ink: #c7a969; --narrative-opacity: .91; --narrative-weight: 390; --narrative-spacing: .003em; --narrative-shadow: 0 .2px .4px rgba(0, 0, 0, .28); }
+.transcript.fatigue-weary { --narrative-ink: #bec5bb; --initial-ink: #a98e5d; --narrative-opacity: .82; --narrative-weight: 360; --narrative-spacing: .009em; --narrative-shadow: 0 .5px .55px rgba(0, 0, 0, .42); }
+.transcript.fatigue-exhausted { --narrative-ink: #abb5aa; --initial-ink: #887759; --narrative-opacity: .72; --narrative-weight: 330; --narrative-spacing: .018em; --narrative-shadow: .45px .7px .7px rgba(0, 0, 0, .56); }
+.transcript.fatigue-exhausted .entry.narration { word-spacing: .055em; font-style: oblique 1.5deg; }
+.entry.narration::first-letter { color: var(--initial-ink); font-family: Georgia, serif; font-size: 1.75em; line-height: .85; padding-right: .05em; }
 .entry.player { max-width: 60ch; margin-left: auto; padding: 10px 0 10px 22px; color: #d2dbd0; font-style: italic; text-align: right; border-right: 2px solid rgba(215,170,88,.55); }
 .entry.player::before { content: "› "; color: var(--gold); }
 .entry.system { color: var(--muted); border-left: 2px solid rgba(123,184,178,.45); padding: 5px 0 5px 13px; font-size: .84rem; }
 .entry.error { color: #e49a8d; }
 
-.command-form { position: relative; border-top: 1px solid rgba(79,96,81,.78); padding: 21px 30px 25px; background: linear-gradient(120deg, rgba(29,43,33,.96), rgba(16,25,20,.97)); backdrop-filter: blur(3px); }
+.command-form { position: relative; z-index: 1; border-top: 1px solid rgba(79,96,81,.78); padding: 21px 30px 25px; background: linear-gradient(120deg, rgba(29,43,33,.96), rgba(16,25,20,.97)); backdrop-filter: blur(3px); }
 .command-form h3 { margin-bottom: 6px; }
 button { color: var(--ink); background: rgba(9,15,10,.22); border: 1px solid rgba(79,96,81,.8); border-radius: 6px; padding: 9px 12px; transition: color .16s ease, border-color .16s ease, background .16s ease, transform .16s ease; }
 button:hover { border-color: var(--gold-dark); }
@@ -108,6 +134,8 @@ button:disabled { opacity: .55; cursor: wait; }
 .card p { color: #c6cec4; font-size: .87rem; line-height: 1.5; margin: 0; }
 .card .card-hint { color: var(--muted); font-size: .72rem; margin: -4px 0 12px; }
 .party-list { display: grid; gap: 6px; }
+.party-card { padding-right: 104px; background: linear-gradient(90deg, rgba(30,43,34,.98) 0%, rgba(21,31,25,.96) 58%, rgba(20,25,19,.8) 100%), url("assets/art/saint-george-dragon.jpg") 113% 54% / 158px auto no-repeat; }
+.party-card::after { content: ""; position: absolute; top: 26px; right: 17px; bottom: 16px; width: 76px; pointer-events: none; border-left: 1px solid rgba(215,170,88,.22); background: linear-gradient(90deg, rgba(17,26,21,.05), rgba(17,26,21,0)), url("assets/art/saint-george-dragon.jpg") 74% 50% / 154px auto no-repeat; opacity: .48; filter: sepia(.56) saturate(.8) contrast(1.18); mask-image: linear-gradient(90deg, transparent, black 44%); }
 .party-member { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 9px 2px; border-bottom: 1px solid rgba(73,91,77,.65); }
 .party-member:last-child { border-bottom: 0; }
 .party-member span { font-weight: 650; font-size: .84rem; }
@@ -190,6 +218,7 @@ button:disabled { opacity: .55; cursor: wait; }
   .sidebar { display: grid; grid-template-columns: 1fr 1fr; }
   .journal-card, .minimap-card { grid-column: 1 / -1; }
   .controls { grid-column: 1 / -1; }
+  body::after { right: -170px; opacity: .07; }
 }
 
 @media (max-width: 480px) {
@@ -204,6 +233,8 @@ button:disabled { opacity: .55; cursor: wait; }
   .choices button::before { left: 11px; }
   .sidebar { grid-template-columns: 1fr; }
   .controls { grid-column: auto; }
+  .topbar-ornament { right: 56px; width: 92px; opacity: .55; }
+  .party-card { padding-right: 86px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

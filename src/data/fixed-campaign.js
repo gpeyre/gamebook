@@ -1519,6 +1519,24 @@ const SECOND_LORE_CHOICES = {
   ],
 };
 
+const REST_CHOICES = {
+  river_shrine: [
+    { id: "rest-at-shrine", label: l("S'asseoir auprès du bol de sel et reprendre souffle", "Sit beside the salt bowl and catch your breath"), requires: { path: "state.expedition.fatigue", atLeast: 3 }, effects: [{ op: "increment", path: "expedition.fatigue", value: -3 }, { op: "increment", path: "expedition.morale", value: 1 }, { op: "set", path: "heroConditions.party", value: "steady" }, { op: "set", path: "heroConditions.odran", value: "inspired" }], result: { text: l("Personne ne vous absout, et c'est précisément ce qui repose. Vous partagez le pain laissé aux bateliers, laissez le bruit de la fête devenir lointain, puis repartez avec les mains moins lourdes.", "No one absolves you, and that is precisely what rests you. You share bread left for boatmen, let the festival noise grow distant, then leave with lighter hands.") } },
+  ],
+  moonfish_tavern: [
+    { id: "rest-at-moonfish", label: l("Prendre une soupe chaude derrière le poêle", "Take warm soup behind the stove"), requires: { path: "state.expedition.fatigue", atLeast: 3 }, effects: [{ op: "increment", path: "expedition.fatigue", value: -3 }, { op: "increment", path: "expedition.supplies", value: -1 }, { op: "increment", path: "expedition.morale", value: 1 }, { op: "set", path: "heroConditions.eryndor", value: "steady" }], result: { text: l("La patronne ne pose aucune question. Une soupe épicée, un banc trop étroit et cinq minutes sans surveiller la porte suffisent à rendre à chacun une part de son souffle.", "The landlady asks no questions. Spiced soup, a bench too narrow, and five minutes without watching the door return a share of breath to everyone.") } },
+  ],
+  lantern_hospice: [
+    { id: "rest-at-hospice", label: l("Accepter une couche et les soins des sœurs", "Accept a cot and the sisters' care"), requires: { any: [{ path: "state.expedition.fatigue", atLeast: 2 }, { path: "state.expedition.wounds", atLeast: 1 }] }, effects: [{ op: "increment", path: "expedition.fatigue", value: -3 }, { op: "increment", path: "expedition.wounds", value: -1 }, { op: "increment", path: "expedition.morale", value: 1 }, { op: "set", path: "heroConditions.party", value: "steady" }], result: { text: l("Les sœurs n'appellent pas cela du repos : elles parlent de rendre au corps ce qu'on lui a pris sans demander. Les bandages sont propres, l'eau chaude, et personne ne vous demande de raconter la peur.", "The sisters do not call it rest: they speak of returning to the body what was taken without asking. Bandages are clean, water is warm, and no one asks you to recount the fear.") } },
+  ],
+  tide_garden: [
+    { id: "rest-in-garden", label: l("Faire halte parmi les roseaux filtrants", "Pause among the filtering reeds"), requires: { path: "state.expedition.fatigue", atLeast: 3 }, effects: [{ op: "increment", path: "expedition.fatigue", value: -3 }, { op: "increment", path: "expedition.supplies", value: 1 }, { op: "set", path: "heroConditions.aldren", value: "steady" }], result: { text: l("Les jardiniers vous font respirer au rythme des bassins. Les roseaux filtrent l'eau sans hâte; leur patience vous gagne assez longtemps pour remplir les gourdes et remettre les idées dans l'ordre.", "The gardeners have you breathe to the rhythm of the basins. Reeds filter water without haste; their patience reaches you long enough to fill flasks and put thoughts back in order.") } },
+  ],
+  ferrymen_guild: [
+    { id: "rest-with-ferrymen", label: l("Dormir une heure dans le dortoir des passeurs", "Sleep an hour in the ferrymen's dormitory"), requires: { path: "state.expedition.fatigue", atLeast: 4 }, effects: [{ op: "increment", path: "expedition.fatigue", value: -4 }, { op: "increment", path: "expedition.morale", value: 1 }, { op: "set", path: "heroConditions.bashkar", value: "steady" }], result: { text: l("Les hamacs grincent au-dessus des rames et personne ne dort vraiment, mais les passeurs montent la garde à votre place. Quand vous rouvrez les yeux, le danger n'a pas diminué; votre capacité à l'affronter, si.", "Hammocks creak above the oars and no one truly sleeps, but the ferrymen keep watch in your place. When you open your eyes, danger has not lessened; your ability to face it has.") } },
+  ],
+};
+
 const FINAL_DENSE_CHOICES = {
   silt_archive: [
     { id: "silt-to-workers", label: l("Suivre les traces blanches vers les ouvriers", "Follow white tracks to the workers"), to: "workers_bank" },
@@ -1633,6 +1651,6 @@ const REGIONAL_ROUTING_CHOICES = Object.fromEntries(
 );
 
 export const FIXED_CHOICES = Object.fromEntries(
-  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES), ...Object.keys(LORE_EXPANSION_CHOICES), ...Object.keys(SECOND_LORE_CHOICES)])]
-    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? []), ...(LORE_EXPANSION_CHOICES[sceneId] ?? []), ...(SECOND_LORE_CHOICES[sceneId] ?? [])]]),
+  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES), ...Object.keys(LORE_EXPANSION_CHOICES), ...Object.keys(SECOND_LORE_CHOICES), ...Object.keys(REST_CHOICES)])]
+    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? []), ...(LORE_EXPANSION_CHOICES[sceneId] ?? []), ...(SECOND_LORE_CHOICES[sceneId] ?? []), ...(REST_CHOICES[sceneId] ?? [])]]),
 );

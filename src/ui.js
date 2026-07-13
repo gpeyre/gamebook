@@ -17,6 +17,10 @@ function renderList(element, values, emptyLabel) {
 }
 
 function renderTranscript(state) {
+  const fatigue = Math.max(0, Number(state.expedition?.fatigue ?? 0));
+  const fatigueTone = fatigue >= 7 ? "exhausted" : fatigue >= 5 ? "weary" : fatigue >= 3 ? "tired" : "clear";
+  elements.transcript.className = `transcript fatigue-${fatigueTone}`;
+  elements.transcript.dataset.fatigue = String(fatigue);
   elements.transcript.replaceChildren();
   for (const entry of state.transcript) { const p = document.createElement("p"); p.className = `entry ${entry.type}`; p.textContent = t(entry.text, state.language); elements.transcript.append(p); }
   requestAnimationFrame(() => { elements.transcript.scrollTop = elements.transcript.scrollHeight; });
