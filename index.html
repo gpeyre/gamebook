@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111914" />
+    <meta
+      name="description"
+      content="Le Grand Assèchement — a bilingual, authored choice-based gamebook."
+    />
+    <title>Interactive gamebook</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div>
+          <p id="gameEyebrow" class="eyebrow"></p>
+          <h1 id="gameTitle"></h1>
+        </div>
+        <div class="top-actions">
+          <button id="languageButton" class="quiet" type="button">EN</button>
+        </div>
+      </header>
+
+      <main class="game-layout">
+        <section class="story-panel" aria-labelledby="sceneTitle">
+          <div class="scene-heading">
+            <div>
+              <p id="chapterLabel" class="eyebrow"></p>
+              <h2 id="sceneTitle"></h2>
+            </div>
+            <span id="modelStatus" class="status-pill">Récit scripté</span>
+          </div>
+
+          <div id="transcript" class="transcript" aria-live="polite"></div>
+
+          <section class="command-form" aria-labelledby="choicesHeading">
+            <h3 id="choicesHeading">Vos choix</h3>
+            <p id="choicesHint" class="card-hint"></p>
+            <div id="suggestions" class="suggestions choices" aria-label="Choices"></div>
+          </section>
+        </section>
+
+        <aside class="sidebar">
+          <section class="card">
+            <h3 id="objectiveHeading">Objectif</h3>
+            <p id="objectiveText"></p>
+            <div class="deadline" aria-live="polite">
+              <div class="deadline-label">
+                <span id="deadlineHeading">Retour des eaux</span>
+                <span id="deadlineText"></span>
+              </div>
+              <div class="deadline-track" aria-hidden="true"><span id="deadlineBar"></span></div>
+            </div>
+          </section>
+          <section class="card">
+            <h3 id="partyHeading">Le groupe</h3>
+            <p id="partyHint" class="card-hint"></p>
+            <div id="partyList" class="party-list"></div>
+          </section>
+          <section class="card">
+            <h3 id="expeditionHeading">État de l'expédition</h3>
+            <ul id="expeditionList" class="compact-list expedition-list"></ul>
+          </section>
+          <section class="card">
+            <h3 id="inventoryHeading">Inventaire</h3>
+            <ul id="inventoryList" class="compact-list"></ul>
+          </section>
+          <section class="card">
+            <h3 id="cluesHeading">Indices</h3>
+            <ul id="cluesList" class="compact-list"></ul>
+          </section>
+          <section class="card">
+            <h3 id="worldHeading">État du monde</h3>
+            <ul id="worldList" class="compact-list world-list"></ul>
+          </section>
+          <section class="card minimap-card">
+            <div class="card-heading-row"><h3 id="mapHeading">Carte des lieux</h3><button id="mapExpandButton" class="quiet" type="button">Agrandir</button></div>
+            <p id="mapHint" class="card-hint"></p>
+            <div id="minimap" class="minimap" aria-live="polite"></div>
+          </section>
+          <section class="card controls">
+            <h3 id="gameHeading">Partie</h3>
+            <button id="saveButton" type="button">Sauvegarder</button>
+            <button id="loadButton" type="button">Charger</button>
+            <button id="restartButton" type="button">Recommencer</button>
+            <button id="clearButton" class="danger" type="button">Effacer l'historique</button>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <dialog id="mapDialog" class="map-dialog">
+      <section class="dialog-card map-dialog-card">
+        <div class="card-heading-row"><div><p class="eyebrow">Orientation</p><h2 id="mapDialogTitle">Carte des lieux</h2></div><button id="mapCloseButton" class="dialog-close" aria-label="Close" type="button">×</button></div>
+        <p id="mapDialogHint" class="card-hint"></p>
+        <div id="largeMap" class="large-map"></div>
+      </section>
+    </dialog>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
