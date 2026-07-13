@@ -4,7 +4,7 @@ import { getChoices, getExpeditionMeters, getJournal, getScene, getStatuses, get
 
 const ids = [
   "gameEyebrow", "gameTitle", "languageButton", "modelStatus", "chapterLabel", "sceneTitle", "transcript",
-  "choicesHeading", "choicesHint", "suggestions",
+  "choicesHeading", "suggestions",
   "objectiveHeading", "objectiveText", "partyHeading", "partyHint", "partyList", "expeditionHeading", "expeditionList", "inventoryHeading", "inventoryList", "cluesHeading", "cluesList", "journalHeading", "journalHint", "peopleHeading", "peopleJournalCount", "peopleJournalList", "plotHeading", "plotJournalCount", "plotJournalList", "worldHeading", "worldList", "mapHeading", "mapHint", "mapExpandButton", "minimap", "mapDialog", "mapDialogTitle", "mapDialogHint", "mapCloseButton", "largeMap",
   "gameHeading", "saveButton", "loadButton", "restartButton", "clearButton",
 ];
@@ -115,7 +115,7 @@ function renderMinimap(state) {
 export function render(state, objective, onChoice) {
   const ui = UI_TEXT[state.language]; const scene = getScene(state); document.documentElement.lang = state.language;
   elements.languageButton.textContent = state.language === "fr" ? "EN" : "FR";
-  document.title = t(GAME_DB.meta.title, state.language); elements.gameEyebrow.textContent = t(GAME_DB.meta.eyebrow, state.language); elements.gameTitle.textContent = t(GAME_DB.meta.title, state.language); elements.chapterLabel.textContent = t(GAME_DB.meta.chapter, state.language); elements.sceneTitle.textContent = t(scene.title, state.language); elements.choicesHeading.textContent = ui.choices; elements.choicesHint.textContent = ui.choicesHint;
+  document.title = t(GAME_DB.meta.title, state.language); elements.gameEyebrow.textContent = t(GAME_DB.meta.eyebrow, state.language); elements.gameTitle.textContent = t(GAME_DB.meta.title, state.language); elements.chapterLabel.textContent = t(GAME_DB.meta.chapter, state.language); elements.sceneTitle.textContent = t(scene.title, state.language); elements.choicesHeading.textContent = ui.choices;
   elements.objectiveHeading.textContent = ui.objective; elements.objectiveText.textContent = t(objective, state.language); elements.partyHeading.textContent = ui.party; elements.partyHint.textContent = ui.partyHint; elements.expeditionHeading.textContent = ui.expedition; elements.mapHeading.textContent = ui.map; elements.mapHint.textContent = ui.mapHint; elements.mapExpandButton.textContent = ui.expandMap; elements.mapDialogTitle.textContent = ui.map; elements.mapDialogHint.textContent = ui.mapDialogHint; elements.mapCloseButton.setAttribute("aria-label", state.language === "fr" ? "Fermer la carte" : "Close map");
   elements.inventoryHeading.textContent = ui.inventory; elements.cluesHeading.textContent = ui.clues; elements.journalHeading.textContent = ui.journal; elements.journalHint.textContent = ui.journalHint; elements.peopleHeading.textContent = ui.people; elements.plotHeading.textContent = ui.plot; elements.worldHeading.textContent = ui.world; elements.gameHeading.textContent = ui.game; elements.saveButton.textContent = ui.save; elements.loadButton.textContent = ui.load; elements.restartButton.textContent = ui.restart; elements.clearButton.textContent = ui.clear;
   elements.modelStatus.textContent = ui.scripted; elements.modelStatus.className = "status-pill offline";
