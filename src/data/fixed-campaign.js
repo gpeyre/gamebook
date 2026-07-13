@@ -774,12 +774,151 @@ const SECOND_LORE_SCENES = {
   },
 };
 
-export const FIXED_SCENES = { ...CORE_SCENES, ...WORLD_EXPANSION_SCENES, ...ANNEX_SCENES, ...LORE_EXPANSION_SCENES, ...SECOND_LORE_SCENES };
+// Vire-Basse is not merely a lost district in a document. This layer lets the
+// player meet the people who kept it alive, decide how to use their testimony,
+// and open several grounded routes back into the central crisis.
+const THIRD_LORE_SCENES = {
+  low_vire_threshold: {
+    title: l("Le seuil de Vire-Basse", "The threshold of Low Vire"),
+    description: l("Au bout d'une venelle qui n'apparaît sur aucun plan récent, une arche basse porte encore cinq encoches de crue. Quelqu'un a couvert les quatre premières d'une couche de chaux; la cinquième a été laissée nue, comme un reproche. Derrière, les maisons de Vire-Basse ne sont pas englouties : elles ont été contraintes de devenir invisibles.", "At the end of a lane absent from recent maps, a low arch still bears five flood notches. Someone covered the first four with lime; the fifth was left bare, like a rebuke. Beyond it, Low Vire's houses are not drowned: they were forced to become invisible."),
+    visitDescriptions: [{ requires: { path: "state.flags.metMarwen", equals: true }, text: l("Le seuil n'est plus vide. Une petite marque de craie — trois lignes et un point — vous indique que Marwen a fait passer le mot. Dans Vire-Basse, on ne promet pas la confiance; on prépare une place pour qu'elle puisse arriver.", "The threshold is no longer empty. A small chalk mark—three lines and a dot—shows Marwen passed the word. In Low Vire, trust is not promised; a place is prepared for it to arrive.") }],
+  },
+  witness_kitchen: {
+    title: l("La cuisine des témoins", "The witnesses' kitchen"),
+    description: l("Une cuisine trop petite sert de salle commune à trois maisons murées. Les casseroles sont suspendues au-dessus d'une table où les familles de Vire-Basse reconstituent des rues avec des épices, des clés et des morceaux de ficelle. Marwen Rell ne vous demande pas ce que vous avez découvert : elle vous demande ce que vous comptez faire de celles et ceux qui n'ont jamais été consultés.", "A kitchen too small serves as a common room for three walled-up houses. Pots hang above a table where Low Vire families rebuild streets with spices, keys, and lengths of twine. Marwen Rell does not ask what you found: she asks what you intend to do with people who were never consulted."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "vire_proceedings" }, text: l("Les noms du registre ont atteint la cuisine avant vous. Personne ne se réjouit d'être enfin inscrit : les témoins savent qu'un nom peut devenir une liste de victimes si l'on ne lui rend pas aussi une voix.", "The register's names reached the kitchen before you. No one celebrates being entered at last: witnesses know a name can become a list of victims unless it is also given a voice.") }],
+  },
+  ledger_scriptorium: {
+    title: l("Le scriptorium des absents", "The scriptorium of the absent"),
+    description: l("Derrière une cloison de linge séché, des registres municipaux reposent sur des étagères sans cote. Tovar Quill, ancien copiste du Conseil, les a classés par personne disparue plutôt que par année fiscale. Il a la précision d'un homme qui a participé à l'effacement, et l'obstination d'un homme qui refuse désormais de laisser une ligne blanche finir son travail.", "Behind a partition of drying linen, municipal ledgers rest on shelves without catalogue marks. Tovar Quill, a former Council copyist, has sorted them by missing person rather than fiscal year. He has the precision of a man who helped erase things, and the stubbornness of one who now refuses to let a blank line finish the work."),
+    visitDescriptions: [{ requires: { path: "state.flags.metTovar", equals: true }, text: l("Tovar a retourné son sablier. Il ne vous accorde pas davantage de confiance; seulement un temps de travail, ce qui chez lui vaut presque une absolution.", "Tovar has turned over his sandglass. He grants you no more trust; only time to work, which from him nearly amounts to absolution.") }],
+  },
+  flood_marks_house: {
+    title: l("La maison aux marques d'eau", "The house of water marks"),
+    description: l("Chaque pièce porte sur son mur une hauteur d'eau, un prénom et une date. Les marques les plus anciennes sont effacées à hauteur d'enfant, comme si la ville avait voulu grandir par-dessus elles. Celen Arv, arpenteur révoqué, a mesuré les angles de ces lignes pendant quinze ans : elles prouvent que les anciennes vannes ont été réglées pour atteindre Vire-Basse avant les quais hauts.", "Every room bears a water height, a first name, and a date upon its wall. The oldest marks are rubbed away at a child's height, as if the city wanted to grow over them. Celen Arv, a dismissed surveyor, has measured the angles of these lines for fifteen years: they prove the old sluices were set to reach Low Vire before the high quays."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "flood_marks" }, text: l("Celen a redessiné les lignes en bleu sombre. À présent, elles ne ressemblent plus à des souvenirs : elles ressemblent à une flèche que quelqu'un a tenue trop longtemps.", "Celen has redrawn the lines in dark blue. They no longer resemble memories: they resemble an arrow someone held for far too long.") }],
+  },
+  quiet_school: {
+    title: l("L'école sans registre", "The school without a register"),
+    description: l("Dans une ancienne remise, des adultes apprennent encore à lire les adresses que les cartes ont retirées. La maîtresse Letha Vorn garde une liste d'élèves qui n'existent officiellement dans aucun quartier. Elle ne veut ni héroïsme ni promesse : elle veut savoir si la prochaine alerte comportera des noms que ses élèves pourront reconnaître.", "In an old shed, adults still learn to read addresses maps removed. Teacher Letha Vorn keeps a list of pupils who officially exist in no ward. She wants neither heroism nor a promise: she wants to know whether the next warning will carry names her pupils can recognise."),
+  },
+  forgotten_causeway: {
+    title: l("La chaussée des portes basses", "The low-gates causeway"),
+    description: l("Une chaussée de briques traverse un ancien canal et rejoint les sous-sols des portes. Les habitants l'appellent le chemin des retours, parce que c'est par là que les familles dispersées revenaient chercher une casserole, une clef, parfois un corps. Le passage mène aux mécanismes plus vite que les escaliers de la ville, mais il vous force à voir ce que ces mécanismes ont déjà fait.", "A brick causeway crosses an old canal and joins the gate underlevels. Residents call it the road of returns, because scattered families used it to come back for a pot, a key, sometimes a body. The passage reaches the machinery faster than the city's stairs, but forces you to see what that machinery has already done."),
+  },
+  echo_vault: {
+    title: l("La chambre des essais silencieux", "The vault of silent trials"),
+    description: l("Sous le scriptorium, une chambre ronde conserve des plaques de cuivre et des rapports d'essai. Les ingénieurs y testaient les cloches sans les faire entendre en surface. Un protocole porte une annotation terrifiante : « maintien du calme dans les secteurs non prioritaires ». Le silence de Vire-Basse n'était pas un oubli; il avait une méthode, un budget et des signatures.", "Beneath the scriptorium, a round chamber keeps copper plates and trial reports. Engineers tested bells there without letting them be heard above. One protocol bears a dreadful note: “maintain calm in non-priority sectors.” Low Vire's silence was not an oversight; it had a method, a budget, and signatures."),
+  },
+  brass_lift: {
+    title: l("L'ascenseur de laiton", "The brass lift"),
+    description: l("Une cage de service pend au-dessus d'un puits de roues. Celen y a remplacé les contrepoids par des sacs de sable afin que les inspecteurs ne puissent plus l'utiliser sans lui. Il peut vous faire gagner les portes, ou vous expliquer comment les signaux de la ville ont été déviés. Les deux choix vous coûtent quelque chose, et il refuse de prétendre le contraire.", "A service cage hangs over a well of wheels. Celen replaced its counterweights with sandbags so inspectors could no longer use it without him. He can get you to the gates, or explain how the city's signals were diverted. Both choices cost you something, and he refuses to pretend otherwise."),
+  },
+  understreet_lift: {
+    title: l("Le palier sous les rues", "The landing beneath the streets"),
+    description: l("La cage débouche derrière les fondations de Laelith. Des conduits de parole, de verre et d'eau y sont réunis comme les nerfs d'un même corps. Vous comprenez enfin que le réseau de Valdrick n'a pas construit une machine : il a appris à jouer d'une machine que la ville utilisait déjà pour classer ses habitants.", "The cage opens behind Laelith's foundations. Conduits for voice, glass, and water meet here like nerves in one body. You finally understand Valdrick's network did not build a machine: it learned to play a machine the city already used to sort its residents."),
+  },
+  fifth_quarter_assembly: {
+    title: l("L'assemblée du cinquième quartier", "The fifth ward assembly"),
+    description: l("Dans la cuisine élargie par des portes ouvertes, les habitantes et habitants de Vire-Basse se réunissent sans estrade. Marwen refuse que vous lisiez vos preuves à leur place. Tovar veut joindre les signatures, Celen veut joindre les mesures, Letha veut joindre les noms absents des listes. La discussion est lente, parfois dure, mais elle produit une chose que les conspirateurs n'avaient pas prévue : des personnes qui choisissent ensemble la manière dont elles seront défendues.", "In the kitchen widened by open doors, Low Vire's residents gather without a dais. Marwen refuses to let you read your proof in their stead. Tovar wants to add signatures, Celen the measurements, Letha the names absent from lists. The discussion is slow, sometimes hard, but it produces something conspirators did not expect: people choosing together how they will be defended."),
+    visitDescriptions: [{ requires: { path: "state.clues", includes: "vire_witnesses" }, text: l("L'assemblée a déjà désigné des porteuses et porteurs de parole. Vous n'êtes plus seul à porter l'histoire; c'est plus lourd pour le pouvoir, et plus léger pour vous.", "The assembly has already chosen its speakers. You no longer carry the story alone; it is heavier for power, and lighter for you.") }],
+  },
+};
+
+// The Retention Ward is a second, less visible civic system beside Vire-Basse:
+// it turns an old emergency-water network into a route about mutual aid,
+// records, and the practical cost of making an alarm reach everyone.
+const FOURTH_LORE_SCENES = {
+  retention_gate: {
+    title: l("La porte de retenue", "The retention gate"),
+    description: l("Au-delà de la chaussée des portes basses, une herse de bronze isole un ancien quartier de réservoirs. Les habitants l'appellent la Retenue : non parce qu'elle garde l'eau, mais parce que chaque décision prise ici avait autrefois le pouvoir de la retenir pour quelqu'un d'autre. Un anneau de cloches muettes pend au-dessus du seuil.", "Beyond the low-gates causeway, a bronze portcullis seals off an old reservoir ward. Its residents call it the Retention: not because it holds water, but because every decision made here once had the power to hold it back from someone else. A ring of silent bells hangs over the threshold."),
+  },
+  waterkeepers_court: {
+    title: l("La cour des gardiens d'eau", "The waterkeepers' court"),
+    description: l("Des bassins peu profonds occupent une cour pavée, chacun marqué d'un symbole de quartier. Miren Aulne, gardienne des niveaux, y échange des seaux contre des promesses écrites. Elle a appris à compter ce qui manque avant que les notables ne puissent appeler cela une simple pénurie.", "Shallow basins fill a paved court, each marked with a ward symbol. Miren Aulne, keeper of levels, trades buckets for written promises. She learned to count what is missing before notables can call it a mere shortage."),
+    visitDescriptions: [{ requires: { path: "state.flags.metMiren", equals: true }, text: l("Miren a ajouté un bassin vide au plan de la cour. Il ne porte aucun nom officiel, mais vous reconnaissez le signe de Vire-Basse. « Une carte commence parfois par une place laissée libre », dit-elle.", "Miren has added an empty basin to the court plan. It bears no official name, but you recognise Low Vire's mark. “A map sometimes begins with a place left open,” she says.") }],
+  },
+  tally_weighbridge: {
+    title: l("Le pont-bascule des comptes", "The tally weighbridge"),
+    description: l("Un pont étroit franchit un canal de dérivation. Sous ses dalles, une mécanique de plomb pesait jadis les barriques et, avec elles, le droit d'un quartier à recevoir de l'eau. Des chiffres gravés dans le garde-corps ont été martelés jusqu'à devenir presque illisibles.", "A narrow bridge crosses a diversion canal. Beneath its slabs, a lead mechanism once weighed barrels and, with them, a ward's right to receive water. Figures carved into the rail have been hammered until nearly illegible."),
+  },
+  brass_garden: {
+    title: l("Le jardin de laiton", "The brass garden"),
+    description: l("Entre les soupapes abandonnées, des herbes médicinales poussent dans des cuvettes de cuivre. Les familles de la Retenue y ont remplacé les jauges par des plants de fièvre et des racines filtrantes. L'endroit prouve qu'un mécanisme peut être détourné vers le soin sans cesser d'être un mécanisme.", "Among abandoned valves, medicinal herbs grow in copper basins. Retention families have replaced gauges with fever plants and filtering roots. The place proves a mechanism can be turned toward care without ceasing to be a mechanism."),
+  },
+  names_reservoir: {
+    title: l("Le réservoir des noms", "The reservoir of names"),
+    description: l("L'eau a disparu du grand bassin, révélant des milliers de petites plaquettes attachées à des chaînes. Chaque nom désigne une maison qui devait recevoir l'alerte ou une famille à qui l'on devait une ration. Beaucoup ont été retournées face au mur. On comprend ici que l'oubli fut aussi une tâche quotidienne.", "Water has drained from the great basin, revealing thousands of small plaques tied to chains. Each name marks a house meant to receive warning or a family owed a ration. Many have been turned to face the wall. Here you understand forgetting was also a daily task."),
+  },
+  storm_registry: {
+    title: l("Le registre des orages", "The storm registry"),
+    description: l("Un cabinet de pierre conserve les prévisions de crue sous des feuilles de mica. Sera Uln, ancienne copiste des services d'urgence, les classe par délai plutôt que par année : qui a été prévenu à l'heure, qui l'a été trop tard, et qui ne figure même pas dans la colonne des destinataires.", "A stone cabinet keeps flood forecasts beneath mica sheets. Sera Uln, a former emergency-services copyist, files them by delay rather than year: who was warned on time, who too late, and who does not appear in the recipient column at all."),
+    visitDescriptions: [{ requires: { path: "state.flags.metSera", equals: true }, text: l("Sera a cessé de dissimuler les pages sous le mica. Elle les laisse ouvertes, mais garde la main dessus : une preuve peut voyager, elle ne doit pas être arrachée.", "Sera has stopped hiding the pages under mica. She leaves them open, but keeps her hand upon them: evidence may travel, it must not be torn away.") }],
+  },
+  pledge_chamber: {
+    title: l("La chambre des engagements", "The pledge chamber"),
+    description: l("Sous le registre, une salle circulaire porte des crochets pour autant de lanternes que de quartiers anciens. Les contrats d'eau y étaient autrefois jurés à voix haute afin que nul ne puisse prétendre ne pas savoir. Les crochets de Vire-Basse sont vides; l'un d'eux attend encore une lanterne jamais allumée.", "Beneath the registry, a round chamber bears hooks for as many lanterns as there were old wards. Water contracts were once sworn aloud here so none could claim ignorance. Low Vire's hooks are empty; one still awaits a lantern never lit."),
+  },
+  relief_quay: {
+    title: l("Le quai du secours", "The relief quay"),
+    description: l("Derrière des hangars murés, un quai étroit permettait aux barques de ravitaillement d'atteindre les rues basses pendant les crues. Pavos Renn y entretient une coque qui ne figure sur aucun registre. Il n'est ni héros ni contrebandier par goût : il a transporté ce que les listes autorisaient, puis ce que les listes oubliaient.", "Behind walled-up sheds, a narrow quay once let relief boats reach the lower streets during floods. Pavos Renn maintains a hull that appears in no ledger. He is neither hero nor smuggler by taste: he carried what lists allowed, then what lists forgot."),
+  },
+  rain_chain: {
+    title: l("La chaîne de pluie", "The rain chain"),
+    description: l("Une chaîne de godets remonte l'eau depuis le quai jusqu'aux citernes. Chaque maillon porte une entaille : une livraison détournée, un avertissement arrivé, une porte restée ouverte. Le dispositif rejoint les conduits de verre du réseau actuel; les conspirateurs l'ont utilisé parce qu'il était déjà là.", "A chain of cups lifts water from the quay to the cisterns. Each link bears a notch: a diverted delivery, a warning received, a door left open. The device joins the current network's glass conduits; conspirators used it because it was already there."),
+  },
+  breakwater_chapel: {
+    title: l("La chapelle du brise-lame", "The breakwater chapel"),
+    description: l("Une chapelle sans autel est bâtie dans l'épaisseur d'une digue. Des couvertures sèchent près de niches où l'on range des rames, des fioles et des listes de personnes à rejoindre. Ce n'est pas un refuge abstrait : chaque objet indique quel geste faire quand l'eau revient.", "A chapel without an altar is built into the thickness of a breakwater. Blankets dry beside niches holding oars, vials, and lists of people to reach. This is no abstract refuge: every object indicates what to do when water returns."),
+  },
+  overflow_gallery: {
+    title: l("La galerie du trop-plein", "The overflow gallery"),
+    description: l("La galerie longe un déversoir qui peut soulager les réservoirs ou envoyer toute leur pression vers les mécanismes des portes. Des graffitis de bateliers couvrent le mur : des flèches, des noms, des calculs de marée. Les plus récents prolongent les relevés de Celen jusqu'à la terrasse des boucliers.", "The gallery follows an overflow channel that can ease the reservoirs or send all their pressure toward the gate mechanisms. Boatmen's graffiti covers the wall: arrows, names, tide calculations. The most recent extend Celen's readings to the shield terrace."),
+  },
+};
+
+// The Dawn Ward was once responsible for carrying a warning from rooftop to
+// rooftop. Its surviving routes show that the city did not only silence people
+// by withholding bells: it taught itself which voices were allowed to ring.
+const FIFTH_LORE_SCENES = {
+  dawn_portal: { title: l("Le portail de l'aube", "The dawn portal"), description: l("Une porte haute ouvre sur un quartier perché au-dessus des canaux. Les battants portent des soleils rayés, comme si quelqu'un avait voulu empêcher l'aube d'entrer. Ici commençait jadis le relais des cloches : une alerte passait de toit en toit avant de descendre vers les quais.", "A tall gate opens onto a ward perched above the canals. Its doors bear scratched-out suns, as if someone tried to stop dawn from entering. The bell relay once began here: a warning passed from rooftop to rooftop before descending to the quays.") },
+  bellkeepers_yard: { title: l("La cour des sonneurs", "The bellkeepers' yard"), description: l("Des cloches de tailles différentes sont suspendues à un figuier sec. Veyra Mall, dernière sonneuse du quartier, les reconnaît au poids plutôt qu'au son. Elle affirme que le réseau n'a jamais eu une seule voix : il a toujours eu une cloche pour les riches et une autre pour les rues qu'on disait trop basses.", "Bells of different sizes hang from a dry fig tree. Veyra Mall, the ward's last bellkeeper, knows them by weight rather than sound. She insists the network never had one voice: it always kept one bell for the wealthy and another for streets called too low."), visitDescriptions: [{ requires: { path: "state.flags.metVeyra", equals: true }, text: l("Veyra a posé deux maillets sur la pierre. Elle ne vous demande plus lequel est le bon; elle vous demande qui doit pouvoir les tenir.", "Veyra has laid two mallets on the stone. She no longer asks which one is right; she asks who should be allowed to hold them.") }] },
+  cracked_chime_gallery: { title: l("La galerie des carillons fêlés", "The cracked-chime gallery"), description: l("Un couloir étroit aligne des carillons de cuivre, chacun fendu à un endroit différent. Les fissures ont été calculées : certaines empêchaient un son de franchir la cour, d'autres le rendaient audible seulement depuis les terrasses hautes. La sélection avait même une acoustique.", "A narrow corridor lines up copper chimes, each cracked in a different place. The fractures were calculated: some stopped a sound crossing the court, others made it audible only from high terraces. Selection even had an acoustics.") },
+  dawn_market: { title: l("Le marché de l'aube", "The dawn market"), description: l("Les échoppes ne vendent qu'avant le lever du soleil : pain, mèches, rubans et nouvelles. Salma Vell tient un comptoir de petites lanternes à fenêtre bleue. Elle a vu les messagers municipaux acheter des lots entiers la veille des crues, puis les distribuer à des adresses dont personne au marché ne voulait prononcer les noms.", "The stalls trade only before sunrise: bread, wicks, ribbons, and news. Salma Vell keeps a counter of small blue-window lanterns. She saw municipal messengers buy whole lots before floods, then distribute them to addresses no one in the market wished to name.") },
+  courier_roof: { title: l("Le toit des coursiers", "The couriers' roof"), description: l("Des cordes relient les cheminées de trois pâtés de maisons. Iven Korr, ancien coureur de dépêches, y conserve des boîtes de métal dans lesquelles il glissait les avis que ses supérieurs lui ordonnaient de ne pas remettre. Il ne se présente pas comme un résistant : il se reproche surtout d'avoir trop longtemps confondu discrétion et obéissance.", "Ropes link the chimneys of three blocks. Iven Korr, a former dispatch runner, keeps metal boxes there in which he slipped notices his superiors ordered him not to deliver. He does not call himself resistance: he mostly reproaches himself for confusing discretion with obedience for too long.") },
+  relay_conservatory: { title: l("Le conservatoire des relais", "The relay conservatory"), description: l("Sous une verrière poussiéreuse, des modèles de clochers, de lentilles et de conduits sont reliés par des fils colorés. Les apprentis y apprenaient à faire circuler l'alerte sans dépendre d'un seul bâtiment. Plus tard, les fils ont été renommés selon les quartiers qu'ils pouvaient contourner.", "Beneath a dusty glass roof, models of belfries, lenses, and conduits are joined by coloured threads. Apprentices learned here to circulate warning without depending on a single building. Later, the threads were renamed after the wards they could bypass.") },
+  voices_cistern: { title: l("La citerne des voix", "The cistern of voices"), description: l("Une citerne vide répercute le moindre souffle. Ses parois sont couvertes de noms et de dates, inscrits par des familles qui venaient vérifier si leur rue avait été entendue. Lorsque deux personnes parlent depuis des niches opposées, leurs mots se rejoignent au centre : une ingénierie faite pour que personne n'ait à crier seul.", "An empty cistern echoes the slightest breath. Its walls are covered in names and dates, written by families who came to check whether their street had been heard. When two people speak from opposite niches, their words meet at the centre: engineering made so no one has to shout alone.") },
+  blue_window_workshop: { title: l("L'atelier des fenêtres bleues", "The blue-window workshop"), description: l("Des cadres de cuivre et des éclats de verre bleu couvrent les établis. Les fenêtres ne servaient pas à décorer les maisons, mais à relayer l'alerte par lumière lorsque les cloches étaient noyées par la pluie. Sur un patron, vous reconnaissez le même bleu que dans le limon de Siren.", "Copper frames and shards of blue glass cover the workbenches. The windows did not decorate houses; they relayed warning by light when rain drowned the bells. On one pattern, you recognize the same blue found in Siren's silt.") },
+  civic_tribune: { title: l("La tribune des rues", "The street tribune"), description: l("Une petite terrasse domine quatre venelles. Avant les sceaux et les procédures, les gardiens y lisaient les noms des rues qui devaient être prévenues. Les plaques de bronze ont été retirées, mais leurs contours restent dans la pierre; une ville peut effacer un texte sans effacer la place où il fut prononcé.", "A small terrace overlooks four lanes. Before seals and procedures, wardens read here the names of streets that must be warned. The bronze plaques were removed, but their outlines remain in stone; a city can erase a text without erasing the place where it was spoken.") },
+  message_bridge: { title: l("Le pont des messages", "The message bridge"), description: l("Un pont de service franchit une rue si étroite que les lettres passaient autrefois dans des paniers tirés par poulie. Le mécanisme rejoint les couloirs du Conseil d'un côté, les marches de la ville de l'autre. Il a servi à accélérer les ordres; il peut désormais accélérer les réponses.", "A service bridge crosses a lane so narrow that letters once travelled in pulley-drawn baskets. Its mechanism joins the Council corridors on one side and the city steps on the other. It served to speed orders; it can now speed responses.") },
+  unheard_stairs: { title: l("Les escaliers des sans-voix", "The unheard stairs"), description: l("Les marches montent sous des murs couverts de noms qui ne furent jamais lus à la tribune. Quelqu'un a ajouté les dates récentes à la craie, refusant que l'histoire s'arrête aux morts anciens. Chaque palier mène vers une ouverture plus claire, mais personne ne prétend que la lumière soit une réparation.", "The stairs rise beneath walls covered in names never read at the tribune. Someone has added recent dates in chalk, refusing to let the story stop with old dead. Each landing leads toward a brighter opening, but no one claims light is repair.") },
+  first_light_chamber: { title: l("La chambre de première lumière", "The first-light chamber"), description: l("Au sommet du quartier, un disque de miroirs orientables attend derrière une coupole. Il pouvait envoyer le premier signal vers tous les toits de Laelith, ou n'en éclairer qu'une moitié. La dernière inscription est simple : « aucune aube ne vaut si elle choisit ses fenêtres ».", "At the top of the ward, a disk of adjustable mirrors waits beneath a dome. It could send the first signal to every roof in Laelith, or light only half of them. The final inscription is simple: “no dawn is worth anything if it chooses its windows.”") },
+};
+
+// The Makers' Basin is the craft district beneath the gates. Its workshops
+// reveal that the same labour which built the apparatus can also refuse its
+// misuse and repair it in public sight.
+const SIXTH_LORE_SCENES = {
+  makers_gate: { title: l("La porte des faiseurs", "The makers' gate"), description: l("Une porte de fonte donne sur des ateliers invisibles depuis la ville haute. Les ouvriers y entraient par équipes avant l'aube, afin que les portes de la rivière paraissent fonctionner seules. Sur le linteau, une devise a été recouverte de suie : « ce qui tient doit répondre à celles et ceux qu'il protège ».", "An iron gate opens onto workshops invisible from the upper city. Workers entered in shifts before dawn so the river gates might appear to run themselves. On the lintel, a motto lies beneath soot: ‘what holds must answer to those it protects.’") },
+  tool_court: { title: l("La cour des outils", "The tool court"), description: l("Des établis encerclent une cour où chaque outil porte le poinçon de l'équipe qui l'a fabriqué. Roul Venn, ancien maître de forge, a conservé les marteaux dont les manches furent remplacés après les premiers ordres de sabotage. Il ne fait confiance ni aux beaux discours ni aux pièces sans trace de main.", "Benches ring a court where every tool bears the stamp of the crew that made it. Roul Venn, a former forge master, kept the hammers whose handles were replaced after the first sabotage orders. He trusts neither fine speeches nor parts without a trace of a hand.") },
+  chain_foundry: { title: l("La fonderie des chaînes", "The chain foundry"), description: l("Des chaînes refroidissent dans des cuves noires. Les maillons sont destinés aux contrepoids, mais certains portent une rainure qui ne devrait pas exister : une manière de les faire céder sur commande. Les ouvriers appelaient cela une faiblesse; les acheteurs appelaient cela une option.", "Chains cool in black vats. The links are meant for counterweights, but some bear a groove that should not exist: a way to make them fail on command. Workers called it a weakness; buyers called it an option.") },
+  bellows_loft: { title: l("Le grenier des soufflets", "The bellows loft"), description: l("Sous le toit, des soufflets géants alimentent les fours. Nyma Tress, apprentie mécanicienne, y a caché des copies de commandes parce qu'elle ne savait pas encore qui croire. Elle sait seulement qu'un atelier change de visage lorsque les mêmes mains doivent réparer ce qu'on leur a ordonné de briser.", "Under the roof, giant bellows feed the furnaces. Nyma Tress, an apprentice mechanic, hid copies of orders here because she did not yet know whom to trust. She only knows a workshop changes face when the same hands must repair what they were ordered to break.") },
+  waterwright_archive: { title: l("Les archives des hydrauliciens", "The waterwrights' archive"), description: l("Des plans roulés sont rangés dans des tubes de cuivre. Ils décrivent les portes comme un pacte de travail : la force de l'eau devait être surveillée par celles et ceux qui en subiraient le premier choc. Une note plus récente transforme ce pacte en protocole réservé à des inspecteurs nommés.", "Rolled plans rest in copper tubes. They describe the gates as a labour pact: water's force was to be watched by those who would take its first blow. A newer note turns that pact into a protocol reserved for appointed inspectors.") },
+  guild_kitchen: { title: l("La cuisine de la guilde", "The guild kitchen"), description: l("La soupe mijote entre des casiers de casques et de gants. Ici, les équipes échangent les blessures et les rumeurs avant de signer une journée de travail. Doro Fen, intendant des vivres, a gardé les listes de repas : elles prouvent quelles équipes furent envoyées sous les portes la nuit des essais.", "Soup simmers between lockers of helmets and gloves. Here crews exchange injuries and rumours before signing a day's work. Doro Fen, provisions steward, kept meal lists: they prove which crews were sent beneath the gates on the night of the trials.") },
+  apprentice_dormitory: { title: l("Le dortoir des apprentis", "The apprentices' dormitory"), description: l("Des lits étroits longent un mur couvert de schémas. Les jeunes ouvriers dessinent les mécanismes qu'ils espèrent un jour comprendre, puis barrent les pièces qui ont blessé leurs aînés. Une fenêtre donne sur la cour : le premier lieu d'où une grève pourrait être entendue.", "Narrow beds line a wall covered in diagrams. Young workers draw mechanisms they hope one day to understand, then cross out the parts that hurt their elders. A window looks over the court: the first place from which a strike could be heard.") },
+  clay_map_room: { title: l("La salle des plans d'argile", "The clay map room"), description: l("Un relief de Laelith en argile humide permet de déplacer les vannes, les ponts et les canaux d'une simple pression. Des doigts ont gravé des ruelles supplémentaires là où les cartes officielles ne voyaient que de l'eau. Celen aurait aimé cette carte : elle ne prétend pas que les quartiers bas soient vides.", "A relief of Laelith in wet clay lets one move sluices, bridges, and canals with a simple press. Fingers have carved extra lanes where official maps saw only water. Celen would have liked this map: it does not pretend the lower wards are empty.") },
+  underforge: { title: l("La forge basse", "The underforge"), description: l("Une forge est installée au pied même des mécanismes. Son feu sert à réparer les gonds sans démonter les portes. Les flammes révèlent sur une barre de métal les marques d'un ordre falsifié : quelqu'un a voulu que le sabotage paraisse venir des ouvriers eux-mêmes.", "A forge stands at the foot of the mechanisms themselves. Its fire repairs hinges without dismantling the gates. Flames reveal the marks of a forged order on a metal bar: someone wanted the sabotage to seem to come from the workers themselves.") },
+  handspan_bridge: { title: l("Le pont d'une paume", "The handspan bridge"), description: l("Un petit pont de maintenance ne laisse passer qu'une personne à la fois. Les équipes l'utilisaient pour vérifier les mécanismes sans se gêner; les contremaîtres l'ont fermé pour empêcher les ouvriers de comparer leurs consignes. Chaque traversée rappelle qu'une information tenue séparée devient facilement un ordre.", "A small maintenance bridge admits only one person at a time. Crews used it to inspect mechanisms without crowding; foremen closed it to stop workers comparing instructions. Every crossing recalls that information kept apart easily becomes an order.") },
+  confluence_shaft: { title: l("Le puits de confluence", "The confluence shaft"), description: l("Les conduites des ateliers, de la Retenue et des signaux se rejoignent dans un puits de pierre. Les métiers de la ville ne sont pas séparés ici : une réparation peut modifier une alerte, une ration peut décider qui peut travailler, un silence peut casser une porte.", "Conduits from workshops, the Retention, and signals meet in a stone shaft. The city's trades are not separate here: a repair can alter a warning, a ration can decide who can work, a silence can break a gate.") },
+  worksong_chapel: { title: l("La chapelle des chants de travail", "The work-song chapel"), description: l("Une alcôve de pierre amplifie les voix sans les transformer en prière. Les équipes y chantaient les étapes de sécurité afin qu'aucun geste ne repose sur la mémoire d'un seul contremaître. Les vers ont été grattés du mur, mais Nyma en connaît encore les premiers mots.", "A stone alcove amplifies voices without turning them into prayer. Crews sang safety steps here so no action rested on a single foreman's memory. The verses were scratched from the wall, but Nyma still knows their first words.") },
+};
+
+export const FIXED_SCENES = { ...CORE_SCENES, ...WORLD_EXPANSION_SCENES, ...ANNEX_SCENES, ...LORE_EXPANSION_SCENES, ...SECOND_LORE_SCENES, ...THIRD_LORE_SCENES, ...FOURTH_LORE_SCENES, ...FIFTH_LORE_SCENES, ...SIXTH_LORE_SCENES };
 
 // Geographic layout is campaign data. Coordinates are deliberately separate
 // from prose and rules, so another campaign can supply a wholly different map.
 export const WORLD_MAP = {
-  viewBox: "0 0 1010 430",
+  viewBox: "0 0 1640 430",
   regions: [
     { id: "city", x: 12, y: 12, width: 536, height: 118, label: l("Laelith haute", "Upper Laelith") },
     { id: "riverbed", x: 90, y: 145, width: 350, height: 82, label: l("Lit asséché", "Dry riverbed") },
@@ -788,6 +927,10 @@ export const WORLD_MAP = {
     { id: "east_canals", x: 565, y: 12, width: 133, height: 403, label: l("Canaux de l'est", "Eastern canals") },
     { id: "annexes", x: 720, y: 12, width: 128, height: 403, label: l("Détours et annexes", "Annexes and detours") },
     { id: "outer_annexes", x: 870, y: 12, width: 128, height: 403, label: l("Périphérie oubliée", "Forgotten outskirts") },
+    { id: "low_vire", x: 1015, y: 12, width: 133, height: 403, label: l("Vire-Basse retrouvée", "Low Vire restored") },
+    { id: "retention", x: 1165, y: 12, width: 133, height: 403, label: l("Quartier de la Retenue", "The Retention Ward") },
+    { id: "dawn_ward", x: 1320, y: 12, width: 133, height: 403, label: l("Quartier de l'Aube", "The Dawn Ward") },
+    { id: "makers_basin", x: 1475, y: 12, width: 148, height: 403, label: l("Bassin des Faiseurs", "The Makers' Basin") },
   ],
   nodes: [
     { id: "festival_arcade", x: 74, y: 45 }, { id: "glasswright_yard", x: 42, y: 82 }, { id: "moonfish_tavern", x: 86, y: 112 },
@@ -827,6 +970,29 @@ export const WORLD_MAP = {
     { id: "copper_aviary", x: 540, y: 22 }, { id: "house_of_measures", x: 535, y: 112 },
     { id: "brass_reliquary", x: 307, y: 126 }, { id: "exile_courtyard", x: 88, y: 236 },
     { id: "silt_observatory", x: 700, y: 330 }, { id: "drowned_mailroom", x: 700, y: 210 },
+    { id: "low_vire_threshold", x: 1035, y: 42 }, { id: "witness_kitchen", x: 1100, y: 74 },
+    { id: "ledger_scriptorium", x: 1035, y: 116 }, { id: "flood_marks_house", x: 1100, y: 148 },
+    { id: "quiet_school", x: 1035, y: 190 }, { id: "forgotten_causeway", x: 1100, y: 225 },
+    { id: "echo_vault", x: 1035, y: 266 }, { id: "brass_lift", x: 1100, y: 297 },
+    { id: "understreet_lift", x: 1035, y: 340 }, { id: "fifth_quarter_assembly", x: 1100, y: 382 },
+    { id: "retention_gate", x: 1185, y: 42 }, { id: "waterkeepers_court", x: 1250, y: 74 },
+    { id: "tally_weighbridge", x: 1185, y: 110 }, { id: "brass_garden", x: 1250, y: 142 },
+    { id: "names_reservoir", x: 1185, y: 180 }, { id: "storm_registry", x: 1250, y: 214 },
+    { id: "pledge_chamber", x: 1185, y: 252 }, { id: "relief_quay", x: 1250, y: 286 },
+    { id: "rain_chain", x: 1185, y: 324 }, { id: "breakwater_chapel", x: 1250, y: 356 },
+    { id: "overflow_gallery", x: 1185, y: 394 },
+    { id: "dawn_portal", x: 1340, y: 42 }, { id: "bellkeepers_yard", x: 1405, y: 74 },
+    { id: "cracked_chime_gallery", x: 1340, y: 108 }, { id: "dawn_market", x: 1405, y: 140 },
+    { id: "courier_roof", x: 1340, y: 174 }, { id: "relay_conservatory", x: 1405, y: 206 },
+    { id: "voices_cistern", x: 1340, y: 240 }, { id: "blue_window_workshop", x: 1405, y: 272 },
+    { id: "civic_tribune", x: 1340, y: 306 }, { id: "message_bridge", x: 1405, y: 336 },
+    { id: "unheard_stairs", x: 1340, y: 370 }, { id: "first_light_chamber", x: 1405, y: 398 },
+    { id: "makers_gate", x: 1495, y: 42 }, { id: "tool_court", x: 1560, y: 72 },
+    { id: "chain_foundry", x: 1495, y: 102 }, { id: "bellows_loft", x: 1560, y: 132 },
+    { id: "waterwright_archive", x: 1495, y: 164 }, { id: "guild_kitchen", x: 1560, y: 194 },
+    { id: "apprentice_dormitory", x: 1495, y: 226 }, { id: "clay_map_room", x: 1560, y: 256 },
+    { id: "underforge", x: 1495, y: 288 }, { id: "handspan_bridge", x: 1560, y: 318 },
+    { id: "confluence_shaft", x: 1495, y: 350 }, { id: "worksong_chapel", x: 1560, y: 380 },
   ],
 };
 
@@ -1012,6 +1178,30 @@ export const NARRATIVE_LAYERS = [
     requires: { all: [{ path: "state.flags.freedCaptives", equals: true }, { path: "state.clues", includes: "first_exiles" }] },
     when: { scene: ["city_steps", "public_reckoning", "ending_dawn", "ending_silent"] },
     text: l("Les voyageurs sauvés et les familles déplacées se répondent à travers les années : les uns peuvent dire ce qui se prépare, les autres ce qui s'est déjà produit. Ensemble, ils empêchent que l'affaire soit réduite à une anomalie technique.", "The rescued travellers and displaced families answer each other across the years: some can say what is being prepared, the others what already happened. Together, they prevent the case from being reduced to a technical anomaly."),
+  },
+  {
+    id: "yorra-defects", priority: 22,
+    requires: { path: "state.flags.yorraDefected", equals: true },
+    when: { scene: ["courier_locker", "black_lantern_pier", "ropewalk", "council_antechamber", "public_reckoning"] },
+    text: l("Yorra ne porte plus les messages du réseau : elle les dévie, les retarde ou les remet entre des mains qui sauront les lire. Sa peur n'a pas disparu; elle a simplement cessé de décider seule de ses gestes.", "Yorra no longer carries the network's messages: she diverts, delays, or places them in hands that will know how to read them. Her fear has not vanished; it has simply stopped deciding her actions alone."),
+  },
+  {
+    id: "othran-commits", priority: 24,
+    requires: { path: "state.flags.othranCommitted", equals: true },
+    when: { scene: ["city_steps", "tribunal_gallery", "council_antechamber", "public_reckoning"] },
+    text: l("Le sergent Othran ne se contente plus de contenir la foule. Il place ses gardes là où les preuves risquent d'être saisies, et apprend à ses hommes qu'obéir à un sceau n'est pas toujours servir la ville.", "Sergeant Othran no longer merely contains the crowd. He posts guards where evidence might be seized, and teaches his people that obeying a seal is not always serving the city."),
+  },
+  {
+    id: "hara-organizes-care", priority: 20,
+    requires: { path: "state.flags.haraNetwork", equals: true },
+    when: { scene: ["lantern_hospice", "canal_infirmary", "city_steps", "public_reckoning", "ending_dawn", "ending_silent"] },
+    text: l("Hara a transformé les réserves de l'hospice en réseau de soins : eau chaude, bandages, portes ouvertes et noms notés. Elle prépare la ville à accueillir les blessés avant même de savoir qui aura le droit de les compter.", "Hara has turned the hospice stores into a care network: warm water, bandages, open doors, and names written down. She prepares the city to receive the wounded before knowing who will be allowed to count them."),
+  },
+  {
+    id: "vire-speaks", priority: 26,
+    requires: { path: "state.flags.vireAssembly", equals: true },
+    when: { scene: ["city_steps", "council_antechamber", "tribunal_gallery", "public_reckoning", "ending_dawn"] },
+    text: l("Les délégués de Vire-Basse ne suivent pas votre groupe comme des témoins dociles. Ils vérifient les formulations, corrigent les raccourcis et refusent que leur histoire serve à blanchir une autre autorité.", "Low Vire's delegates do not follow your party as compliant witnesses. They check formulations, correct shortcuts, and refuse to let their story be used to absolve another authority."),
   },
   {
     id: "public-memory-ending", priority: 40,
@@ -1519,6 +1709,289 @@ const SECOND_LORE_CHOICES = {
   ],
 };
 
+const THIRD_LORE_CHOICES = {
+  exile_courtyard: [
+    { id: "courtyard-to-low-vire", label: l("Suivre Maëra jusqu'au seuil que les plans refusent", "Follow Maera to the threshold maps refuse"), requires: { path: "state.flags.metMaera", equals: true }, to: "low_vire_threshold" },
+  ],
+  mirror_archive: [
+    { id: "mirror-to-low-vire", label: l("Laisser l'encre restaurée vous conduire hors des cartes", "Let restored ink lead you beyond the maps"), requires: { path: "state.clues", includes: "erased_quarters" }, to: "low_vire_threshold" },
+  ],
+  drowned_mailroom: [
+    { id: "mailroom-to-low-vire", label: l("Porter les convocations jusqu'aux adresses retrouvées", "Carry the summons to the recovered addresses"), requires: { path: "state.clues", includes: "first_exiles" }, to: "low_vire_threshold" },
+  ],
+  low_vire_threshold: [
+    { id: "enter-witness-kitchen", label: l("Suivre l'odeur du cumin vers la cuisine des témoins", "Follow cumin scent to the witnesses' kitchen"), to: "witness_kitchen" },
+    { id: "enter-absent-scriptorium", label: l("Pousser la porte du scriptorium sans cote", "Push open the unclassified scriptorium door"), to: "ledger_scriptorium" },
+    { id: "follow-flood-marks", label: l("Descendre vers la maison aux marques d'eau", "Descend to the house of water marks"), to: "flood_marks_house" },
+  ],
+  witness_kitchen: [
+    { id: "meet-marwen", label: l("Écouter Marwen avant de lui demander un témoignage", "Listen to Marwen before asking for testimony"), effects: [{ op: "set", path: "flags.metMarwen", value: true }, { op: "increment", path: "relationships.marwen", value: 1 }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Marwen vous fait servir du thé avant de parler. Elle raconte l'évacuation de sa mère, puis s'interrompt : « Ne notez pas seulement qui nous a laissés. Notez qui a décidé que notre peur ne comptait pas comme une alarme. »", "Marwen has tea served before she speaks. She recounts her mother's evacuation, then stops: “Do not write down only who left us. Write down who decided our fear did not count as an alarm.”") } },
+    { id: "kitchen-to-school", label: l("Aider Letha à rejoindre l'école sans registre", "Help Letha reach the school without a register"), to: "quiet_school" },
+    { id: "kitchen-to-causeway", label: l("Prendre la chaussée des portes basses", "Take the low-gates causeway"), to: "forgotten_causeway" },
+  ],
+  ledger_scriptorium: [
+    { id: "meet-tovar", label: l("Demander à Tovar quelles lignes il a recopiées", "Ask Tovar which lines he copied"), effects: [{ op: "set", path: "flags.metTovar", value: true }, { op: "increment", path: "relationships.tovar", value: 1 }], result: { text: l("Tovar ne se disculpe pas. Il vous montre la marge où il a remplacé des noms par une somme, puis la liste secrète où il les a recopiés pour lui-même. Sa faute est réelle; sa mémoire peut encore servir.", "Tovar does not excuse himself. He shows you the margin where he replaced names with a total, then the secret list where he copied them for himself. His fault is real; his memory can still serve.") } },
+    { id: "open-vire-proceedings", label: l("Ouvrir les délibérations scellées de Vire-Basse", "Open Low Vire's sealed proceedings"), requires: { path: "state.flags.metTovar", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "vire_proceedings" }, { op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Les délibérations ne parlent pas d'une catastrophe mais d'un arbitrage. Une majorité a voté pour maintenir le calme dans les rues basses afin d'éviter une panique sur les quais riches. Le mot 'calme' est souligné trois fois.", "The proceedings speak not of a catastrophe but an arbitration. A majority voted to maintain calm in the lower streets to avoid panic on wealthy quays. The word ‘calm’ is underlined three times.") } },
+    { id: "scriptorium-to-echo-vault", label: l("Suivre Tovar dans la chambre des essais", "Follow Tovar into the trial vault"), to: "echo_vault" },
+    { id: "scriptorium-to-lift", label: l("Prendre l'escalier de service vers l'ascenseur", "Take the service stair to the lift"), to: "brass_lift" },
+  ],
+  flood_marks_house: [
+    { id: "meet-celen", label: l("Comparer vos relevés avec ceux de Celen", "Compare your readings with Celen's"), effects: [{ op: "set", path: "flags.metCelen", value: true }, { op: "increment", path: "relationships.celen", value: 1 }], result: { text: l("Celen superpose le plan moderne aux marques du mur. Les lignes ne coïncident qu'à une condition : les vannes ont été réglées pour laisser le temps aux quartiers hauts, et non aux autres.", "Celen overlays the modern plan on the wall marks. The lines align on one condition only: sluices were set to give time to high wards, not the others.") } },
+    { id: "trace-old-flood-angle", label: l("Tracer l'angle de l'ancienne vague", "Trace the old wave's angle"), requires: { path: "state.flags.metCelen", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "flood_marks" }, { op: "increment", path: "expedition.fatigue", value: 1 }], result: { text: l("Le tracé rejoint la vanne sous le grand pont et l'escalier des portes basses. Les boucliers actuels n'ont pas inventé un chemin : ils remettent en marche une géométrie de sacrifice.", "The trace reaches the sluice beneath the great bridge and the low-gates stair. Today's shields did not invent a path: they restart a geometry of sacrifice.") } },
+    { id: "marks-to-causeway", label: l("Rejoindre la chaussée par la porte de cave", "Reach the causeway through the cellar door"), to: "forgotten_causeway" },
+    { id: "marks-to-lift", label: l("Suivre Celen vers l'ascenseur de laiton", "Follow Celen to the brass lift"), requires: { path: "state.flags.metCelen", equals: true }, to: "brass_lift" },
+  ],
+  quiet_school: [
+    { id: "meet-letha", label: l("Lire avec Letha les adresses effacées", "Read the erased addresses with Letha"), effects: [{ op: "set", path: "flags.metLetha", value: true }, { op: "increment", path: "relationships.letha", value: 1 }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Letha vous fait prononcer les adresses lentement. Certaines personnes âgées les corrigent, d'autres pleurent sans bruit. Vous comprenez que restituer une carte ne suffit pas : il faut aussi restituer le droit d'y être attendu.", "Letha has you pronounce the addresses slowly. Some elders correct them; others weep without sound. You understand restoring a map is not enough: the right to be expected there must also be restored.") } },
+    { id: "copy-quiet-roll", label: l("Copier la liste des personnes jamais averties", "Copy the roll of people never warned"), requires: { path: "state.flags.metLetha", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "quiet_roll" }, { op: "increment", path: "expedition.morale", value: -1 }], result: { text: l("La liste ne prouve pas seulement l'absence d'alerte : elle prouve la continuité des absences. Les mêmes familles ont été laissées hors de la procédure pendant deux générations.", "The roll proves not only an absence of warning, but a continuity of absences. The same families were left outside procedure for two generations.") } },
+    { id: "school-to-assembly", label: l("Rejoindre l'assemblée avec les noms retrouvés", "Join the assembly with the recovered names"), requires: { path: "state.flags.metMarwen", equals: true }, to: "fifth_quarter_assembly" },
+    { id: "school-to-kitchen", label: l("Revenir vers la cuisine par la cour", "Return to the kitchen through the yard"), to: "witness_kitchen" },
+  ],
+  forgotten_causeway: [
+    { id: "causeway-to-understreet", label: l("Descendre sous les rues par le passage de service", "Descend beneath the streets by the service passage"), to: "understreet_lift" },
+    { id: "causeway-to-ossuary", label: l("Suivre les jarres de limon jusqu'à l'ossuaire", "Follow the silt jars to the ossuary"), to: "tide_ossuary" },
+    { id: "causeway-to-kitchen", label: l("Revenir porter des nouvelles à la cuisine", "Return to bring news to the kitchen"), to: "witness_kitchen" },
+  ],
+  echo_vault: [
+    { id: "read-silent-trial", label: l("Lire le protocole des essais silencieux", "Read the silent-trial protocol"), effects: [{ op: "addUnique", path: "clues", value: "silence_trials" }, { op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Le protocole montre qu'une alerte pouvait être coupée rue par rue. Le Conseil n'a pas simplement accepté un risque : il a appris à distribuer le droit d'entendre le danger.", "The protocol shows a warning could be cut street by street. The Council did not simply accept a risk: it learned to distribute the right to hear danger.") } },
+    { id: "vault-to-assembly", label: l("Porter le protocole devant l'assemblée", "Bring the protocol before the assembly"), requires: { path: "state.flags.metMarwen", equals: true }, to: "fifth_quarter_assembly" },
+    { id: "vault-to-scriptorium", label: l("Revenir aux registres avant que Tovar ferme", "Return to the ledgers before Tovar closes"), to: "ledger_scriptorium" },
+  ],
+  brass_lift: [
+    { id: "repair-brass-lift", label: l("Dégager les contrepoids et prendre l'ascenseur", "Clear the counterweights and take the lift"), requires: { path: "state.expedition.supplies", atLeast: 1 }, effects: [{ op: "increment", path: "expedition.supplies", value: -1 }, { op: "increment", path: "expedition.fatigue", value: 1 }], to: "understreet_lift" },
+    { id: "lift-to-gates", label: l("Faire monter la cage jusqu'aux mécanismes des portes", "Raise the cage to the gate mechanisms"), requires: { path: "state.flags.metCelen", equals: true }, to: "gate_chamber" },
+    { id: "lift-to-marks", label: l("Redescendre vérifier les marques avec Celen", "Descend to check the marks with Celen"), to: "flood_marks_house" },
+  ],
+  understreet_lift: [
+    { id: "understreet-to-signals", label: l("Suivre le conduit de verre jusqu'aux signaux", "Follow the glass conduit to the signals"), to: "signal_gallery" },
+    { id: "understreet-to-gates", label: l("Rejoindre la chambre des portes par l'arrière", "Reach the gate chamber from behind"), to: "gate_chamber" },
+    { id: "understreet-to-assembly", label: l("Remonter annoncer comment la machine choisit", "Climb back to explain how the machine chooses"), requires: { path: "state.flags.metMarwen", equals: true }, to: "fifth_quarter_assembly" },
+  ],
+  fifth_quarter_assembly: [
+    { id: "convene-vire-witnesses", label: l("Laisser l'assemblée décider de sa parole", "Let the assembly decide its own testimony"), requires: { all: [{ path: "state.flags.metMarwen", equals: true }, { path: "state.flags.metTovar", equals: true }, { any: [{ path: "state.clues", includes: "silence_trials" }, { path: "state.clues", includes: "vire_proceedings" }, { path: "state.clues", includes: "quiet_roll" }] }] }, effects: [{ op: "addUnique", path: "clues", value: "vire_witnesses" }, { op: "set", path: "flags.vireAssembly", value: true }, { op: "increment", path: "expedition.morale", value: 2 }], result: { text: l("L'assemblée refuse le récit unique. Marwen parlera des familles, Tovar des signatures, Letha des noms et Celen des lignes d'eau. Votre dossier cesse d'être une arme tenue par le groupe : il devient un engagement porté par celles et ceux qu'il concerne.", "The assembly refuses a single story. Marwen will speak of families, Tovar of signatures, Letha of names, and Celen of water lines. Your case stops being a weapon held by the party: it becomes a commitment carried by those it concerns.") } },
+    { id: "assembly-to-council", label: l("Accompagner les délégués jusqu'à l'antichambre", "Accompany the delegates to the antechamber"), requires: { path: "state.flags.vireAssembly", equals: true }, to: "council_antechamber" },
+    { id: "assembly-to-terrace", label: l("Envoyer les mesures vers la terrasse des boucliers", "Send the measurements to the shield terrace"), requires: { path: "state.clues", includes: "flood_marks" }, to: "shield_terrace" },
+    { id: "assembly-to-kitchen", label: l("Rester encore un instant dans la cuisine", "Stay a little longer in the kitchen"), to: "witness_kitchen" },
+  ],
+};
+
+const FOURTH_LORE_CHOICES = {
+  forgotten_causeway: [
+    { id: "causeway-to-retention", label: l("Passer la porte de retenue sous les cloches muettes", "Pass through the retention gate beneath the silent bells"), to: "retention_gate" },
+  ],
+  drowned_mailroom: [
+    { id: "mailroom-to-relief-quay", label: l("Suivre les convocations jusqu'au quai du secours", "Follow the summons to the relief quay"), requires: { path: "state.clues", includes: "first_exiles" }, to: "relief_quay" },
+  ],
+  understreet_lift: [
+    { id: "understreet-to-names-reservoir", label: l("Suivre les conduits jusqu'au réservoir des noms", "Follow the conduits to the reservoir of names"), requires: { path: "state.flags.metMarwen", equals: true }, to: "names_reservoir" },
+  ],
+  retention_gate: [
+    { id: "retention-to-waterkeepers", label: l("Entrer dans la cour des gardiens d'eau", "Enter the waterkeepers' court"), to: "waterkeepers_court" },
+    { id: "retention-to-weighbridge", label: l("Suivre les rails jusqu'au pont-bascule", "Follow the rails to the tally weighbridge"), to: "tally_weighbridge" },
+  ],
+  waterkeepers_court: [
+    { id: "meet-miren", label: l("Écouter Miren compter les seaux qui manquent", "Listen as Miren counts the missing buckets"), effects: [{ op: "set", path: "flags.metMiren", value: true }, { op: "increment", path: "relationships.miren", value: 1 }], result: { text: l("Miren ne vous donne aucun chiffre avant de vous montrer les seaux vides. « Les registres commencent par des colonnes, dit-elle. La faim commence par une poignée qui ne trouve rien à soulever. » Vous comprenez qu'elle ne défend pas un système d'eau : elle défend des gens contre la manière dont ce système les mesure.", "Miren gives you no figure before showing you the empty buckets. “Ledgers begin with columns,” she says. “Hunger begins with a hand that finds nothing to lift.” You understand she does not defend a water system: she defends people against the way it measures them.") } },
+    { id: "read-ration-marks", label: l("Comparer les marques de ration aux symboles de quartier", "Compare ration marks to ward symbols"), requires: { path: "state.flags.metMiren", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "ration_marks" }, { op: "increment", path: "relationships.miren", value: 1 }], result: { text: l("Les encoches révèlent une règle masquée en calcul : les quartiers sans sceau recevaient moins d'eau avant même qu'une crue ne les menace. Miren vous laisse recopier les marques, mais garde l'original dans la cour. « Une preuve doit pouvoir revenir chez ceux qu'elle concerne. »", "The notches reveal a rule disguised as calculation: wards without a seal received less water before any flood threatened them. Miren lets you copy the marks, but keeps the original in the court. “Evidence must be able to return to those it concerns.”") } },
+    { id: "court-to-brass-garden", label: l("Porter les plants filtrants jusqu'au jardin de laiton", "Carry filtering plants to the brass garden"), to: "brass_garden" },
+  ],
+  tally_weighbridge: [
+    { id: "free-weighbridge-counter", label: l("Dégager le contrepoids et lire les chiffres martelés", "Free the counterweight and read the hammered figures"), effects: [{ op: "addUnique", path: "clues", value: "ration_marks" }, { op: "increment", path: "expedition.fatigue", value: 1 }], result: { text: l("Sous la poussière de plomb, vous retrouvez la même logique que dans la cour : un poids différent pour des maisons pourtant reliées à la même eau. Le privilège n'était pas une exception de crise; il était inscrit dans la machine.", "Beneath lead dust, you find the same logic as in the court: a different weight for houses connected to the same water. Privilege was not a crisis exception; it was written into the machine.") } },
+    { id: "weighbridge-to-reservoir", label: l("Descendre vers le bassin où les plaquettes attendent", "Descend to the basin where plaques wait"), to: "names_reservoir" },
+    { id: "weighbridge-to-overflow", label: l("Suivre le canal de dérivation vers le trop-plein", "Follow the diversion channel to the overflow"), to: "overflow_gallery" },
+  ],
+  brass_garden: [
+    { id: "garden-to-chapel", label: l("Préparer des fioles et gagner la chapelle du brise-lame", "Prepare vials and go to the breakwater chapel"), to: "breakwater_chapel" },
+    { id: "garden-to-court", label: l("Revenir vers Miren avec les racines filtrantes", "Return to Miren with filtering roots"), to: "waterkeepers_court" },
+  ],
+  names_reservoir: [
+    { id: "turn-names-outward", label: l("Retourner les plaquettes de Vire-Basse vers la lumière", "Turn Low Vire's plaques toward the light"), requires: { path: "state.flags.metMarwen", equals: true }, effects: [{ op: "increment", path: "expedition.morale", value: 1 }, { op: "increment", path: "relationships.marwen", value: 1 }], result: { text: l("Vous ne prenez aucun nom. Vous les tournez simplement vers le passage, afin que les personnes qui vivent encore ici puissent les lire en entrant. Ce geste ne répare pas la liste; il lui retire au moins la complicité de l'ombre.", "You take no names. You simply turn them toward the passage so people still living here may read them as they enter. The gesture does not repair the list; it at least takes shadow's complicity from it.") } },
+    { id: "reservoir-to-storm-registry", label: l("Chercher les délais d'alerte dans le registre des orages", "Seek warning delays in the storm registry"), to: "storm_registry" },
+    { id: "reservoir-to-pledges", label: l("Descendre dans la chambre des engagements", "Descend into the pledge chamber"), to: "pledge_chamber" },
+  ],
+  storm_registry: [
+    { id: "meet-sera", label: l("Demander à Sera pourquoi elle classe les retards", "Ask Sera why she files delays"), effects: [{ op: "set", path: "flags.metSera", value: true }, { op: "increment", path: "relationships.sera", value: 1 }], result: { text: l("Sera ne se défend pas d'avoir copié les listes. Elle vous montre la couleur d'encre utilisée pour chaque délai et murmure : « On peut faire d'un retard une fatalité si l'on ne note jamais qui l'a décidé. » Elle a gardé les preuves assez longtemps pour que quelqu'un puisse enfin les regarder.", "Sera does not defend having copied the lists. She shows you the ink colour used for each delay and whispers: “You can make a delay into fate if you never record who decided it.” She kept the evidence long enough for someone finally to look at it.") } },
+    { id: "collate-delayed-roll", label: l("Recopier la liste des alertes arrivées trop tard", "Copy the roll of warnings delivered too late"), requires: { path: "state.flags.metSera", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "delayed_roll" }, { op: "increment", path: "relationships.sera", value: 1 }], result: { text: l("La colonne des retards rejoint les noms de Letha et les convocations d'Oren. Ce n'est plus une succession de négligences : c'est une technique pour faire arriver la peur après la décision.", "The delay column joins Letha's names and Oren's summons. This is no longer a succession of oversights: it is a technique for making fear arrive after the decision.") } },
+    { id: "registry-to-rain-chain", label: l("Suivre le conduit d'alerte jusqu'à la chaîne de pluie", "Follow the warning conduit to the rain chain"), to: "rain_chain" },
+  ],
+  pledge_chamber: [
+    { id: "restore-common-pledge", label: l("Allumer la lanterne laissée vide et restaurer l'engagement commun", "Light the empty lantern and restore the common pledge"), requires: { all: [{ path: "state.clues", includes: "ration_marks" }, { path: "state.clues", includes: "delayed_roll" }] }, effects: [{ op: "addUnique", path: "clues", value: "mutual_oath" }, { op: "increment", path: "expedition.morale", value: 2 }], result: { text: l("La lanterne de Vire-Basse n'efface aucun contrat ancien. Elle rend simplement visible la phrase qu'ils avaient tous supprimée : aucune porte, aucune barque, aucune cloche ne peut être réservée à ceux qui possèdent déjà le droit de parler.", "Low Vire's lantern erases no old contract. It merely makes visible the sentence they had all removed: no gate, boat, or bell may be reserved for those who already possess the right to speak.") } },
+    { id: "pledges-to-assembly", label: l("Porter l'engagement jusqu'à l'assemblée du cinquième quartier", "Carry the pledge to the fifth ward assembly"), requires: { path: "state.clues", includes: "mutual_oath" }, to: "fifth_quarter_assembly" },
+    { id: "pledges-to-registry", label: l("Remonter vérifier les signatures dans le registre", "Go back up to verify signatures in the registry"), to: "storm_registry" },
+  ],
+  relief_quay: [
+    { id: "meet-pavos", label: l("Aider Pavos à mettre sa barque à l'eau sans la déclarer", "Help Pavos launch his boat without declaring it"), effects: [{ op: "set", path: "flags.metPavos", value: true }, { op: "increment", path: "relationships.pavos", value: 1 }], result: { text: l("Pavos vous fait tenir l'amarre pendant qu'il vérifie les avirons. Il a livré des sacs de farine pour des gens dont les noms n'apparaissaient sur aucun ordre. « Les listes sont utiles, dit-il. Mais une barque doit parfois partir avant qu'elles aient fini de discuter. »", "Pavos has you hold the mooring while he checks the oars. He delivered flour to people whose names appeared on no order. “Lists are useful,” he says. “But a boat sometimes has to leave before they have finished arguing.”") } },
+    { id: "map-relief-route", label: l("Tracer avec Pavos la route des portes ouvertes", "Map the open-door route with Pavos"), requires: { path: "state.flags.metPavos", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "relief_routes" }, { op: "increment", path: "relationships.pavos", value: 1 }], result: { text: l("Sa carte ne désigne pas seulement les quais : elle note les fenêtres, les escaliers, les cuisines qui gardent une clef. Elle rejoint le plan de Hara et transforme l'après-crue en chose que les habitants peuvent préparer ensemble.", "His map marks more than quays: it notes windows, stairs, kitchens that keep a key. It joins Hara's plan and turns the aftermath of flood into something residents can prepare together.") } },
+    { id: "quay-to-rain-chain", label: l("Suivre les godets jusqu'à la chaîne de pluie", "Follow the cups to the rain chain"), to: "rain_chain" },
+  ],
+  rain_chain: [
+    { id: "chain-to-signal-gallery", label: l("Remonter le conduit jusqu'à la galerie des signaux", "Climb the conduit to the signal gallery"), to: "signal_gallery" },
+    { id: "chain-to-overflow", label: l("Redescendre vers la galerie du trop-plein", "Descend to the overflow gallery"), to: "overflow_gallery" },
+  ],
+  breakwater_chapel: [
+    { id: "chapel-to-hospice", label: l("Porter les fioles vers l'hospice des Lanternes", "Carry the vials to the Lanterns hospice"), to: "lantern_hospice" },
+    { id: "chapel-to-relief-quay", label: l("Rejoindre le quai du secours par la digue", "Reach the relief quay along the breakwater"), to: "relief_quay" },
+  ],
+  overflow_gallery: [
+    { id: "trace-overflow-pressure", label: l("Suivre les graffitis jusqu'à la pression des boucliers", "Follow the graffiti to the shields' pressure"), requires: { path: "state.clues", includes: "flood_marks" }, effects: [{ op: "increment", path: "relationships.celen", value: 1 }], result: { text: l("Les flèches des bateliers confirment les mesures de Celen : le trop-plein peut soulager les portes si quelqu'un accepte de ne plus traiter les rues basses comme un bassin de trop. Vous avez désormais une route, mais aussi les personnes qu'elle concerne.", "The boatmen's arrows confirm Celen's readings: the overflow can ease the gates if someone stops treating low streets as a surplus basin. You now have a route, but also the people it concerns.") } },
+    { id: "overflow-to-gates", label: l("Rejoindre la chambre des portes par le déversoir", "Reach the gate chamber through the overflow"), to: "gate_chamber" },
+    { id: "overflow-to-terrace", label: l("Monter vers la terrasse des boucliers", "Climb to the shield terrace"), to: "shield_terrace" },
+  ],
+};
+
+const FIFTH_LORE_CHOICES = {
+  storm_registry: [
+    { id: "registry-to-dawn-portal", label: l("Suivre les anciens délais jusqu'au portail de l'aube", "Follow the old delays to the dawn portal"), requires: { path: "state.clues", includes: "delayed_roll" }, to: "dawn_portal" },
+  ],
+  water_clock: [
+    { id: "clock-to-dawn-market", label: l("Monter vers le marché de l'aube par les toits", "Climb to the dawn market by the rooftops"), requires: { path: "state.clues", includes: "unseen_bell" }, to: "dawn_market" },
+  ],
+  dawn_portal: [
+    { id: "portal-to-bellkeepers", label: l("Entrer dans la cour des sonneurs", "Enter the bellkeepers' yard"), to: "bellkeepers_yard" },
+    { id: "portal-to-unheard-stairs", label: l("Prendre les escaliers des sans-voix", "Take the unheard stairs"), to: "unheard_stairs" },
+  ],
+  bellkeepers_yard: [
+    { id: "meet-veyra", label: l("Écouter Veyra peser les cloches avant de parler", "Listen as Veyra weighs the bells before speaking"), effects: [{ op: "set", path: "flags.metVeyra", value: true }, { op: "increment", path: "relationships.veyra", value: 1 }], result: { text: l("Veyra pose une grosse cloche dans vos mains, puis une petite. « On ne leur demandait pas de dire la même chose, dit-elle. On leur demandait de dire qui comptait assez pour entendre. » Elle vous laisse toucher les fissures qui ont rendu ce tri possible.", "Veyra places a large bell in your hands, then a small one. “They were not asked to say the same thing,” she says. “They were asked to say who mattered enough to hear.” She lets you touch the cracks that made this sorting possible.") } },
+    { id: "read-double-chime", label: l("Comparer les deux timbres interdits", "Compare the two forbidden chimes"), requires: { path: "state.flags.metVeyra", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "double_chime" }, { op: "increment", path: "relationships.veyra", value: 1 }], result: { text: l("Les deux cloches ont été accordées pour partir ensemble, puis séparées par ordre. L'une appelait les quais hauts à préparer leurs portes; l'autre ne devait atteindre les rues basses qu'une fois la décision déjà prise.", "The two bells were tuned to begin together, then separated by order. One called the high quays to prepare their gates; the other was meant to reach low streets only after the decision had already been made.") } },
+    { id: "yard-to-chime-gallery", label: l("Suivre les câbles vers la galerie des carillons", "Follow the cables to the chime gallery"), to: "cracked_chime_gallery" },
+  ],
+  cracked_chime_gallery: [
+    { id: "gallery-to-relay-conservatory", label: l("Remonter les fils jusqu'au conservatoire des relais", "Follow the wires up to the relay conservatory"), to: "relay_conservatory" },
+    { id: "gallery-to-blue-workshop", label: l("Chercher le verre qui relayait les sons brisés", "Seek the glass that relayed broken sounds"), to: "blue_window_workshop" },
+  ],
+  dawn_market: [
+    { id: "meet-salma", label: l("Demander à Salma quelles lanternes furent achetées avant les crues", "Ask Salma which lanterns were bought before floods"), effects: [{ op: "set", path: "flags.metSalma", value: true }, { op: "increment", path: "relationships.salma", value: 1 }], result: { text: l("Salma ne donne pas de nom sans ouvrir d'abord une lanterne. À l'intérieur, une mèche porte une adresse enroulée. Elle vous montre les lots destinés aux quartiers hauts, puis ceux qui sont revenus intacts : personne n'avait reçu l'ordre de les allumer.", "Salma gives no name before opening a lantern. Inside, a wick bears a rolled address. She shows you lots intended for high wards, then those returned untouched: no one had received an order to light them.") } },
+    { id: "market-to-courier-roof", label: l("Suivre les poulies jusqu'au toit des coursiers", "Follow the pulleys to the couriers' roof"), to: "courier_roof" },
+    { id: "market-to-blue-workshop", label: l("Porter une lanterne cassée à l'atelier", "Carry a broken lantern to the workshop"), to: "blue_window_workshop" },
+  ],
+  courier_roof: [
+    { id: "meet-iven", label: l("Aider Iven à ouvrir les boîtes de dépêches refusées", "Help Iven open the boxes of refused dispatches"), effects: [{ op: "set", path: "flags.metIven", value: true }, { op: "increment", path: "relationships.iven", value: 1 }], result: { text: l("Iven vous fait lire les avis en silence. Certains ont été pliés, d'autres brûlés sur un coin, mais tous portent l'heure à laquelle ils auraient dû quitter le toit. Il ne demande pas à être pardonné; il demande si vous saurez quoi faire d'une faute qui possède autant de dates.", "Iven has you read the notices in silence. Some were folded, others singed at one corner, but all bear the hour they should have left the roof. He does not ask forgiveness; he asks whether you will know what to do with a fault that has so many dates.") } },
+    { id: "open-night-dispatch", label: l("Classer les dépêches retenues de nuit", "Sort the dispatches held through the night"), requires: { path: "state.flags.metIven", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "night_dispatch" }, { op: "increment", path: "relationships.iven", value: 1 }], result: { text: l("Les messages montrent que le second timbre n'était pas un accident de mécanisme : des coureurs avaient reçu l'ordre d'attendre l'aube, assez longtemps pour que les rues basses ne puissent plus préparer leurs barques.", "The messages show the second chime was not a mechanical accident: runners were ordered to wait for dawn, long enough that low streets could no longer prepare their boats.") } },
+    { id: "roof-to-message-bridge", label: l("Prendre le câble de service jusqu'au pont des messages", "Take the service cable to the message bridge"), to: "message_bridge" },
+  ],
+  relay_conservatory: [
+    { id: "trace-relay-colors", label: l("Suivre les fils qui évitaient les quartiers bas", "Trace the threads that bypassed the lower wards"), effects: [{ op: "addUnique", path: "clues", value: "double_chime" }, { op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Les couleurs du modèle recoupent les fissures des carillons. On n'a pas supprimé l'alerte : on l'a redessinée pour que certains fils puissent faire semblant de ne jamais avoir existé.", "The model's colours match the chimes' cracks. Warning was not removed: it was redrawn so some threads could pretend never to have existed.") } },
+    { id: "conservatory-to-cistern", label: l("Descendre écouter la citerne des voix", "Descend to listen to the cistern of voices"), to: "voices_cistern" },
+    { id: "conservatory-to-first-light", label: l("Monter vers la chambre de première lumière", "Climb to the first-light chamber"), to: "first_light_chamber" },
+  ],
+  voices_cistern: [
+    { id: "restore-common-signal", label: l("Faire se rejoindre les voix et restaurer le signal commun", "Bring the voices together and restore the common signal"), requires: { all: [{ path: "state.clues", includes: "double_chime" }, { path: "state.clues", includes: "night_dispatch" }] }, effects: [{ op: "addUnique", path: "clues", value: "common_signal" }, { op: "increment", path: "expedition.morale", value: 2 }], result: { text: l("Dans les niches opposées, les voix se répondent jusqu'à former un seul appel. Ce n'est pas encore une alerte en marche, mais son principe ne peut plus être nié : une ville ne prévient pas lorsqu'elle parle assez fort; elle prévient lorsqu'elle parle à tout le monde.", "From opposite niches, voices answer one another until they form a single call. It is not yet a working alarm, but its principle can no longer be denied: a city warns not when it speaks loudly enough, but when it speaks to everyone.") } },
+    { id: "cistern-to-tribune", label: l("Porter le principe du signal jusqu'à la tribune", "Carry the signal's principle to the tribune"), requires: { path: "state.clues", includes: "common_signal" }, to: "civic_tribune" },
+    { id: "cistern-to-workshop", label: l("Chercher une fenêtre bleue pour les jours de pluie", "Seek a blue window for rainy days"), to: "blue_window_workshop" },
+  ],
+  blue_window_workshop: [
+    { id: "match-blue-glass", label: l("Comparer le verre aux échantillons de Siren", "Match the glass to Siren's samples"), requires: { path: "state.flags.metSiren", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "common_signal" }, { op: "increment", path: "relationships.siren", value: 1 }], result: { text: l("Le bleu est identique, mais son usage était inverse : ici il rendait l'alerte visible sous la pluie; dans le limon, il prouve qu'une telle lumière avait été préparée puis refusée. Une même matière peut porter une promesse ou son abandon.", "The blue is identical, but its use was reversed: here it made warning visible in rain; in the silt, it proves such light was prepared then withheld. One material can carry a promise or its abandonment.") } },
+    { id: "workshop-to-tribune", label: l("Porter une fenêtre réparée à la tribune", "Carry a repaired window to the tribune"), to: "civic_tribune" },
+  ],
+  civic_tribune: [
+    { id: "read-names-at-tribune", label: l("Lire les rues absentes à la tribune", "Read the absent streets at the tribune"), requires: { any: [{ path: "state.clues", includes: "common_signal" }, { path: "state.flags.vireAssembly", equals: true }] }, effects: [{ op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Vous ne prononcez pas une accusation générale. Vous lisez les rues une à une, et les échos remontent des venelles. Salma, Veyra et les délégués de Vire-Basse complètent les noms là où votre dossier se tait.", "You do not pronounce a general accusation. You read the streets one by one, and echoes rise from the lanes. Salma, Veyra, and Low Vire's delegates complete the names where your case falls silent.") } },
+    { id: "tribune-to-message-bridge", label: l("Rejoindre le pont des messages", "Reach the message bridge"), to: "message_bridge" },
+    { id: "tribune-to-council", label: l("Gagner l'antichambre du Conseil par les toits", "Reach the Council antechamber by the rooftops"), requires: { path: "state.clues", includes: "common_signal" }, to: "council_antechamber" },
+  ],
+  message_bridge: [
+    { id: "bridge-to-city-steps", label: l("Faire descendre les nouvelles jusqu'aux marches de la ville", "Send the news down to the city steps"), to: "city_steps" },
+    { id: "bridge-to-courier-locker", label: l("Suivre les paniers vers le casier du coursier", "Follow the baskets to the courier's locker"), to: "courier_locker" },
+  ],
+  unheard_stairs: [
+    { id: "stairs-to-first-light", label: l("Poursuivre jusqu'à la chambre de première lumière", "Continue to the first-light chamber"), to: "first_light_chamber" },
+    { id: "stairs-to-market", label: l("Redescendre vers le marché de l'aube", "Descend to the dawn market"), to: "dawn_market" },
+  ],
+  first_light_chamber: [
+    { id: "align-first-light", label: l("Orienter les miroirs vers toutes les fenêtres", "Turn the mirrors toward every window"), requires: { path: "state.clues", includes: "common_signal" }, effects: [{ op: "increment", path: "expedition.alert", value: -1 }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Les miroirs ne lancent aucune alerte sans la cloche, mais ils restaurent la possibilité d'une lumière commune. En bas, les fenêtres bleues répondent une à une. Ce n'est pas encore la justice; c'est une ville qui commence à refuser de regarder ailleurs.", "The mirrors send no alert without the bell, but they restore the possibility of a common light. Below, blue windows answer one by one. It is not yet justice; it is a city beginning to refuse looking away.") } },
+    { id: "first-light-to-signals", label: l("Suivre le conduit jusqu'à la galerie des signaux", "Follow the conduit to the signal gallery"), to: "signal_gallery" },
+    { id: "first-light-to-tribune", label: l("Revenir vers la tribune avec les miroirs ouverts", "Return to the tribune with the mirrors open"), to: "civic_tribune" },
+  ],
+};
+
+const SIXTH_LORE_CHOICES = {
+  sluice_workshop: [
+    { id: "workshop-to-makers-basin", label: l("Suivre les ouvriers vers la porte des Faiseurs", "Follow the workers to the Makers' gate"), requires: { path: "state.flags.exposedWorkers", equals: true }, to: "makers_gate" },
+  ],
+  counterweight_loft: [
+    { id: "loft-to-makers-basin", label: l("Prendre l'escalier de chaîne vers les ateliers", "Take the chain stair to the workshops"), to: "makers_gate" },
+  ],
+  brass_garden: [
+    { id: "garden-to-clay-map", label: l("Suivre les tuyaux de culture jusqu'aux plans d'argile", "Follow the cultivation pipes to the clay maps"), requires: { path: "state.flags.metCelen", equals: true }, to: "clay_map_room" },
+  ],
+  makers_gate: [
+    { id: "makers-to-tool-court", label: l("Entrer dans la cour des outils", "Enter the tool court"), to: "tool_court" },
+    { id: "makers-to-waterwright-archive", label: l("Chercher les plans dans les archives des hydrauliciens", "Seek plans in the waterwrights' archive"), to: "waterwright_archive" },
+  ],
+  tool_court: [
+    { id: "meet-roul", label: l("Demander à Roul de reconnaître les poinçons des marteaux", "Ask Roul to identify the hammers' stamps"), effects: [{ op: "set", path: "flags.metRoul", value: true }, { op: "increment", path: "relationships.roul", value: 1 }], result: { text: l("Roul ne regarde pas les têtes de marteau, mais le bois des manches. Trois ont été changés par une équipe qui n'existait sur aucun registre. « On ne falsifie pas seulement une signature, dit-il. On falsifie les mains qui auraient dû pouvoir dire non. »", "Roul looks not at hammer heads but at the wood of their handles. Three were changed by a crew that appears in no ledger. “You do not only forge a signature,” he says. “You forge the hands that should have been able to say no.”") } },
+    { id: "read-forged-stamps", label: l("Comparer les poinçons aux ordres de chantier", "Compare the stamps to work orders"), requires: { path: "state.flags.metRoul", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "forged_orders" }, { op: "increment", path: "relationships.roul", value: 1 }], result: { text: l("Les poinçons prouvent que les ordres de fragiliser les chaînes ont été attribués à des ouvriers absents. Le sabotage devait produire des coupables pratiques avant de produire une catastrophe.", "The stamps prove orders to weaken the chains were attributed to workers who were absent. Sabotage was meant to produce convenient culprits before it produced catastrophe.") } },
+    { id: "court-to-chain-foundry", label: l("Suivre Roul jusqu'à la fonderie des chaînes", "Follow Roul to the chain foundry"), to: "chain_foundry" },
+  ],
+  chain_foundry: [
+    { id: "test-notched-link", label: l("Tester le maillon rainuré dans l'eau froide", "Test the grooved link in cold water"), effects: [{ op: "addUnique", path: "clues", value: "forged_orders" }, { op: "increment", path: "expedition.fatigue", value: 1 }], result: { text: l("Le maillon cède exactement là où l'ordre falsifié le promettait. La preuve est matérielle, mais elle accuse aussi une méthode : faire porter au métal et aux ouvriers la faute d'une décision prise ailleurs.", "The link gives exactly where the forged order promised it would. The proof is physical, but it also indicts a method: making metal and workers bear blame for a decision taken elsewhere.") } },
+    { id: "foundry-to-underforge", label: l("Descendre porter le maillon à la forge basse", "Carry the link down to the underforge"), to: "underforge" },
+    { id: "foundry-to-bellows", label: l("Monter vérifier les soufflets", "Climb to inspect the bellows"), to: "bellows_loft" },
+  ],
+  bellows_loft: [
+    { id: "meet-nyma", label: l("Écouter Nyma réciter les consignes qu'on a effacées", "Listen as Nyma recites the erased safety rules"), effects: [{ op: "set", path: "flags.metNyma", value: true }, { op: "increment", path: "relationships.nyma", value: 1 }], result: { text: l("Nyma connaît les premières lignes du chant de travail et bute sur la dernière. Elle refuse de l'inventer. « Si l'on répare quelque chose, dit-elle, il faut aussi savoir qui doit arrêter le travail quand cela recommence à blesser. »", "Nyma knows the first lines of the work song and falters on the last. She refuses to invent it. “If we repair something,” she says, “we must also know who gets to stop work when it starts hurting again.”") } },
+    { id: "recover-safety-verse", label: l("Retrouver le dernier vers dans les copies cachées", "Recover the final verse from hidden copies"), requires: { path: "state.flags.metNyma", equals: true }, effects: [{ op: "addUnique", path: "clues", value: "workers_oath" }, { op: "increment", path: "relationships.nyma", value: 1 }], result: { text: l("Le dernier vers n'est pas une prière : il ordonne de suspendre toute manœuvre si les personnes en aval ne peuvent pas être averties. Les apprentis avaient reçu le droit de refuser avant qu'un protocole ne le leur retire.", "The final verse is not a prayer: it orders every manoeuvre halted if people downstream cannot be warned. Apprentices once held a right to refuse before protocol took it away.") } },
+    { id: "loft-to-dormitory", label: l("Redescendre vers le dortoir des apprentis", "Descend to the apprentices' dormitory"), to: "apprentice_dormitory" },
+  ],
+  waterwright_archive: [
+    { id: "read-original-pact", label: l("Déplier le pacte d'origine des portes", "Unfold the gates' original pact"), effects: [{ op: "addUnique", path: "clues", value: "workers_oath" }, { op: "increment", path: "relationships.celen", value: 1 }], result: { text: l("Le pacte associe les mesures de Celen à une règle de métier : aucune pression ne doit être déplacée sans que les équipes et les quartiers concernés puissent la contester. Cette ville avait prévu une conscience dans ses mécanismes, puis l'a appelée inefficacité.", "The pact joins Celen's measures to a craft rule: no pressure may be shifted without crews and affected wards being able to challenge it. This city once placed a conscience in its mechanisms, then called it inefficiency.") } },
+    { id: "archive-to-clay-map", label: l("Porter les plans à la salle d'argile", "Carry the plans to the clay map room"), to: "clay_map_room" },
+    { id: "archive-to-guild-kitchen", label: l("Chercher les équipes dans la cuisine de la guilde", "Find the crews in the guild kitchen"), to: "guild_kitchen" },
+  ],
+  guild_kitchen: [
+    { id: "meet-doro", label: l("Aider Doro à relire les listes de repas de nuit", "Help Doro reread the night meal lists"), effects: [{ op: "set", path: "flags.metDoro", value: true }, { op: "increment", path: "relationships.doro", value: 1 }], result: { text: l("Doro connaît chaque équipe par son pain préféré et par le silence qui suit son nom. Il vous montre que les ouvriers accusés du sabotage n'étaient pas sous les portes cette nuit-là. Ils étaient ici, à attendre une relève qui n'est jamais venue.", "Doro knows every crew by its preferred bread and by the silence after its name. He shows you the workers blamed for sabotage were not beneath the gates that night. They were here, waiting for a relief that never came.") } },
+    { id: "kitchen-to-dormitory", label: l("Porter la soupe au dortoir des apprentis", "Carry soup to the apprentices' dormitory"), to: "apprentice_dormitory" },
+    { id: "kitchen-to-worksong", label: l("Suivre les voix jusqu'à la chapelle des chants", "Follow the voices to the work-song chapel"), to: "worksong_chapel" },
+  ],
+  apprentice_dormitory: [
+    { id: "dormitory-to-clay-map", label: l("Passer par la fenêtre vers la salle des plans", "Climb through the window to the map room"), to: "clay_map_room" },
+    { id: "dormitory-to-worksong", label: l("Suivre les vers gravés jusqu'à la chapelle", "Follow the engraved verses to the chapel"), to: "worksong_chapel" },
+  ],
+  clay_map_room: [
+    { id: "overlay-worker-routes", label: l("Superposer les routes ouvrières et les quartiers menacés", "Overlay worker routes and threatened wards"), requires: { path: "state.clues", includes: "workers_oath" }, effects: [{ op: "increment", path: "relationships.celen", value: 1 }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Les équipes, les canaux et les rues de Vire-Basse forment enfin une seule carte. Les ouvriers ne sont pas un décor du complot : ils sont ceux qui peuvent empêcher la machine de recommencer, s'ils disposent de toutes les informations.", "Crews, canals, and Low Vire streets finally form one map. Workers are not scenery for the plot: they are those who can stop the machine repeating itself, if they hold all the information.") } },
+    { id: "map-to-handspan", label: l("Rejoindre le pont d'une paume", "Reach the handspan bridge"), to: "handspan_bridge" },
+    { id: "map-to-underforge", label: l("Descendre vérifier les gonds à la forge basse", "Descend to inspect hinges at the underforge"), to: "underforge" },
+  ],
+  underforge: [
+    { id: "heat-false-order", label: l("Chauffer l'ordre falsifié pour révéler son métal", "Heat the forged order to reveal its metal"), requires: { path: "state.clues", includes: "forged_orders" }, effects: [{ op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Sous la chaleur, la contre-marque de Valdrick apparaît. Le faux ordre avait été conçu pour que les ouvriers se défendent entre eux pendant que les véritables responsables gagnaient du temps.", "Under heat, Valdrick's countermark appears. The false order was designed to make workers turn on one another while the real culprits gained time.") } },
+    { id: "underforge-to-confluence", label: l("Suivre les conduites vers le puits de confluence", "Follow the conduits to the confluence shaft"), to: "confluence_shaft" },
+    { id: "underforge-to-gates", label: l("Rejoindre les gonds de la chambre des portes", "Reach the gate-chamber hinges"), to: "gate_chamber" },
+  ],
+  handspan_bridge: [
+    { id: "bridge-to-confluence", label: l("Traverser une personne à la fois vers la confluence", "Cross one at a time toward the confluence"), to: "confluence_shaft" },
+    { id: "bridge-to-shields", label: l("Suivre la passerelle vers les boucliers", "Follow the catwalk to the shields"), to: "shield_terrace" },
+  ],
+  confluence_shaft: [
+    { id: "confluence-to-signal-gallery", label: l("Suivre la conduite de voix jusqu'aux signaux", "Follow the voice conduit to the signals"), to: "signal_gallery" },
+    { id: "confluence-to-gate-chamber", label: l("Rejoindre les portes par le puits", "Reach the gates through the shaft"), to: "gate_chamber" },
+    { id: "confluence-to-worksong", label: l("Remonter porter les nouvelles à la chapelle", "Climb back to bring news to the chapel"), to: "worksong_chapel" },
+  ],
+  worksong_chapel: [
+    { id: "renew-repair-covenant", label: l("Laisser les équipes renouveler le pacte de réparation", "Let the crews renew the repair covenant"), requires: { all: [{ path: "state.clues", includes: "workers_oath" }, { path: "state.clues", includes: "forged_orders" }] }, effects: [{ op: "addUnique", path: "clues", value: "repair_covenant" }, { op: "increment", path: "expedition.morale", value: 2 }, { op: "increment", path: "relationships.roul", value: 1 }, { op: "increment", path: "relationships.nyma", value: 1 }], result: { text: l("Roul laisse Nyma commencer le chant. Les équipes ne jurent pas d'obéir davantage : elles jurent de suspendre la machine lorsqu'une rue ne peut pas répondre. Pour la première fois, réparer les portes devient une décision partagée.", "Roul lets Nyma begin the song. The crews do not swear to obey more deeply: they swear to halt the machine when a street cannot answer. For the first time, repairing the gates becomes a shared decision.") } },
+    { id: "chapel-to-gates", label: l("Accompagner les ouvriers jusqu'aux portes", "Accompany the workers to the gates"), requires: { path: "state.clues", includes: "repair_covenant" }, to: "gate_chamber" },
+    { id: "chapel-to-kitchen", label: l("Revenir partager le repas avec la guilde", "Return to share a meal with the guild"), to: "guild_kitchen" },
+  ],
+};
+
+// Recurring-character arcs are deliberately attached to existing crossroads.
+// The engine only sees authored state, requirements and effects: neither these
+// characters nor their outcomes are special-cased outside the campaign data.
+const NPC_ARC_CHOICES = {
+  courier_locker: [
+    { id: "meet-yorra", label: l("Demander à Yorra Vale pourquoi elle cache ses mains", "Ask Yorra Vale why she hides her hands"), effects: [{ op: "set", path: "flags.metYorra", value: true }, { op: "increment", path: "relationships.yorra", value: 1 }], result: { text: l("Yorra retire enfin ses gants : les paumes sont tachées d'encre bleue, le signe des courses qu'on ne doit pas pouvoir remonter. Elle ne vous donne aucun nom. Elle vous demande seulement ce que vous feriez d'une messagère qui a peur de ses employeurs autant que de la ville.", "Yorra finally removes her gloves: her palms are stained blue with the ink of errands that must not be traceable. She gives you no names. She only asks what you would do with a courier who fears her employers as much as she fears the city.") } },
+    { id: "shield-yorra", label: l("Lui promettre un passage sûr hors des casiers", "Promise her safe passage away from the lockers"), requires: { path: "state.flags.metYorra", equals: true }, effects: [{ op: "set", path: "flags.yorraProtected", value: true }, { op: "increment", path: "relationships.yorra", value: 2 }, { op: "increment", path: "expedition.alert", value: 1 }], result: { text: l("Vous ne lui demandez pas de preuve immédiate. Yorra vous indique seulement le quai où les lettres changent de main, puis disparaît avant que son courage ne puisse être repris par la prudence.", "You ask her for no immediate proof. Yorra only indicates the quay where letters change hands, then disappears before caution can reclaim her courage.") } },
+  ],
+  black_lantern_pier: [
+    { id: "yorra-breaks-chain", label: l("Retrouver Yorra sous les lanternes et recevoir les courriers détournés", "Find Yorra beneath the lanterns and take the diverted letters"), requires: { path: "state.flags.yorraProtected", equals: true }, effects: [{ op: "set", path: "flags.yorraDefected", value: true }, { op: "increment", path: "relationships.yorra", value: 2 }, { op: "addUnique", path: "clues", value: "courier_chain" }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Yorra a gardé les doubles des itinéraires et rayé les noms des personnes qu'elle ne veut pas livrer. Elle ne devient pas soudain sans peur; elle choisit seulement de rompre la chaîne à l'endroit où elle tient encore une extrémité.", "Yorra kept copies of the routes and crossed out the names of people she will not surrender. She does not suddenly become fearless; she simply chooses to break the chain where she still holds one end.") } },
+  ],
+  city_steps: [
+    { id: "meet-othran", label: l("Parler au sergent Othran avant que la foule ne le force à choisir", "Speak to Sergeant Othran before the crowd forces his hand"), effects: [{ op: "set", path: "flags.metOthran", value: true }, { op: "increment", path: "relationships.othran", value: 1 }], result: { text: l("Othran a reçu l'ordre de garder les marches, pas d'écouter les rumeurs. Pourtant il vous laisse finir. Sa question est sèche, mais honnête : « Si je vous ouvre un passage, qui protège les gens quand les puissants disent que tout va bien ? »", "Othran has been ordered to hold the steps, not to listen to rumours. Yet he lets you finish. His question is curt but honest: “If I open a way for you, who protects people when the powerful say everything is fine?”") } },
+    { id: "show-othran-vire", label: l("Confier à Othran les preuves et la parole de Vire-Basse", "Entrust Othran with the evidence and Low Vire's testimony"), requires: { all: [{ path: "state.flags.metOthran", equals: true }, { path: "state.flags.vireAssembly", equals: true }] }, effects: [{ op: "set", path: "flags.othranCommitted", value: true }, { op: "increment", path: "relationships.othran", value: 2 }, { op: "addUnique", path: "clues", value: "guard_warrant" }, { op: "increment", path: "expedition.alert", value: -1 }], result: { text: l("Othran lit les signatures sans chercher à les rendre plus commodes. Il fait changer la garde des archives et signe un mandat de protection au lieu d'un ordre de saisie. Cette fois, son uniforme prend un risque avec lui.", "Othran reads the signatures without trying to make them more convenient. He changes the archive guard and signs a protective warrant instead of a seizure order. This time, his uniform takes a risk with him.") } },
+  ],
+  lantern_hospice: [
+    { id: "meet-hara", label: l("Aider Hara Nym à répartir les blessés avant la prochaine alerte", "Help Hara Nym distribute the wounded before the next warning"), effects: [{ op: "set", path: "flags.metHara", value: true }, { op: "increment", path: "relationships.hara", value: 1 }], result: { text: l("Hara n'a ni le temps ni le goût des grands discours. En vous faisant tenir un registre et une bassine, elle vous apprend quels quais n'ont pas de porte assez large pour une civière — et lesquels ont toujours une réserve de linge propre.", "Hara has neither time nor taste for grand speeches. By making you hold a register and a basin, she teaches you which quays have no door wide enough for a stretcher—and which always keep clean linen in reserve.") } },
+    { id: "organize-hara-network", label: l("Donner une part de vos provisions au réseau de soins de Hara", "Give part of your supplies to Hara's care network"), requires: { all: [{ path: "state.flags.metHara", equals: true }, { path: "state.expedition.supplies", atLeast: 1 }] }, effects: [{ op: "increment", path: "expedition.supplies", value: -1 }, { op: "set", path: "flags.haraNetwork", value: true }, { op: "increment", path: "relationships.hara", value: 2 }, { op: "increment", path: "expedition.morale", value: 1 }, { op: "addUnique", path: "clues", value: "care_routes" }], result: { text: l("Hara ne vous remercie pas tout de suite : elle répartit déjà les fioles entre les bateliers, les sœurs et les cuisines de Vire-Basse. Puis elle vous regarde enfin. « On ne sauve pas une ville avec une seule grande décision. On la sauve en laissant des gens prêts à répondre. »", "Hara does not thank you immediately: she is already distributing vials among boatmen, sisters, and Low Vire kitchens. Then she finally looks at you. “You do not save a city with one great decision. You save it by leaving people ready to answer.”") } },
+  ],
+};
+
 const REST_CHOICES = {
   river_shrine: [
     { id: "rest-at-shrine", label: l("S'asseoir auprès du bol de sel et reprendre souffle", "Sit beside the salt bowl and catch your breath"), requires: { path: "state.expedition.fatigue", atLeast: 3 }, effects: [{ op: "increment", path: "expedition.fatigue", value: -3 }, { op: "increment", path: "expedition.morale", value: 1 }, { op: "set", path: "heroConditions.party", value: "steady" }, { op: "set", path: "heroConditions.odran", value: "inspired" }], result: { text: l("Personne ne vous absout, et c'est précisément ce qui repose. Vous partagez le pain laissé aux bateliers, laissez le bruit de la fête devenir lointain, puis repartez avec les mains moins lourdes.", "No one absolves you, and that is precisely what rests you. You share bread left for boatmen, let the festival noise grow distant, then leave with lighter hands.") } },
@@ -1650,7 +2123,24 @@ const REGIONAL_ROUTING_CHOICES = Object.fromEntries(
   ])),
 );
 
+// Presentation remains campaign data too: regions define the atmosphere that
+// accompanies their scenes without teaching the generic UI any Laelith ids.
+export const SCENE_ART = {
+  defaultTheme: "riverbed",
+  themeByScene: {
+    ...Object.fromEntries(Object.entries(DENSE_WORLD_REGIONS).flatMap(([theme, { scenes }]) => scenes.map((sceneId) => [sceneId, theme]))),
+    festival_arcade: "festival", mask_exchange: "festival", moonfish_tavern: "festival", paper_bridge: "festival",
+    moss_orchard: "garden", tide_garden: "garden", submerged_theater: "garden",
+    river_shrine: "sanctuary", rope_chapel: "sanctuary", water_chapel: "sanctuary", drowned_oratory: "sanctuary",
+    archive_cloister: "archives", hidden_scriptorium: "archives", tide_library: "archives", silt_archive: "archives", drowned_post: "archives", drowned_mailroom: "archives", tribunal_gallery: "archives", council_antechamber: "archives",
+    low_vire_threshold: "city", witness_kitchen: "festival", quiet_school: "garden", ledger_scriptorium: "archives", echo_vault: "archives", flood_marks_house: "depths", forgotten_causeway: "depths", brass_lift: "machinery", understreet_lift: "machinery", fifth_quarter_assembly: "festival",
+    retention_gate: "machinery", waterkeepers_court: "city", tally_weighbridge: "machinery", brass_garden: "garden", names_reservoir: "depths", storm_registry: "archives", pledge_chamber: "sanctuary", relief_quay: "city", rain_chain: "machinery", breakwater_chapel: "sanctuary", overflow_gallery: "depths",
+    dawn_portal: "city", bellkeepers_yard: "sanctuary", cracked_chime_gallery: "machinery", dawn_market: "festival", courier_roof: "city", relay_conservatory: "archives", voices_cistern: "depths", blue_window_workshop: "machinery", civic_tribune: "city", message_bridge: "city", unheard_stairs: "depths", first_light_chamber: "sanctuary",
+    makers_gate: "machinery", tool_court: "city", chain_foundry: "machinery", bellows_loft: "machinery", waterwright_archive: "archives", guild_kitchen: "festival", apprentice_dormitory: "city", clay_map_room: "archives", underforge: "machinery", handspan_bridge: "depths", confluence_shaft: "depths", worksong_chapel: "sanctuary",
+  },
+};
+
 export const FIXED_CHOICES = Object.fromEntries(
-  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES), ...Object.keys(LORE_EXPANSION_CHOICES), ...Object.keys(SECOND_LORE_CHOICES), ...Object.keys(REST_CHOICES)])]
-    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? []), ...(LORE_EXPANSION_CHOICES[sceneId] ?? []), ...(SECOND_LORE_CHOICES[sceneId] ?? []), ...(REST_CHOICES[sceneId] ?? [])]]),
+  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES), ...Object.keys(LORE_EXPANSION_CHOICES), ...Object.keys(SECOND_LORE_CHOICES), ...Object.keys(THIRD_LORE_CHOICES), ...Object.keys(FOURTH_LORE_CHOICES), ...Object.keys(FIFTH_LORE_CHOICES), ...Object.keys(SIXTH_LORE_CHOICES), ...Object.keys(NPC_ARC_CHOICES), ...Object.keys(REST_CHOICES)])]
+    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? []), ...(LORE_EXPANSION_CHOICES[sceneId] ?? []), ...(SECOND_LORE_CHOICES[sceneId] ?? []), ...(THIRD_LORE_CHOICES[sceneId] ?? []), ...(FOURTH_LORE_CHOICES[sceneId] ?? []), ...(FIFTH_LORE_CHOICES[sceneId] ?? []), ...(SIXTH_LORE_CHOICES[sceneId] ?? []), ...(NPC_ARC_CHOICES[sceneId] ?? []), ...(REST_CHOICES[sceneId] ?? [])]]),
 );

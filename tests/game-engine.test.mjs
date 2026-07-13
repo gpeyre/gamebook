@@ -17,6 +17,15 @@ test("a consumed authored choice is permanently removed", () => {
   assert.ok(getChoices(state).some((choice) => choice.id === "descend-river"));
 });
 
+test("every campaign scene receives a data-defined visual atmosphere", () => {
+  const presentation = GAME_DB.presentation;
+  assert.ok(presentation.sceneArt[presentation.sceneThemes.defaultTheme]);
+  for (const sceneId of Object.keys(GAME_DB.scenes)) {
+    const themeId = presentation.sceneThemes.themeByScene[sceneId] ?? presentation.sceneThemes.defaultTheme;
+    assert.ok(presentation.sceneArt[themeId], `${sceneId} should resolve to a visual theme`);
+  }
+});
+
 test("the data-defined notebook reveals people and investigation facts as they are discovered", () => {
   const state = createInitialState("en");
   const geyma = choose(state, "meet-geyma");
@@ -55,6 +64,134 @@ test("the deeper lore branches reveal recurring witnesses and the erased flood d
   choose(state, "name-fifth-ring");
   assert.ok(state.clues.includes("fifth_name"));
   assert.ok(getJournal(state).people.some((entry) => entry.id === "kos"));
+});
+
+test("Vire-Basse becomes a living witness route rather than a single archive clue", () => {
+  const state = createInitialState("fr");
+  state.currentScene = "exile_courtyard";
+  state.flags.metMaera = true;
+  choose(state, "courtyard-to-low-vire");
+  choose(state, "enter-witness-kitchen");
+  choose(state, "meet-marwen");
+  choose(state, "kitchen-to-school");
+  choose(state, "meet-letha");
+  choose(state, "copy-quiet-roll");
+  assert.ok(state.clues.includes("quiet_roll"));
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "marwen"));
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "letha"));
+
+  state.currentScene = "ledger_scriptorium";
+  choose(state, "meet-tovar");
+  choose(state, "open-vire-proceedings");
+  assert.ok(state.clues.includes("vire_proceedings"));
+  choose(state, "scriptorium-to-echo-vault");
+  choose(state, "read-silent-trial");
+  choose(state, "vault-to-assembly");
+  choose(state, "convene-vire-witnesses");
+  assert.ok(state.flags.vireAssembly);
+  assert.ok(state.clues.includes("vire_witnesses"));
+});
+
+test("recurring NPCs can change allegiance and leave durable civic support behind", () => {
+  const state = createInitialState("en");
+
+  state.currentScene = "courier_locker";
+  choose(state, "meet-yorra");
+  choose(state, "shield-yorra");
+  state.currentScene = "black_lantern_pier";
+  const yorra = choose(state, "yorra-breaks-chain");
+  assert.equal(state.flags.yorraDefected, true);
+  assert.ok(state.clues.includes("courier_chain"));
+  assert.match(yorra.message.en, /break the chain/i);
+
+  state.currentScene = "lantern_hospice";
+  choose(state, "meet-hara");
+  choose(state, "organize-hara-network");
+  assert.equal(state.flags.haraNetwork, true);
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "hara"));
+  assert.ok(getJournal(state).plot.some((entry) => entry.id === "care_routes"));
+
+  state.currentScene = "city_steps";
+  choose(state, "meet-othran");
+  state.flags.vireAssembly = true;
+  const othran = choose(state, "show-othran-vire");
+  assert.equal(state.flags.othranCommitted, true);
+  assert.ok(state.clues.includes("guard_warrant"));
+  assert.match(othran.message.en, /protective warrant/i);
+});
+
+test("the Retention Ward forms a local aid route from civic records to the gates", () => {
+  const state = createInitialState("fr");
+  state.currentScene = "forgotten_causeway";
+  choose(state, "causeway-to-retention");
+  choose(state, "retention-to-waterkeepers");
+  choose(state, "meet-miren");
+  choose(state, "read-ration-marks");
+  assert.ok(state.clues.includes("ration_marks"));
+
+  state.currentScene = "names_reservoir";
+  choose(state, "reservoir-to-storm-registry");
+  choose(state, "meet-sera");
+  choose(state, "collate-delayed-roll");
+  assert.ok(state.clues.includes("delayed_roll"));
+  state.currentScene = "pledge_chamber";
+  choose(state, "restore-common-pledge");
+  assert.ok(state.clues.includes("mutual_oath"));
+
+  state.currentScene = "drowned_mailroom";
+  state.clues.push("first_exiles");
+  choose(state, "mailroom-to-relief-quay");
+  choose(state, "meet-pavos");
+  choose(state, "map-relief-route");
+  assert.ok(state.clues.includes("relief_routes"));
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "miren"));
+  assert.ok(getJournal(state).plot.some((entry) => entry.id === "mutual_oath"));
+});
+
+test("the Dawn Ward reconnects bells, dispatches, and public warning", () => {
+  const state = createInitialState("en");
+  state.currentScene = "storm_registry";
+  state.clues.push("delayed_roll");
+  choose(state, "registry-to-dawn-portal");
+  choose(state, "portal-to-bellkeepers");
+  choose(state, "meet-veyra");
+  choose(state, "read-double-chime");
+  assert.ok(state.clues.includes("double_chime"));
+
+  state.currentScene = "courier_roof";
+  choose(state, "meet-iven");
+  choose(state, "open-night-dispatch");
+  assert.ok(state.clues.includes("night_dispatch"));
+
+  state.currentScene = "voices_cistern";
+  choose(state, "restore-common-signal");
+  assert.ok(state.clues.includes("common_signal"));
+  choose(state, "cistern-to-tribune");
+  assert.equal(state.currentScene, "civic_tribune");
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "veyra"));
+  assert.ok(getJournal(state).plot.some((entry) => entry.id === "common_signal"));
+});
+
+test("the Makers' Basin turns forged sabotage into a worker-led repair route", () => {
+  const state = createInitialState("fr");
+  state.currentScene = "counterweight_loft";
+  choose(state, "loft-to-makers-basin");
+  choose(state, "makers-to-tool-court");
+  choose(state, "meet-roul");
+  choose(state, "read-forged-stamps");
+  assert.ok(state.clues.includes("forged_orders"));
+
+  state.currentScene = "bellows_loft";
+  choose(state, "meet-nyma");
+  choose(state, "recover-safety-verse");
+  assert.ok(state.clues.includes("workers_oath"));
+  state.currentScene = "worksong_chapel";
+  choose(state, "renew-repair-covenant");
+  assert.ok(state.clues.includes("repair_covenant"));
+  choose(state, "chapel-to-gates");
+  assert.equal(state.currentScene, "gate_chamber");
+  assert.ok(getJournal(state).people.some((entry) => entry.id === "nyma"));
+  assert.ok(getJournal(state).plot.some((entry) => entry.id === "repair_covenant"));
 });
 
 test("the second lore layer connects the warning system, civic law, and displaced families", () => {

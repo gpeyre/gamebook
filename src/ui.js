@@ -3,7 +3,7 @@ import { t, UI_TEXT } from "./i18n.js";
 import { getChoices, getExpeditionMeters, getJournal, getScene, getStatuses, getWorldMap } from "./game-engine.js";
 
 const ids = [
-  "gameEyebrow", "gameTitle", "languageButton", "modelStatus", "chapterLabel", "sceneTitle", "transcript",
+  "gameEyebrow", "gameTitle", "languageButton", "storyPanel", "modelStatus", "chapterLabel", "sceneTitle", "transcript",
   "choicesHeading", "suggestions",
   "objectiveHeading", "objectiveText", "partyHeading", "partyHint", "partyList", "expeditionHeading", "expeditionList", "inventoryHeading", "inventoryList", "cluesHeading", "cluesList", "journalHeading", "journalHint", "peopleHeading", "peopleJournalCount", "peopleJournalList", "plotHeading", "plotJournalCount", "plotJournalList", "worldHeading", "worldList", "mapHeading", "mapHint", "mapExpandButton", "minimap", "mapDialog", "mapDialogTitle", "mapDialogHint", "mapCloseButton", "largeMap",
   "gameHeading", "saveButton", "loadButton", "restartButton", "clearButton",
@@ -24,6 +24,22 @@ function renderTranscript(state) {
   elements.transcript.replaceChildren();
   for (const entry of state.transcript) { const p = document.createElement("p"); p.className = `entry ${entry.type}`; p.textContent = t(entry.text, state.language); elements.transcript.append(p); }
   requestAnimationFrame(() => { elements.transcript.scrollTop = elements.transcript.scrollHeight; });
+}
+
+function renderSceneArt(state) {
+  const presentation = GAME_DB.presentation ?? {};
+  const themes = presentation.sceneThemes ?? {};
+  const themeId = themes.themeByScene?.[state.currentScene] ?? themes.defaultTheme;
+  const art = presentation.sceneArt?.[themeId] ?? presentation.sceneArt?.[themes.defaultTheme];
+  if (!art) return;
+
+  elements.storyPanel.dataset.sceneTheme = themeId ?? "default";
+  elements.storyPanel.style.setProperty("--scene-art", `url("${art.image}")`);
+  elements.storyPanel.style.setProperty("--scene-art-position", art.position ?? "center");
+  elements.storyPanel.style.setProperty("--scene-veil-start", art.veilStart ?? "rgba(15, 24, 18, .94)");
+  elements.storyPanel.style.setProperty("--scene-veil-middle", art.veilMiddle ?? "rgba(15, 24, 18, .62)");
+  elements.storyPanel.style.setProperty("--scene-veil-end", art.veilEnd ?? "rgba(9, 15, 11, .88)");
+  elements.storyPanel.style.setProperty("--scene-accent", art.accent ?? "var(--gold)");
 }
 
 function renderChoices(state, onChoice) {
@@ -126,7 +142,7 @@ export function render(state, objective, onChoice) {
   const journal = getJournal(state);
   elements.peopleJournalCount.textContent = ui.journalCount(journal.people.length); elements.plotJournalCount.textContent = ui.journalCount(journal.plot.length);
   renderExpeditionMeters(state); renderList(elements.inventoryList, state.inventory.map((id) => t(GAME_DB.entities.items[id]?.name ?? id, state.language)), ui.empty); renderList(elements.cluesList, state.clues.map((id) => t(GAME_DB.entities.clues[id] ?? id, state.language)), ui.empty); renderJournalList(elements.peopleJournalList, journal.people, state.language, ui.journalEmptyPeople); renderJournalList(elements.plotJournalList, journal.plot, state.language, ui.journalEmptyPlot); renderList(elements.worldList, getStatuses(state).map((status) => t(status, state.language)), ui.empty);
-  renderTranscript(state); renderChoices(state, onChoice); renderParty(state); renderMinimap(state);
+  renderSceneArt(state); renderTranscript(state); renderChoices(state, onChoice); renderParty(state); renderMinimap(state);
 }
 
 export function appendEntry(entry, language) { const p = document.createElement("p"); p.className = `entry ${entry.type}`; p.textContent = t(entry.text, language); elements.transcript.append(p); elements.transcript.scrollTop = elements.transcript.scrollHeight; }
