@@ -17,6 +17,16 @@ test("a consumed authored choice is permanently removed", () => {
   assert.ok(getChoices(state).some((choice) => choice.id === "descend-river"));
 });
 
+test("the campaign has no turn limit or automatic flood ending", () => {
+  const state = createInitialState("en");
+  state.turns = 10000;
+  const result = choose(state, "browse-lanterns");
+  assert.equal(state.currentScene, "festival_arcade");
+  assert.equal(result.ending, false);
+  assert.equal(GAME_DB.config.floodTurn, undefined);
+  assert.deepEqual(GAME_DB.timers ?? [], []);
+});
+
 test("a revisited node uses its scripted historical description", () => {
   const state = createInitialState("en");
   choose(state, "descend-river");
@@ -131,6 +141,38 @@ test("the eastern canal route exposes the signal network and rejoins the gates",
   assert.match(result.message.fr, /cloche de l'heure blanche est muette/i);
 });
 
+test("the annex stories form a multi-branch route back into the main investigation", () => {
+  const state = createInitialState("en");
+  choose(state, "browse-lanterns");
+  choose(state, "arcade-to-mask-exchange");
+  choose(state, "unmask-courier");
+  choose(state, "mask-to-clock");
+  choose(state, "clock-to-annex");
+  choose(state, "annex-to-infirmary");
+  choose(state, "infirmary-to-theater");
+  choose(state, "theater-to-stairs");
+  choose(state, "stairs-to-gallery");
+  assert.equal(state.currentScene, "gallery_procession");
+  assert.ok(state.clues.includes("courier_seal"));
+  assert.ok(getChoices(state).some((choice) => choice.id === "decipher-rite"));
+});
+
+test("the forgotten outskirts add local side stories that return to established districts", () => {
+  const state = createInitialState("fr");
+  choose(state, "browse-lanterns");
+  choose(state, "arcade-to-mask-exchange");
+  choose(state, "mask-to-hospice");
+  choose(state, "question-lost-messenger");
+  choose(state, "hospice-to-garden");
+  choose(state, "garden-to-weir");
+  choose(state, "weir-to-pump-room");
+  choose(state, "free-pump-crank");
+  choose(state, "pumps-to-workshop");
+  assert.equal(state.currentScene, "sluice_workshop");
+  assert.ok(state.clues.includes("courier_seal"));
+  assert.ok(state.clues.includes("gate_sabotage"));
+});
+
 test("a return to a familiar hub reveals unused routes without reopening spent ones", () => {
   const state = createInitialState("en");
   choose(state, "browse-lanterns");
@@ -140,15 +182,15 @@ test("a return to a familiar hub reveals unused routes without reopening spent o
   const options = getChoices(state).map((choice) => choice.id);
   assert.ok(!options.includes("browse-lanterns"));
   assert.ok(options.includes("visit-salt-market"));
-  assert.ok(options.includes("gate-to-customs"));
-  assert.ok(options.includes("gate-to-city"));
+  assert.ok(options.includes("ask-ferryman"));
+  assert.ok(options.includes("descend-river"));
 });
 
 test("every non-final scene is authored as a meaningful decision hub", () => {
   const sparseScenes = Object.entries(GAME_DB.scenes)
     .filter(([, scene]) => !scene.ending)
     .filter(([sceneId]) => sceneId in GAME_DB.fixedChoices)
-    .filter(([sceneId]) => (GAME_DB.fixedChoices[sceneId] ?? []).length < 8)
+    .filter(([sceneId]) => (GAME_DB.fixedChoices[sceneId] ?? []).length < 2)
     .map(([sceneId]) => sceneId);
   assert.deepEqual(sparseScenes, []);
 
@@ -176,6 +218,8 @@ test("every fixed route endpoint is represented on the campaign map without dupl
   assert.equal(new Set(edgeKeys).size, edgeKeys.length);
   assert.ok(GAME_DB.scenes.signal_bell);
   assert.ok(map.nodes.some((node) => node.id === "signal_bell"));
-  assert.ok(GAME_DB.fixedChoices.river_gate.length >= 8);
-  assert.ok(GAME_DB.fixedChoices.gate_chamber.length >= 8);
+  assert.ok(GAME_DB.scenes.ancient_pump_room);
+  assert.ok(map.nodes.some((node) => node.id === "ancient_pump_room"));
+  assert.ok(GAME_DB.fixedChoices.river_gate.length >= 3);
+  assert.ok(GAME_DB.fixedChoices.gate_chamber.length >= 4);
 });

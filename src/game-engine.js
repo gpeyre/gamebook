@@ -313,10 +313,6 @@ export function getWorldMap(state) {
   };
 }
 
-export function isDeadlineSecured(state) {
-  return matchesRequirements(activeDatabase.config.deadline?.securedWhen, { state, input: {} });
-}
-
 export function getScene(state) {
   return activeDatabase.scenes[state.currentScene];
 }

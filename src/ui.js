@@ -1,12 +1,11 @@
 import { GAME_DB } from "./game-db.js";
-import { FLOOD_TURN } from "./game-state.js";
 import { t, UI_TEXT } from "./i18n.js";
-import { getChoices, getExpeditionMeters, getScene, getStatuses, getWorldMap, isDeadlineSecured } from "./game-engine.js";
+import { getChoices, getExpeditionMeters, getScene, getStatuses, getWorldMap } from "./game-engine.js";
 
 const ids = [
   "gameEyebrow", "gameTitle", "languageButton", "modelStatus", "chapterLabel", "sceneTitle", "transcript",
   "choicesHeading", "choicesHint", "suggestions",
-  "objectiveHeading", "objectiveText", "deadlineHeading", "deadlineText", "deadlineBar", "partyHeading", "partyHint", "partyList", "expeditionHeading", "expeditionList", "inventoryHeading", "inventoryList", "cluesHeading", "cluesList", "worldHeading", "worldList", "mapHeading", "mapHint", "mapExpandButton", "minimap", "mapDialog", "mapDialogTitle", "mapDialogHint", "mapCloseButton", "largeMap",
+  "objectiveHeading", "objectiveText", "partyHeading", "partyHint", "partyList", "expeditionHeading", "expeditionList", "inventoryHeading", "inventoryList", "cluesHeading", "cluesList", "worldHeading", "worldList", "mapHeading", "mapHint", "mapExpandButton", "minimap", "mapDialog", "mapDialogTitle", "mapDialogHint", "mapCloseButton", "largeMap",
   "gameHeading", "saveButton", "loadButton", "restartButton", "clearButton",
 ];
 export const elements = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
@@ -101,7 +100,6 @@ export function render(state, objective, onChoice) {
   elements.languageButton.textContent = state.language === "fr" ? "EN" : "FR";
   document.title = t(GAME_DB.meta.title, state.language); elements.gameEyebrow.textContent = t(GAME_DB.meta.eyebrow, state.language); elements.gameTitle.textContent = t(GAME_DB.meta.title, state.language); elements.chapterLabel.textContent = t(GAME_DB.meta.chapter, state.language); elements.sceneTitle.textContent = t(scene.title, state.language); elements.choicesHeading.textContent = ui.choices; elements.choicesHint.textContent = ui.choicesHint;
   elements.objectiveHeading.textContent = ui.objective; elements.objectiveText.textContent = t(objective, state.language); elements.partyHeading.textContent = ui.party; elements.partyHint.textContent = ui.partyHint; elements.expeditionHeading.textContent = ui.expedition; elements.mapHeading.textContent = ui.map; elements.mapHint.textContent = ui.mapHint; elements.mapExpandButton.textContent = ui.expandMap; elements.mapDialogTitle.textContent = ui.map; elements.mapDialogHint.textContent = ui.mapDialogHint; elements.mapCloseButton.setAttribute("aria-label", state.language === "fr" ? "Fermer la carte" : "Close map");
-  const turnsLeft = Math.max(0, FLOOD_TURN - state.turns); const secured = isDeadlineSecured(state); elements.deadlineHeading.textContent = ui.deadline; elements.deadlineText.textContent = secured ? ui.secured : ui.turnsLeft(turnsLeft); elements.deadlineBar.style.width = `${Math.round((secured ? 1 : turnsLeft / FLOOD_TURN) * 100)}%`; elements.deadlineBar.classList.toggle("urgent", !secured && turnsLeft <= 6);
   elements.inventoryHeading.textContent = ui.inventory; elements.cluesHeading.textContent = ui.clues; elements.worldHeading.textContent = ui.world; elements.gameHeading.textContent = ui.game; elements.saveButton.textContent = ui.save; elements.loadButton.textContent = ui.load; elements.restartButton.textContent = ui.restart; elements.clearButton.textContent = ui.clear;
   elements.modelStatus.textContent = ui.scripted; elements.modelStatus.className = "status-pill offline";
   renderExpeditionMeters(state); renderList(elements.inventoryList, state.inventory.map((id) => t(GAME_DB.entities.items[id]?.name ?? id, state.language)), ui.empty); renderList(elements.cluesList, state.clues.map((id) => t(GAME_DB.entities.clues[id] ?? id, state.language)), ui.empty); renderList(elements.worldList, getStatuses(state).map((status) => t(status, state.language)), ui.empty);

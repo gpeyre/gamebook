@@ -1,7 +1,6 @@
 import { GAME_DB } from "./game-db.js";
 
-export const STATE_VERSION = 11;
-export const FLOOD_TURN = GAME_DB.config.floodTurn;
+export const STATE_VERSION = 12;
 
 export function createInitialState(language = "fr", database = GAME_DB) {
   return {

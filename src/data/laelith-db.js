@@ -13,8 +13,6 @@ export const GAME_DB = {
     chapter: l("Chapitre I · La rivière sans eau", "Chapter I · The waterless river"),
   },
   config: {
-    floodTurn: 24,
-    deadline: { securedWhen: { path: "state.flags.disabledSabotage", equals: true } },
     choiceMode: true,
     // These generic effects are applied to every time-consuming authored choice.
     // A campaign can replace both paths and limits without changing the engine.
@@ -49,7 +47,7 @@ export const GAME_DB = {
       befriendedKiki: false, returnedKiki: false, foundPoupiquet: false,
       freedPoupiquet: false, warnedByPoupiquet: false, understoodRite: false,
       tookNecklace: false, foundSabotage: false, disabledSabotage: false,
-      lanternLit: false, riverRumbling: false, workersAlerted: false, dangerCritical: false,
+      lanternLit: false,
       foundManifest: false, freedCaptives: false, lootedCaptives: false,
     },
     relationships: { kiki: 0, foreman: 0, geyma: 0, poupiquet: 0 },
@@ -62,8 +60,8 @@ export const GAME_DB = {
   },
 
   intro: l(
-    "Tous les quatre ans, Laelith ferme les grandes portes et descend célébrer dans le lit de sa rivière. Cette année, les tambours couvrent un grondement qui ne vient pas de la fête. Devant vous, un escalier s'enfonce dans la faille asséchée; près d'un avis de recherche, Dame Geyma Laslander observe les gens qui remontent. Son molosse Kiki a disparu, son ami Poupiquet aussi. Dans une semaine, l'eau reviendra. Vos premiers choix sont devant vous.",
-    "Every four years, Laelith closes its great gates and descends to celebrate in its riverbed. This year, the drums conceal a rumble that does not belong to the festival. Before you, stairs sink into the dry chasm; beside a missing notice, Lady Geyma Laslander watches those who climb back up. Her mastiff Kiki has vanished, as has her friend Poupiquet. In one week, the water will return. Your first choices lie before you."
+    "Tous les quatre ans, Laelith ferme les grandes portes et descend célébrer dans le lit de sa rivière. Cette année, les tambours couvrent un grondement qui ne vient pas de la fête. Devant vous, un escalier s'enfonce dans la faille asséchée; près d'un avis de recherche, Dame Geyma Laslander observe les gens qui remontent. Son molosse Kiki a disparu, son ami Poupiquet aussi. L'eau reviendra un jour, mais le piège est déjà armé. Vos premiers choix sont devant vous.",
+    "Every four years, Laelith closes its great gates and descends to celebrate in its riverbed. This year, the drums conceal a rumble that does not belong to the festival. Before you, stairs sink into the dry chasm; beside a missing notice, Lady Geyma Laslander watches those who climb back up. Her mastiff Kiki has vanished, as has her friend Poupiquet. The water will return one day, but the trap is already armed. Your first choices lie before you."
   ),
 
   entities: {
@@ -157,7 +155,7 @@ export const GAME_DB = {
     },
     sluice_passage: {
       title: l("Le passage des vannes", "The sluice passage"), description: l("Derrière les échafaudages, un passage longe la paroi jusqu'aux mécanismes de la porte. Une poudre grise marque le sol.", "Behind the scaffolding, a passage follows the wall to the gate mechanism. Grey powder marks the floor."),
-      exits: { west: { to: "workers_bank", aliases: ["ouvriers", "boucliers", "workers"] }, south: { to: "sabotaged_gate", aliases: ["portes", "gonds", "mécanisme", "gates", "hinges", "mechanism"], requires: { path: "state.flags.workersAlerted", equals: false }, blockedResult: { contextual: l("Les ouvriers ont verrouillé le passage. Le conduit de maintenance, depuis le lit de la rivière, peut encore contourner leur cordon.", "The workers have locked the passage. The maintenance conduit from the riverbed can still bypass their cordon."), type: "system", success: false } } }, suggestions: l(["aller vers les portes", "retourner aux boucliers"], ["go toward the gates", "return to the shields"]),
+      exits: { west: { to: "workers_bank", aliases: ["ouvriers", "boucliers", "workers"] }, south: { to: "sabotaged_gate", aliases: ["portes", "gonds", "mécanisme", "gates", "hinges", "mechanism"] } }, suggestions: l(["aller vers les portes", "retourner aux boucliers"], ["go toward the gates", "return to the shields"]),
     },
     maintenance_crawl: {
       title: l("Le conduit de maintenance", "The maintenance conduit"), description: l("Un boyau de briques oublié passe sous les échafaudages. Des racines et des câbles de levage encombrent le sol, mais une trappe donne directement sur la chambre des portes.", "A forgotten brick crawlway runs beneath the scaffolding. Roots and lifting cables clutter the floor, but a hatch opens directly into the gate chamber."),
@@ -203,7 +201,7 @@ export const GAME_DB = {
 
   objectives: [
     { id: "ended", requires: { path: "state.currentScene", in: ["ending_saved", "ending_flood", "ending_thief"] }, text: l("Votre aventure est terminée.", "Your adventure is over.") },
-    { id: "escape", requires: { path: "state.flags.disabledSabotage", equals: true }, text: l("Rapportez vos preuves à la surface avant le retour de l'eau.", "Bring your evidence to the surface before the water returns.") },
+    { id: "escape", requires: { path: "state.flags.disabledSabotage", equals: true }, text: l("Rapportez vos preuves à la surface pour dévoiler le complot.", "Bring your evidence to the surface to expose the plot.") },
     { id: "free-captives", requires: { all: [{ path: "state.flags.foundManifest", equals: true }, { path: "state.flags.freedCaptives", equals: false }] }, text: l("Choisissez si vous risquez du temps pour libérer les voyageurs de la barge.", "Decide whether to risk time freeing the travellers on the barge.") },
     { id: "stop_sabotage", requires: { any: [{ path: "state.flags.foundSabotage", equals: true }, { path: "state.flags.understoodRite", equals: true }] }, text: l("Trouvez une preuve et empêchez le sabotage des portes.", "Find proof and prevent the sabotage of the gates.") },
     { id: "find_poupiquet", requires: { any: [{ path: "state.flags.exposedWorkers", equals: true }, { path: "state.flags.metGeyma", equals: true }] }, text: l("Suivez la piste de Poupiquet dans les souterrains.", "Follow Poupiquet's trail underground.") },
@@ -213,15 +211,11 @@ export const GAME_DB = {
   // The UI renders every matching status generically; these are campaign facts,
   // not conditions embedded in the presentation layer.
   statuses: [
-    { id: "calm-river", requires: { path: "state.turns", atMost: 7 }, text: l("La retenue tient, mais la pression monte derrière les portes.", "The dam holds, but pressure is building behind the gates.") },
-    { id: "river-rumbling", requires: { all: [{ path: "state.flags.riverRumbling", equals: true }, { path: "state.flags.dangerCritical", equals: false }] }, text: l("La pierre gémit : le temps joue désormais contre vous.", "Stone is groaning: time is now working against you.") },
-    { id: "workers-alerted", requires: { path: "state.flags.workersAlerted", equals: true }, text: l("Les faux ouvriers vous cherchent; leur passage direct est verrouillé.", "The false workers are looking for you; their direct passage is locked."), tone: "danger" },
     { id: "poupiquet-safe", requires: { path: "state.flags.freedPoupiquet", equals: true }, text: l("Poupiquet est libre et peut témoigner de ce qu'il a vu.", "Poupiquet is free and can testify to what he saw.") },
     { id: "kiki-safe", requires: { path: "state.flags.befriendedKiki", equals: true }, text: l("Kiki suit le groupe, plus calme qu'auparavant.", "Kiki is following the party, calmer than before.") },
     { id: "captives-safe", requires: { path: "state.flags.freedCaptives", equals: true }, text: l("Les voyageurs sauvés ont vu les mercenaires agir pour Souleyna.", "The rescued travellers saw the mercenaries acting for Souleyna.") },
     { id: "captives-looted", requires: { path: "state.flags.lootedCaptives", equals: true }, text: l("Vous avez pris le cache des captifs : ils ne témoigneront pas en votre faveur.", "You took the captives' cache: they will not testify for you."), tone: "danger" },
     { id: "gates-secured", requires: { path: "state.flags.disabledSabotage", equals: true }, text: l("Le coin est retiré : les portes tiendront au retour de l'eau.", "The wedge is out: the gates will hold when the water returns.") },
-    { id: "critical", requires: { path: "state.flags.dangerCritical", equals: true }, text: l("La retenue vibre. Chaque détour peut devenir le dernier.", "The dam is shuddering. Every detour may be the last."), tone: "danger" },
   ],
 
   suggestionRules: [
@@ -312,13 +306,6 @@ export const GAME_DB = {
     { when: { scene: "river_gate" }, requires: { all: [{ path: "state.flags.disabledSabotage", equals: true }, { path: "state.clues", lengthAtLeast: 2 }, { path: "state.flags.freedPoupiquet", equals: true }, { path: "state.flags.returnedKiki", equals: true }, { path: "state.flags.freedCaptives", equals: true }, { path: "state.flags.lootedCaptives", equals: false }] }, effects: [{ op: "move", to: "ending_saved" }, { op: "set", path: "quests.grandDrying", value: "completed" }], result: { text: l("Vous remontez avec Poupiquet, Kiki, les voyageurs sauvés et le coin de sabotage. Le manifeste de Valdrick et les témoignages font arrêter les faux ouvriers avant que Souleyna puisse nier. Quand la pluie tombe enfin sur Laelith, la ville vous doit plus qu'un exploit.\n\nFIN — Les portes ont tenu, et personne n'est resté derrière.", "You climb back with Poupiquet, Kiki, the rescued travellers, and the sabotage wedge. Valdrick's manifest and the testimony have the false workers arrested before Souleyna can deny anything. When rain finally falls on Laelith, the city owes you more than a feat.\n\nTHE END — The gates held, and no one was left behind."), ending: true } },
     { when: { scene: "river_gate" }, requires: { all: [{ path: "state.flags.disabledSabotage", equals: true }, { path: "state.clues", lengthAtLeast: 2 }] }, effects: [{ op: "move", to: "ending_saved" }, { op: "set", path: "quests.grandDrying", value: "completed" }], result: { text: l("Vous remontez avec le coin de sabotage et vos preuves. Les gardes arrêtent les faux ouvriers; les boucliers sont retirés avant le retour de l'eau. Quand la pluie tombe enfin sur Laelith, elle n'obéit à personne.\n\nFIN — Les portes ont tenu.", "You climb back carrying the sabotage wedge and your evidence. The guards arrest the false workers; the shields are removed before the water returns. When rain finally falls on Laelith, it answers to no one.\n\nTHE END — The gates held."), ending: true } },
     { when: { scene: "river_gate" }, requires: { all: [{ path: "state.flags.tookNecklace", equals: true }, { path: "state.flags.disabledSabotage", equals: false }] }, effects: [{ op: "move", to: "ending_thief" }, { op: "set", path: "quests.grandDrying", value: "failed" }], result: { text: l("Vous gagnez la surface avec le collier caché sous votre manteau, mais laissez le piège armé.\n\nFIN — Un trésor au prix d'une ville.", "You reach the surface with the necklace hidden beneath your coat, but leave the trap armed.\n\nTHE END — Treasure at the price of a city."), ending: true } },
-  ],
-
-  timers: [
-    { requires: { all: [{ path: "state.turns", atLeast: 8 }, { path: "state.flags.riverRumbling", equals: false }] }, effects: [{ op: "set", path: "flags.riverRumbling", value: true }], result: { text: l("Un grondement traverse les portes. La retenue ne cèdera pas encore, mais la pierre travaille sous la pression.", "A rumble runs through the gates. The dam will not fail yet, but the stone is working under pressure."), type: "system", consumesTurn: false } },
-    { requires: { all: [{ path: "state.turns", atLeast: 12 }, { path: "state.flags.workersAlerted", equals: false }] }, effects: [{ op: "set", path: "flags.workersAlerted", value: true }], result: { text: l("Un sifflet résonne sur la berge. Les faux ouvriers ont compris que quelqu'un enquête : leur passage vers les portes est maintenant gardé.", "A whistle rings from the bank. The false workers know someone is investigating: their passage to the gates is now guarded."), type: "system", consumesTurn: false } },
-    { requires: { all: [{ path: "state.turns", atLeast: 18 }, { path: "state.flags.dangerCritical", equals: false }, { path: "state.flags.disabledSabotage", equals: false }] }, effects: [{ op: "set", path: "flags.dangerCritical", value: true }], result: { text: l("La faille tressaille sous vos pieds. Il ne reste plus de temps pour une exploration prudente.", "The chasm shudders under your feet. There is no time left for cautious exploration."), type: "system", consumesTurn: false } },
-    { requires: { all: [{ path: "state.turns", atLeast: 24 }, { path: "state.flags.disabledSabotage", equals: false }] }, effects: [{ op: "move", to: "ending_flood" }, { op: "set", path: "quests.grandDrying", value: "failed" }], result: { text: l("Un craquement traverse la faille. Les portes cèdent et la rivière revient comme un mur. Les boucliers s'illuminent; une vague noire engloutit les berges.\n\nFIN — Le grand assèchement s'achève dans le déluge.", "A crack runs through the chasm. The gates fail and the river returns as a wall. The shields ignite; a black wave swallows the banks.\n\nTHE END — The Grand Drying ends in a deluge."), ending: true } },
   ],
 
   defaults: {

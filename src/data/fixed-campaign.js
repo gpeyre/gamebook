@@ -141,6 +141,97 @@ const WORLD_EXPANSION_SCENES = {
   },
 };
 
+// Optional stories and intermediate junctions. They are fully authored nodes,
+// not procedural filler: each can be investigated, used as a shortcut, or
+// become a different route back into the main conspiracy.
+const ANNEX_SCENES = {
+  mask_exchange: {
+    title: l("La bourse des visages empruntés", "The exchange of borrowed faces"),
+    description: l("Sous une halle de bois, les masques passent de main en main contre des promesses plutôt que des pièces. Un visage de cire blanche porte le même pli à l'œil que les coursiers de Souleyna. Derrière les étals, des escaliers descendent vers des conduites que les danseurs n'utilisent jamais.", "Beneath a wooden hall, masks pass from hand to hand for promises rather than coins. A white wax face bears the same crease at the eye as Souleyna's couriers. Behind the stalls, stairs descend to conduits the dancers never use."),
+  },
+  water_clock: {
+    title: l("L'horloge des eaux lentes", "The clock of slow waters"),
+    description: l("Une tour carrée cache une horloge dont le pendule baigne dans un tube de verre. Elle ne compte pas les heures, mais les pressions dans les canaux. Ses aiguilles se sont arrêtées juste avant une marque gravée d'un anneau quadruple.", "A square tower hides a clock whose pendulum bathes in a glass tube. It counts not hours but pressures in the canals. Its hands stopped just before a mark engraved with a quadruple ring."),
+    revisitDescription: l("Les aiguilles n'ont pas bougé, mais vous savez désormais lire leur immobilité. L'arrêt n'est pas une panne : c'est le signal que quelqu'un attend.", "The hands have not moved, but you now know how to read their stillness. The stop is not a fault: it is the signal someone is waiting for."),
+  },
+  bell_foundry: {
+    title: l("La fonderie des cloches sourdes", "The foundry of mute bells"),
+    description: l("Les moules de bronze refroidissent dans le sable. Ici, les cloches sont conçues pour parler sous l'eau : leur métal est percé de rainures presque invisibles. La maîtresse fondeuse a conservé un battant refusé par les portes, car son timbre faisait trembler les vitres de tout un quartier.", "Bronze moulds cool in the sand. Here, bells are made to speak beneath water: their metal is cut with almost invisible grooves. The master founder kept a clapper rejected by the gates, because its tone made every window in a ward tremble."),
+  },
+  customs_annex: {
+    title: l("L'annexe des cargaisons grises", "The annex of grey cargoes"),
+    description: l("L'annexe n'apparaît sur aucun plan municipal. Ses couloirs sont garnis d'étiquettes, de cordes et de balances portatives. Les caisses sans propriétaire y restent une nuit, assez longtemps pour recevoir un nouveau sceau et une nouvelle histoire.", "The annex appears on no municipal map. Its corridors are lined with labels, ropes, and portable scales. Ownerless crates remain here for one night—long enough to receive a new seal and a new story."),
+  },
+  canal_infirmary: {
+    title: l("L'infirmerie des haleurs", "The haulers' infirmary"),
+    description: l("Des lits étroits bordent une salle qui sent le vinaigre et les algues. Les haleurs blessés y parlent dans leur sommeil de charges trop lourdes et de lumières bleues sous les arches. Une soigneuse tient la liste de ceux que les patrons ont fait disparaître des registres.", "Narrow beds line a room smelling of vinegar and algae. Injured haulers speak in their sleep of loads too heavy and blue lights beneath the arches. A healer keeps the list of those employers erased from the records."),
+  },
+  tide_garden: {
+    title: l("Le jardin des eaux retenues", "The garden of held waters"),
+    description: l("Dans une cour inondable, des roseaux sont plantés en spirale autour de bassins peu profonds. Les jardiniers les utilisent pour lire la qualité de l'eau : certaines tiges noircissent lorsqu'un ordre magique traverse le canal. Ce matin, trois spirales ont noirci d'un seul coup.", "In a floodable courtyard, reeds are planted in spirals around shallow basins. Gardeners use them to read water quality: certain stems blacken when a magical command crosses the canal. This morning, three spirals blackened at once."),
+  },
+  sluice_workshop: {
+    title: l("L'atelier des vannes de secours", "The workshop of emergency sluices"),
+    description: l("Des engrenages démontés sont suspendus à des crochets, chacun étiqueté d'une date de crue. Les faux ouvriers ont pris une roue de secours et laissé à sa place un cercle de bois peint. Un apprenti terrifié sait où la vraie pièce a été portée, mais il ne veut pas parler à voix haute.", "Dismantled gears hang from hooks, each labelled with a flood date. The false workers took a spare wheel and left a painted wooden circle in its place. A frightened apprentice knows where the real part was carried, but will not speak aloud."),
+  },
+  broken_weir: {
+    title: l("Le déversoir brisé", "The broken weir"),
+    description: l("Une dent de pierre manque au déversoir, ouvrant une bouche noire vers les niveaux bas. Les marques de corde sur le bord sont récentes; quelqu'un a descendu une charge en évitant les quais. L'eau absente a laissé dans les fissures des cristaux bleus qui vibrent à chaque grondement.", "One stone tooth is missing from the weir, opening a black mouth toward the lower levels. Rope marks on its edge are recent; someone lowered a load while avoiding the docks. The absent water left blue crystals in the cracks, vibrating with every rumble."),
+  },
+  submerged_theater: {
+    title: l("Le théâtre submergé", "The submerged theatre"),
+    description: l("Les gradins plongent dans une eau immobile et la scène est recouverte de limon. Des décors de tempête sont encore suspendus aux cintres. Les contrebandiers ont profité des dessous du théâtre : leurs caisses se cachent parmi les accessoires, là où personne ne chercherait autre chose que des fantômes.", "The seating descends into still water and the stage is covered in silt. Storm scenery still hangs from the flies. Smugglers used the theatre's under-stage spaces: their crates hide among props, where no one would seek anything but ghosts."),
+  },
+  whisper_stairs: {
+    title: l("Les escaliers qui répètent", "The repeating stairs"),
+    description: l("Ces marches tournent autour d'un puits d'aération. Chaque mot prononcé sur la première volée revient, déformé, à la quatrième. Des coursiers y échangent des phrases coupées en morceaux, confiants que personne ne peut comprendre une conversation dont l'écho arrive dans le désordre.", "These steps coil around an air shaft. Every word spoken on the first flight returns, distorted, on the fourth. Couriers exchange sentences cut into pieces here, trusting that no one can understand a conversation whose echo arrives out of order."),
+  },
+  drowned_oratory: {
+    title: l("L'oratoire englouti", "The drowned oratory"),
+    description: l("Sous un plafond de pierre, des bancs de prière flottent à demi disloqués. Les fresques ne représentent pas des saints, mais des mains ouvertes devant l'eau. Une psalmodie gravée dans le mur donne des noms anciens aux mêmes gestes que le rite d'Utruz.", "Beneath a stone ceiling, prayer benches float half broken apart. The frescoes show not saints but open hands before water. A chant carved in the wall gives ancient names to the same gestures as the Utruz rite."),
+  },
+  signal_gallery: {
+    title: l("La galerie des fils de cuivre", "The gallery of copper wires"),
+    description: l("Des fils de cuivre courent le long d'une galerie trop propre pour être abandonnée. Ils relient les cloches, les boucliers et des niches de verre bleu. À chaque jonction, quelqu'un a inscrit une initiale différente : le réseau a plusieurs mains, et aucune ne veut signer l'ensemble.", "Copper wires run along a gallery too clean to be abandoned. They link bells, shields, and niches of blue glass. At every junction, someone inscribed a different initial: the network has many hands, and none wants to sign the whole."),
+  },
+  chain_walkway: {
+    title: l("La passerelle des chaînes", "The chain walkway"),
+    description: l("Une passerelle étroite suit les chaînes qui équilibrent les portes. Sous vos pieds, chaque maillon porte une marque d'entretien ou de sabotage. Le vide ne tue pas seulement : il offre aussi la meilleure vue sur les chemins que les mécaniciens croyaient secrets.", "A narrow walkway follows the chains balancing the gates. Beneath your feet, each link bears a maintenance or sabotage mark. The void does not only kill: it also offers the best view of paths mechanics thought secret."),
+  },
+  lantern_hospice: {
+    title: l("L'hospice des lanternes basses", "The hospice of low lanterns"),
+    description: l("Au fond d'une cour silencieuse, des lanternes restent suspendues à hauteur de visage pour guider les blessés dans la brume. Les sœurs qui tiennent l'hospice ont recueilli un messager sans mémoire, dont les doigts portent encore de la poudre bleue dans les plis.", "At the back of a silent courtyard, lanterns hang at face height to guide the injured through mist. The sisters who run the hospice sheltered a messenger with no memory, whose fingers still carry blue powder in their creases."),
+  },
+  alchemist_pier: {
+    title: l("Le quai des alchimistes", "The alchemists' pier"),
+    description: l("Des fioles sont suspendues au-dessus d'une eau stagnante pour y prendre la couleur des reflets. Les alchimistes du canal prétendent fabriquer des teintures; leurs registres montrent surtout des commandes de verre, de sel et de cuivre pour des clients qui n'existent pas.", "Vials hang above stagnant water to take on the colour of reflections. Canal alchemists claim to make dyes; their ledgers mostly show orders for glass, salt, and copper from clients who do not exist."),
+  },
+  submerged_granary: {
+    title: l("Le grenier noyé", "The drowned granary"),
+    description: l("Les silos de pierre plongent sous une eau sombre, mais les passerelles de chargement tiennent encore. Dans les sacs gonflés de grain, quelqu'un a caché des sphères de verre bleu et des rouleaux de fil de cuivre, comme si la famine devait servir de rideau à une autre opération.", "Stone silos plunge beneath dark water, but their loading walkways still stand. Among swollen sacks of grain, someone hid blue-glass spheres and coils of copper wire, as if famine were meant to curtain another operation."),
+  },
+  salt_tunnels: {
+    title: l("Les tunnels de sel ancien", "The tunnels of ancient salt"),
+    description: l("Sous les entrepôts, des veines de sel traversent la roche et renvoient la moindre lueur en éclats pâles. Les contrebandiers ont gravé des flèches sur les parois; certaines mènent vers les canaux, d'autres vers des portes que les plans modernes ont oubliées.", "Beneath the warehouses, veins of salt run through the rock and return the slightest light in pale flashes. Smugglers carved arrows into the walls; some lead toward the canals, others toward doors modern maps forgot."),
+  },
+  ancient_pump_room: {
+    title: l("La chambre des pompes antiques", "The chamber of ancient pumps"),
+    description: l("Quatre pompes de bronze reposent dans une salle ronde, chacune assez grande pour avaler un homme. Elles ne servent plus à remonter l'eau, mais leurs pistons restent reliés aux déversoirs. Une seule manivelle bloquée pourrait détourner une pression entière vers les portes.", "Four bronze pumps rest in a round room, each large enough to swallow a person. They no longer raise water, but their pistons remain linked to the weirs. A single jammed crank could divert an entire pressure toward the gates."),
+  },
+  paper_mill: {
+    title: l("Le moulin à papier", "The paper mill"),
+    description: l("La roue du moulin est immobile, mais les cuves de pâte blanche sont encore tièdes. Des feuilles officielles sèchent sur des cordes, vierges de tout texte mais déjà timbrées. On peut y fabriquer un ordre avant même de décider ce qu'il ordonnera.", "The mill wheel is still, but vats of white pulp are warm. Official sheets dry on lines, blank of text but already stamped. Here, an order can be made before anyone decides what it will command."),
+  },
+  archivist_cellar: {
+    title: l("La cave des archivistes", "The archivists' cellar"),
+    description: l("Sous le cloître, des rayonnages de pierre conservent les copies qu'on ne veut pas brûler. L'humidité a soudé les boîtes à leurs étagères. Dans l'une d'elles, un archiviste prudent a caché une chronologie des inondations politiques de Laelith.", "Beneath the cloister, stone shelves preserve copies no one wants to burn. Damp has fused boxes to their shelves. In one, a prudent archivist hid a chronology of Laelith's political floods."),
+  },
+  ruined_bell_tower: {
+    title: l("La tour des cloches ruinée", "The ruined bell tower"),
+    description: l("La moitié haute de la tour s'est effondrée depuis longtemps, laissant les cloches ouvertes au vent. Une corde neuve descend pourtant jusqu'à une fenêtre murée. Quelqu'un utilise les ruines pour écouter le réseau sans passer par ses chambres officielles.", "The tower's upper half collapsed long ago, leaving its bells open to the wind. Yet a new rope drops to a walled window. Someone uses the ruins to listen to the network without entering its official chambers."),
+  },
+};
+
 export const WORLD_EXPANSION_CHOICES = {
   river_gate: [
     { id: "browse-lanterns", label: l("Traverser la galerie des lanternes", "Cross the lantern arcade"), to: "festival_arcade" },
@@ -305,6 +396,203 @@ export const WORLD_EXPANSION_CHOICES = {
   ],
 };
 
+const ANNEX_CHOICES = {
+  mask_exchange: [
+    { id: "unmask-courier", label: l("Examiner le pli de cire d'un masque de coursier", "Examine the wax fold on a courier's mask"), effects: [{ op: "addUnique", path: "clues", value: "courier_seal" }], result: { text: l("Sous la cire, vous trouvez une empreinte de sceau municipale inversée. Les messagers ne se déguisent pas pour fuir la loi, mais pour emprunter son visage.", "Beneath the wax, you find an inverted municipal-seal impression. The messengers do not disguise themselves to flee the law, but to borrow its face.") } },
+    { id: "mask-to-embassy", label: l("Passer par l'arrière-salle vers l'ambassade", "Pass through the back room toward the embassy"), to: "embassy_vestry" },
+    { id: "mask-to-festival", label: l("Acheter un masque neutre et rejoindre la fête", "Buy a neutral mask and rejoin the festival"), effects: [{ op: "increment", path: "expedition.wealth", value: -1 }], to: "festival_arcade" },
+    { id: "mask-to-glass", label: l("Suivre la poudre bleue jusqu'aux verriers", "Follow blue powder to the glasswrights"), to: "glasswright_yard" },
+    { id: "mask-to-clock", label: l("Descendre l'escalier caché vers l'horloge", "Descend the hidden stair to the clock"), to: "water_clock" },
+  ],
+  water_clock: [
+    { id: "read-stopped-dial", label: l("Lire les marques autour de l'aiguille arrêtée", "Read the marks around the stopped hand"), effects: [{ op: "addUnique", path: "clues", value: "flood_schedule" }], result: { text: l("Le cadran associe la marque des quatre anneaux à une impulsion de cloche et à un canal de dérivation. Le signal n'est pas abstrait : il a une heure mécanique.", "The dial ties the four-ring mark to a bell pulse and a diversion canal. The signal is not abstract: it has a mechanical hour.") } },
+    { id: "clock-to-foundry", label: l("Monter par la cage du pendule jusqu'à la fonderie", "Climb the pendulum cage to the foundry"), to: "bell_foundry" },
+    { id: "clock-to-garden", label: l("Suivre le trop-plein vers le jardin des eaux", "Follow the overflow to the water garden"), to: "tide_garden" },
+    { id: "clock-to-annex", label: l("Comparer les relevés aux registres de l'annexe", "Compare the readings with the annex registers"), to: "customs_annex" },
+    { id: "clock-to-city", label: l("Sortir par la tour vers les marches de la ville", "Leave the tower for the city steps"), to: "city_steps" },
+  ],
+  bell_foundry: [
+    { id: "compare-rejected-clapper", label: l("Comparer le battant refusé aux marques des boucliers", "Compare the rejected clapper with the shield marks"), effects: [{ op: "addUnique", path: "clues", value: "white_boot_order" }], result: { text: l("Les rainures donnent la même séquence que la devise ancienne : retenir, guider, rompre. Ici, elle devient un son que la ville entière pourrait entendre.", "The grooves give the same sequence as the ancient motto: contain, guide, break. Here, it becomes a sound the whole city could hear.") } },
+    { id: "ask-founder", label: l("Questionner la maîtresse fondeuse sur les commandes nocturnes", "Question the master founder about night orders"), effects: [{ op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Elle refuse un nom, mais vous remet une facture brûlée. Un conseiller a payé pour que certaines cloches ne figurent jamais dans l'inventaire.", "She refuses a name, but gives you a burnt invoice. A councillor paid to keep certain bells out of the inventory.") } },
+    { id: "foundry-to-signal", label: l("Suivre le fil de cuivre jusqu'à la galerie des signaux", "Follow the copper wire to the signal gallery"), to: "signal_gallery" },
+    { id: "foundry-to-cistern", label: l("Passer par les toits jusqu'à la citerne", "Cross the rooftops to the cistern"), to: "rooftop_cistern" },
+    { id: "foundry-to-mask", label: l("Revenir au marché des masques par les fours éteints", "Return to the mask market through the cold furnaces"), to: "mask_exchange" },
+  ],
+  customs_annex: [
+    { id: "audit-grey-crates", label: l("Auditer les matrices des caisses grises", "Audit the dies on the grey crates"), effects: [{ op: "addUnique", path: "clues", value: "council_ledger" }], result: { text: l("Les mêmes matrices servent à créer trois cargaisons imaginaires à partir d'une seule boîte réelle. Le conseiller n'a pas seulement fermé les yeux : il a fourni la méthode.", "The same dies create three imaginary cargos from one real box. The councillor did not merely look away: he supplied the method.") } },
+    { id: "annex-to-salt", label: l("Suivre les reçus jusqu'au marché du sel", "Follow the receipts to the salt market"), to: "salt_market" },
+    { id: "annex-to-infirmary", label: l("Suivre un manifeste de canal jusqu'à l'infirmerie", "Follow a canal manifest to the infirmary"), to: "canal_infirmary" },
+    { id: "annex-to-garden", label: l("Prendre la porte de lavage vers le jardin des eaux", "Take the wash door to the water garden"), to: "tide_garden" },
+    { id: "annex-to-tribunal", label: l("Porter les écarts de registre au Tribunal", "Take the ledger discrepancies to the Tribunal"), to: "tribunal_gallery" },
+  ],
+  canal_infirmary: [
+    { id: "treat-hauler-wound", label: l("Aider la soigneuse à panser un haleur", "Help the healer bind a hauler's wound"), requires: { path: "state.expedition.wounds", atLeast: 1 }, effects: [{ op: "increment", path: "expedition.wounds", value: -1 }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("En échange, le haleur murmure qu'une caisse de verre bleu a été descendue sous le théâtre, loin de tout contrôle.", "In return, the hauler whispers that a crate of blue glass was lowered beneath the theatre, far from any inspection.") } },
+    { id: "hear-hauler-dream", label: l("Écouter le récit fiévreux d'un haleur", "Listen to a hauler's fevered account"), effects: [{ op: "addUnique", path: "clues", value: "white_boot_order" }], to: "glasswright_yard" },
+    { id: "infirmary-to-garden", label: l("Suivre les herbes médicinales vers le jardin", "Follow medicinal herbs to the garden"), to: "tide_garden" },
+    { id: "infirmary-to-shrine", label: l("Rejoindre la prêtresse du sanctuaire", "Rejoin the shrine priestess"), to: "river_shrine" },
+    { id: "infirmary-to-theater", label: l("Suivre les brancards jusqu'au théâtre submergé", "Follow the stretchers to the submerged theatre"), to: "submerged_theater" },
+  ],
+  tide_garden: [
+    { id: "harvest-black-reeds", label: l("Récolter des roseaux noircis pour vos provisions", "Gather blackened reeds for your supplies"), effects: [{ op: "increment", path: "expedition.supplies", value: 1 }], result: { text: l("Les jardiniers vous apprennent à filtrer l'eau avec les fibres encore saines. Ce n'est pas un remède, mais c'est une marge de sécurité.", "The gardeners show you how to filter water with the still-healthy fibres. It is not a cure, but it is a margin of safety.") } },
+    { id: "garden-to-weir", label: l("Suivre le canal secondaire jusqu'au déversoir", "Follow the secondary canal to the weir"), to: "broken_weir" },
+    { id: "garden-to-clock", label: l("Remonter le tuyau de mesure vers l'horloge", "Climb the measuring pipe to the clock"), to: "water_clock" },
+    { id: "garden-to-oratory", label: l("Prendre un passage de racines vers l'oratoire", "Take a root passage to the oratory"), to: "drowned_oratory" },
+    { id: "garden-to-steps", label: l("Revenir aux marches du canal", "Return to the canal steps"), to: "canal_steps" },
+  ],
+  sluice_workshop: [
+    { id: "inspect-spare-gear", label: l("Examiner la roue de secours remplacée", "Inspect the replaced spare wheel"), effects: [{ op: "addUnique", path: "clues", value: "gate_sabotage" }], result: { text: l("Le cercle de bois cache une empreinte de métal frais. Les saboteurs n'ont pas seulement préparé la rupture : ils ont retiré de quoi la réparer vite.", "The wooden circle hides an imprint of fresh metal. Saboteurs did not only prepare the break: they removed what could repair it quickly.") } },
+    { id: "workshop-to-weir", label: l("Suivre la pièce volée jusqu'au déversoir", "Follow the stolen part to the weir"), to: "broken_weir" },
+    { id: "workshop-to-signal", label: l("Prendre le puits des apprentis vers les signaux", "Take the apprentices' shaft to the signals"), to: "signal_gallery" },
+    { id: "workshop-to-workers", label: l("Revenir au chantier en portant une roue", "Return to the worksite carrying a wheel"), to: "workers_bank" },
+    { id: "workshop-to-loft", label: l("Grimper jusqu'aux contrepoids", "Climb to the counterweights"), to: "counterweight_loft" },
+  ],
+  broken_weir: [
+    { id: "read-weir-crystals", label: l("Lire les vibrations des cristaux bleus", "Read the vibration of the blue crystals"), effects: [{ op: "addUnique", path: "clues", value: "old_flood_map" }], result: { text: l("Les cristaux réagissent à la direction de l'eau, pas à sa force. Vous pouvez tracer le chemin que les saboteurs veulent imposer à la vague.", "The crystals react to water's direction, not its force. You can trace the path saboteurs mean to impose upon the wave.") } },
+    { id: "weir-to-garden", label: l("Traverser les pierres vers le jardin", "Cross the stones to the garden"), to: "tide_garden" },
+    { id: "weir-to-tunnel", label: l("Descendre par la bouche du déversoir", "Descend through the weir's mouth"), to: "flooded_tunnel" },
+    { id: "weir-to-workshop", label: l("Revenir à l'atelier par l'arche basse", "Return to the workshop through the low arch"), to: "sluice_workshop" },
+    { id: "weir-to-underbridge", label: l("Longer le canal jusqu'à la vanne sous le pont", "Follow the canal to the underbridge sluice"), to: "underbridge_sluice" },
+  ],
+  submerged_theater: [
+    { id: "search-theater-props", label: l("Fouiller les décors de tempête", "Search the storm scenery"), effects: [{ op: "addUnique", path: "clues", value: "valdrick_manifest" }], result: { text: l("Derrière un nuage de toile, vous trouvez une liste de figurants qui sont en réalité des mercenaires. Le théâtre a servi de dépôt, mais aussi de couverture pour leur présence.", "Behind a canvas cloud, you find a cast list whose extras are in fact mercenaries. The theatre served as a depot, but also as cover for their presence.") } },
+    { id: "theater-to-stairs", label: l("Passer par les coulisses vers les escaliers qui répètent", "Use the backstage route to the repeating stairs"), to: "whisper_stairs" },
+    { id: "theater-to-barge", label: l("Gagner la barge par le balcon effondré", "Reach the barge through the collapsed balcony"), to: "barge_hold" },
+    { id: "theater-to-oratory", label: l("Descendre dans la fosse vers l'oratoire", "Descend through the pit to the oratory"), to: "drowned_oratory" },
+    { id: "theater-to-moonfish", label: l("Sortir par les anciennes loges vers le Poisson-Lune", "Leave through the old boxes toward the Moonfish"), to: "moonfish_tavern" },
+  ],
+  whisper_stairs: [
+    { id: "listen-broken-message", label: l("Recomposer une phrase dans les échos", "Reconstruct a sentence from the echoes"), effects: [{ op: "addUnique", path: "clues", value: "courier_seal" }], result: { text: l("Les fragments donnent un ordre de tournée et un mot de passe : 'visage blanc, cloche muette'. Les coursiers préparent déjà un repli.", "The fragments yield a route order and a password: 'white face, silent bell.' The couriers are already preparing a retreat.") } },
+    { id: "stairs-to-mask", label: l("Remonter vers la bourse des masques", "Climb to the mask exchange"), to: "mask_exchange" },
+    { id: "stairs-to-theater", label: l("Revenir sous les gradins du théâtre", "Return beneath the theatre seating"), to: "submerged_theater" },
+    { id: "stairs-to-cell", label: l("Suivre le dernier écho jusqu'à la prison de pierre", "Follow the final echo to the stone prison"), to: "poupiquet_cell" },
+    { id: "stairs-to-gallery", label: l("Prendre la passerelle des voix vers les glyphes", "Take the voice bridge to the glyphs"), to: "gallery_procession" },
+  ],
+  drowned_oratory: [
+    { id: "read-water-psalm", label: l("Lire la psalmodie des mains ouvertes", "Read the chant of open hands"), effects: [{ op: "addUnique", path: "clues", value: "water_rite" }], result: { text: l("Le texte confirme que le geste de renoncement précède toujours le geste de direction. Le cinquième anneau n'est pas une exception : il est la première règle.", "The text confirms that the gesture of renunciation always comes before the gesture of direction. The fifth ring is not an exception: it is the first rule.") } },
+    { id: "oratory-to-chapel", label: l("Suivre le tunnel de prière jusqu'à la chapelle", "Follow the prayer tunnel to the chapel"), to: "water_chapel" },
+    { id: "oratory-to-garden", label: l("Remonter par les racines vers le jardin", "Climb through roots to the garden"), to: "tide_garden" },
+    { id: "oratory-to-gallery", label: l("Passer par la nef fendue vers la galerie", "Use the cracked nave to reach the gallery"), to: "gallery_procession" },
+    { id: "oratory-to-well", label: l("Rejoindre le puits des échos", "Reach the echo well"), to: "echo_well" },
+  ],
+  signal_gallery: [
+    { id: "map-copper-course", label: l("Cartographier le parcours des fils de cuivre", "Map the copper wires' course"), effects: [{ op: "addUnique", path: "clues", value: "flood_schedule" }], result: { text: l("Les fils dessinent un réseau en étoile : une cloche lance le signal, mais chaque quartier possède une dérivation. Le sabotage est plus vaste que les portes seules.", "The wires draw a star-shaped network: one bell launches the signal, but each ward has a diversion. The sabotage is wider than the gates alone.") } },
+    { id: "signal-to-foundry", label: l("Remonter la ligne jusqu'à la fonderie", "Follow the line up to the foundry"), to: "bell_foundry" },
+    { id: "signal-to-chain", label: l("Traverser les câbles vers la passerelle des chaînes", "Cross the cables to the chain walkway"), to: "chain_walkway" },
+    { id: "signal-to-workshop", label: l("Descendre par le fil jusqu'à l'atelier", "Follow the wire down to the workshop"), to: "sluice_workshop" },
+    { id: "signal-to-city", label: l("Suivre un conduit de service vers la ville", "Follow a service conduit toward the city"), to: "city_steps" },
+  ],
+  chain_walkway: [
+    { id: "brace-chain-link", label: l("Bloquer un maillon marqué de craie", "Brace a chalk-marked chain link"), effects: [{ op: "increment", path: "expedition.fatigue", value: 1 }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Le maillon cesse de vibrer contre les autres. Vous n'avez pas réparé les portes, mais vous avez retiré au sabotage une autre manière de les faire céder.", "The link stops shivering against the others. You have not repaired the gates, but you have removed another way for sabotage to make them fail.") } },
+    { id: "chain-to-loft", label: l("Traverser jusqu'au grenier des contrepoids", "Cross to the counterweight loft"), to: "counterweight_loft" },
+    { id: "chain-to-gates", label: l("Descendre le long des chaînes vers les portes", "Descend along the chains to the gates"), to: "gate_chamber" },
+    { id: "chain-to-signal", label: l("Revenir à la galerie des fils", "Return to the wire gallery"), to: "signal_gallery" },
+    { id: "chain-to-city", label: l("Prendre l'échelle d'urgence vers la ville", "Take the emergency ladder to the city"), to: "city_steps" },
+  ],
+  lantern_hospice: [
+    { id: "question-lost-messenger", label: l("Aider le messager à reconstituer sa tournée", "Help the messenger reconstruct their route"), effects: [{ op: "addUnique", path: "clues", value: "courier_seal" }, { op: "increment", path: "expedition.morale", value: 1 }], result: { text: l("Un nom revient avec la douleur : le messager devait porter une sphère jusqu'au grenier noyé, puis oublier qu'il y était allé.", "A name returns with the pain: the messenger was to carry a sphere to the drowned granary, then forget they had gone there.") } },
+    { id: "hospice-to-mask", label: l("Suivre la cour des lanternes vers les masques", "Follow the lantern court to the masks"), to: "mask_exchange" },
+    { id: "hospice-to-infirmary", label: l("Échanger des remèdes avec l'infirmerie des haleurs", "Exchange remedies with the haulers' infirmary"), to: "canal_infirmary" },
+    { id: "hospice-to-garden", label: l("Prendre la venelle des herbes vers le jardin", "Take the herb lane to the garden"), to: "tide_garden" },
+  ],
+  alchemist_pier: [
+    { id: "test-blue-vial", label: l("Tester une fiole bleue dans l'eau", "Test a blue vial in the water"), effects: [{ op: "addUnique", path: "clues", value: "flood_schedule" }], result: { text: l("La fiole s'allume au rythme d'une impulsion venue de la ville. Le verre bleu n'est pas une cargaison : c'est un récepteur.", "The vial lights to an impulse coming from the city. Blue glass is not cargo: it is a receiver.") } },
+    { id: "pier-to-canal-steps", label: l("Remonter vers les marches du canal", "Climb to the canal steps"), to: "canal_steps" },
+    { id: "pier-to-garden", label: l("Suivre l'eau teintée jusqu'au jardin", "Follow the dyed water to the garden"), to: "tide_garden" },
+    { id: "pier-to-glasswrights", label: l("Porter une fiole aux verriers", "Take a vial to the glasswrights"), to: "glasswright_yard" },
+  ],
+  submerged_granary: [
+    { id: "search-grain-sacks", label: l("Fouiller les sacs de grain gonflés d'eau", "Search the water-swollen grain sacks"), effects: [{ op: "addUnique", path: "clues", value: "valdrick_manifest" }], result: { text: l("Les numéros de lot correspondent à ceux du manifeste : le grain nourrissait officiellement les quartiers bas, mais ses barges transportaient aussi le matériel du signal.", "The lot numbers match the manifest: the grain officially fed the lower wards, but its barges also carried signal equipment.") } },
+    { id: "granary-to-post", label: l("Rejoindre le relais noyé par les silos", "Reach the drowned post through the silos"), to: "drowned_post" },
+    { id: "granary-to-barge", label: l("Suivre le quai de chargement vers la barge", "Follow the loading quay to the barge"), to: "barge_hold" },
+    { id: "granary-to-theater", label: l("Passer sous les réserves jusqu'au théâtre", "Pass beneath the stores to the theatre"), to: "submerged_theater" },
+  ],
+  salt_tunnels: [
+    { id: "read-salt-arrows", label: l("Déchiffrer les flèches gravées dans le sel", "Read the arrows carved in the salt"), effects: [{ op: "addUnique", path: "clues", value: "old_flood_map" }], result: { text: l("Les flèches ne désignent pas des sorties, mais les lieux où l'eau s'est autrefois retirée trop vite. Elles dessinent une carte clandestine des faiblesses de Laelith.", "The arrows point not to exits, but to places where water once withdrew too quickly. They draw a clandestine map of Laelith's weaknesses.") } },
+    { id: "salt-tunnels-to-market", label: l("Remonter vers le marché du sel", "Climb to the salt market"), to: "salt_market" },
+    { id: "salt-tunnels-to-orchard", label: l("Suivre une veine jusqu'au verger sous la vase", "Follow a vein to the orchard beneath the silt"), to: "moss_orchard" },
+    { id: "salt-tunnels-to-well", label: l("Prendre un boyau jusqu'au puits des échos", "Take a crawlspace to the echo well"), to: "echo_well" },
+  ],
+  ancient_pump_room: [
+    { id: "free-pump-crank", label: l("Débloquer la manivelle de la pompe", "Free the pump crank"), effects: [{ op: "addUnique", path: "clues", value: "gate_sabotage" }, { op: "increment", path: "expedition.fatigue", value: 1 }], result: { text: l("La manivelle cède d'un coup. Vous sentez la pression se répartir autrement : une des dérivations prévues par les saboteurs vient de perdre sa force.", "The crank gives at once. You feel pressure distribute differently: one diversion planned by the saboteurs has lost its force.") } },
+    { id: "pumps-to-weir", label: l("Suivre les pistons jusqu'au déversoir", "Follow the pistons to the weir"), to: "broken_weir" },
+    { id: "pumps-to-workshop", label: l("Revenir à l'atelier des vannes", "Return to the sluice workshop"), to: "sluice_workshop" },
+    { id: "pumps-to-gates", label: l("Prendre le conduit des pompes vers les portes", "Take the pump conduit to the gates"), to: "gate_chamber" },
+  ],
+  paper_mill: [
+    { id: "inspect-prestamped-paper", label: l("Examiner les feuilles déjà timbrées", "Examine the already-stamped sheets"), effects: [{ op: "addUnique", path: "clues", value: "council_ledger" }], result: { text: l("Les cachets sont authentiques, mais les séries manquent dans les registres. Des ordres peuvent circuler avec la voix de la ville sans jamais avoir été signés par elle.", "The seals are authentic, but their series are missing from the ledgers. Orders can travel with the city's voice without ever having been signed by it.") } },
+    { id: "mill-to-paper-bridge", label: l("Suivre la pâte jusqu'au pont de papier", "Follow the pulp to the paper bridge"), to: "paper_bridge" },
+    { id: "mill-to-annex", label: l("Porter une feuille à l'annexe des cargaisons", "Take a sheet to the cargo annex"), to: "customs_annex" },
+    { id: "mill-to-scriptorium", label: l("Remonter vers le scriptorium caché", "Climb to the hidden scriptorium"), to: "hidden_scriptorium" },
+  ],
+  archivist_cellar: [
+    { id: "read-flood-chronology", label: l("Lire la chronologie des crues politiques", "Read the chronology of political floods"), effects: [{ op: "addUnique", path: "clues", value: "council_ledger" }], result: { text: l("Chaque crise mentionne le même procédé : déplacer une responsabilité vers les quartiers bas, puis vendre la solution comme un secours. Le complot suit une vieille habitude.", "Every crisis mentions the same method: shift responsibility toward the lower wards, then sell the solution as rescue. The plot follows an old habit.") } },
+    { id: "cellar-to-cloister", label: l("Remonter au cloître des comptes", "Climb to the cloister of accounts"), to: "archive_cloister" },
+    { id: "cellar-to-library", label: l("Comparer les dates à la bibliothèque des marées", "Compare the dates at the tide library"), to: "tide_library" },
+    { id: "cellar-to-stairs", label: l("Suivre un conduit sec vers les escaliers qui répètent", "Follow a dry conduit to the repeating stairs"), to: "whisper_stairs" },
+  ],
+  ruined_bell_tower: [
+    { id: "listen-ruined-bells", label: l("Écouter les cloches ouvertes au vent", "Listen to bells open to the wind"), effects: [{ op: "addUnique", path: "clues", value: "flood_schedule" }], result: { text: l("Le vent fait vibrer trois cloches dans le même ordre que le réseau de cuivre. Même ruinée, la tour reçoit encore les impulsions du complot.", "The wind makes three bells vibrate in the same order as the copper network. Even ruined, the tower still receives the conspiracy's pulses.") } },
+    { id: "tower-to-foundry", label: l("Descendre vers la fonderie par la corde neuve", "Descend to the foundry by the new rope"), to: "bell_foundry" },
+    { id: "tower-to-platform", label: l("Rejoindre la plateforme des veilleurs", "Reach the watchers' platform"), to: "watch_platform" },
+    { id: "tower-to-signal", label: l("Suivre la fenêtre murée vers la galerie des signaux", "Follow the walled window to the signal gallery"), to: "signal_gallery" },
+  ],
+};
+
+const ANNEX_ENTRY_CHOICES = {
+  festival_arcade: [{ id: "arcade-to-mask-exchange", label: l("Suivre un masque blanc jusqu'à la halle des échanges", "Follow a white mask to the exchange hall"), to: "mask_exchange" }],
+  city_steps: [{ id: "city-to-water-clock", label: l("Chercher la tour de l'horloge des eaux", "Seek the tower of the water clock"), to: "water_clock" }],
+  glasswright_yard: [{ id: "glass-to-bell-foundry", label: l("Porter les pigments à la fonderie", "Carry the pigments to the bell foundry"), to: "bell_foundry" }],
+  old_customs: [{ id: "customs-to-annex", label: l("Suivre un registre jusqu'à l'annexe grise", "Follow a ledger to the grey annex"), to: "customs_annex" }],
+  river_shrine: [{ id: "shrine-to-infirmary", label: l("Accompagner un haleur jusqu'à l'infirmerie", "Accompany a hauler to the infirmary"), to: "canal_infirmary" }],
+  canal_steps: [
+    { id: "steps-to-tide-garden", label: l("Suivre les jardiniers vers les bassins", "Follow the gardeners to the basins"), to: "tide_garden" },
+    { id: "steps-to-alchemist-pier", label: l("Longer les fioles jusqu'au quai des alchimistes", "Follow the vials to the alchemists' pier"), to: "alchemist_pier" },
+  ],
+  workers_bank: [{ id: "workers-to-sluice-workshop", label: l("Repérer l'atelier derrière les palissades", "Spot the workshop behind the palisades"), to: "sluice_workshop" }],
+  silt_archive: [{ id: "silt-to-broken-weir", label: l("Suivre la mesure effacée jusqu'au déversoir", "Follow the erased measurement to the weir"), to: "broken_weir" }],
+  barge_hold: [{ id: "barge-to-submerged-theater", label: l("Suivre les décors flottants jusqu'au théâtre", "Follow floating scenery to the theatre"), to: "submerged_theater" }],
+  gallery_procession: [{ id: "gallery-to-whisper-stairs", label: l("Chercher les escaliers où les glyphes deviennent voix", "Seek the stairs where glyphs become voices"), to: "whisper_stairs" }],
+  water_chapel: [{ id: "chapel-to-drowned-oratory", label: l("Suivre les prières gravées sous l'eau", "Follow the prayers carved beneath water"), to: "drowned_oratory" }],
+  signal_bell: [{ id: "bell-to-signal-gallery", label: l("Remonter le fil jusqu'à la galerie de cuivre", "Follow the wire up to the copper gallery"), to: "signal_gallery" }],
+  counterweight_loft: [{ id: "loft-to-chain-walkway", label: l("Gagner la passerelle des chaînes", "Reach the chain walkway"), to: "chain_walkway" }],
+  mask_exchange: [{ id: "mask-to-hospice", label: l("Suivre une sœur vers l'hospice des lanternes", "Follow a sister to the lantern hospice"), to: "lantern_hospice" }],
+  drowned_post: [{ id: "post-to-granary", label: l("Suivre une péniche de grain jusqu'au grenier noyé", "Follow a grain barge to the drowned granary"), to: "submerged_granary" }],
+  salt_market: [{ id: "market-to-salt-tunnels", label: l("Suivre un contrebandier jusqu'aux tunnels de sel", "Follow a smuggler to the salt tunnels"), to: "salt_tunnels" }],
+  broken_weir: [{ id: "weir-to-pump-room", label: l("Chercher la chambre des pompes derrière le déversoir", "Seek the pump room behind the weir"), to: "ancient_pump_room" }],
+  paper_bridge: [{ id: "bridge-to-paper-mill", label: l("Remonter le canal jusqu'au moulin à papier", "Follow the canal up to the paper mill"), to: "paper_mill" }],
+  archive_cloister: [{ id: "cloister-to-cellar", label: l("Descendre dans la cave des archivistes", "Descend into the archivists' cellar"), to: "archivist_cellar" }],
+  bell_foundry: [{ id: "foundry-to-ruined-tower", label: l("Suivre la corde neuve vers la tour ruinée", "Follow the new rope to the ruined tower"), to: "ruined_bell_tower" }],
+};
+
+// Small, physically nearby returns prevent local dead ends without turning the
+// campaign into a fast-travel network.
+const LOCAL_RETURN_CHOICES = {
+  maintenance_map: [
+    { id: "plan-back-to-workers", label: l("Revenir au chantier par les madriers", "Return to the worksite by the beams"), to: "workers_bank" },
+    { id: "plan-back-to-dry-bed", label: l("Reprendre le drain vers le lit asséché", "Take the drain back to the dry riverbed"), to: "dry_bed" },
+  ],
+  maintenance_crawl: [
+    { id: "crawl-back-to-sluice", label: l("Ressortir près du passage des vannes", "Emerge near the sluice passage"), to: "sluice_passage" },
+    { id: "crawl-back-to-dry-bed", label: l("Ramper en arrière vers le lit asséché", "Crawl back to the dry riverbed"), to: "dry_bed" },
+  ],
+  dog_scent: [
+    { id: "scent-back-to-fissure", label: l("Revenir à la fissure avec Kiki", "Return to the fissure with Kiki"), to: "narrow_fissure" },
+    { id: "scent-to-barge-local", label: l("Suivre l'odeur de résine jusqu'à la barge", "Follow the resin scent to the barge"), to: "barge_hold" },
+  ],
+  witness_oath: [
+    { id: "oath-back-to-barge", label: l("Ramener les voyageurs vers la barge", "Lead the travellers back toward the barge"), to: "barge_hold" },
+    { id: "oath-to-tunnel", label: l("Suivre la corniche jusqu'au tunnel", "Follow the ledge to the tunnel"), to: "flooded_tunnel" },
+  ],
+  poupiquet_free: [
+    { id: "freed-to-gallery", label: l("Laisser Poupiquet relire les glyphes proches", "Let Poupiquet reread the nearby glyphs"), to: "gallery_procession" },
+    { id: "freed-to-gates", label: l("Suivre ses calculs jusqu'aux portes", "Follow his calculations to the gates"), to: "gate_chamber" },
+  ],
+  rite_broken: [
+    { id: "broken-back-to-chapel", label: l("Revenir vérifier la chapelle apaisée", "Return to inspect the calmed chapel"), to: "water_chapel" },
+    { id: "broken-to-terrace", label: l("Prendre la brèche vers la terrasse des boucliers", "Take the breach to the shield terrace"), to: "shield_terrace" },
+  ],
+};
+
 const CORE_SCENES = {
   silt_archive: {
     title: l("Les archives de limon", "The silt archive"),
@@ -393,18 +681,20 @@ const CORE_SCENES = {
   ending_silent: { title: l("Le salut sans témoin", "Salvation without witnesses"), description: l("Le coin est retiré à temps. La ville n'apprendra jamais toute l'histoire : les mercenaires fuient, Valdrick nie, et les boucliers sont emportés avant l'aube. Pourtant les portes tiennent, les quartiers bas dorment, et quelques personnes savent qu'une catastrophe a été empêchée dans le silence.\n\nFIN — Vous avez sauvé Laelith, mais pas encore sa vérité.", "The wedge is removed in time. The city will never learn the whole story: mercenaries flee, Valdrick denies everything, and the shields are removed before dawn. Yet the gates hold, the lower districts sleep, and a few people know a catastrophe was prevented in silence.\n\nTHE END — You saved Laelith, but not yet its truth."), ending: true },
 };
 
-export const FIXED_SCENES = { ...CORE_SCENES, ...WORLD_EXPANSION_SCENES };
+export const FIXED_SCENES = { ...CORE_SCENES, ...WORLD_EXPANSION_SCENES, ...ANNEX_SCENES };
 
 // Geographic layout is campaign data. Coordinates are deliberately separate
 // from prose and rules, so another campaign can supply a wholly different map.
 export const WORLD_MAP = {
-  viewBox: "0 0 710 430",
+  viewBox: "0 0 1010 430",
   regions: [
     { id: "city", x: 12, y: 12, width: 536, height: 118, label: l("Laelith haute", "Upper Laelith") },
     { id: "riverbed", x: 90, y: 145, width: 350, height: 82, label: l("Lit asséché", "Dry riverbed") },
     { id: "depths", x: 18, y: 242, width: 365, height: 174, label: l("Galeries et eaux basses", "Galleries and low water") },
     { id: "machinery", x: 400, y: 165, width: 148, height: 250, label: l("Portes et mécanismes", "Gates and machinery") },
     { id: "east_canals", x: 565, y: 12, width: 133, height: 403, label: l("Canaux de l'est", "Eastern canals") },
+    { id: "annexes", x: 720, y: 12, width: 128, height: 403, label: l("Détours et annexes", "Annexes and detours") },
+    { id: "outer_annexes", x: 870, y: 12, width: 128, height: 403, label: l("Périphérie oubliée", "Forgotten outskirts") },
   ],
   nodes: [
     { id: "festival_arcade", x: 74, y: 45 }, { id: "glasswright_yard", x: 42, y: 82 }, { id: "moonfish_tavern", x: 86, y: 112 },
@@ -428,6 +718,15 @@ export const WORLD_MAP = {
     { id: "tide_library", x: 655, y: 132 }, { id: "ferrymen_guild", x: 590, y: 166 }, { id: "rope_chapel", x: 655, y: 190 },
     { id: "black_lantern_pier", x: 590, y: 225 }, { id: "courier_locker", x: 655, y: 246 }, { id: "aqueduct_gallery", x: 590, y: 282 },
     { id: "underbridge_sluice", x: 655, y: 305 }, { id: "signal_bell", x: 655, y: 360 },
+    { id: "mask_exchange", x: 748, y: 44 }, { id: "water_clock", x: 815, y: 72 }, { id: "bell_foundry", x: 748, y: 105 },
+    { id: "customs_annex", x: 815, y: 135 }, { id: "canal_infirmary", x: 748, y: 165 }, { id: "tide_garden", x: 815, y: 195 },
+    { id: "sluice_workshop", x: 748, y: 225 }, { id: "broken_weir", x: 815, y: 252 }, { id: "submerged_theater", x: 748, y: 285 },
+    { id: "whisper_stairs", x: 815, y: 310 }, { id: "drowned_oratory", x: 748, y: 345 }, { id: "signal_gallery", x: 815, y: 365 },
+    { id: "chain_walkway", x: 780, y: 398 },
+    { id: "lantern_hospice", x: 895, y: 45 }, { id: "alchemist_pier", x: 970, y: 74 },
+    { id: "submerged_granary", x: 895, y: 116 }, { id: "salt_tunnels", x: 970, y: 150 },
+    { id: "ancient_pump_room", x: 895, y: 195 }, { id: "paper_mill", x: 970, y: 230 },
+    { id: "archivist_cellar", x: 895, y: 275 }, { id: "ruined_bell_tower", x: 970, y: 320 },
   ],
 };
 
@@ -935,7 +1234,7 @@ const FINAL_DENSE_CHOICES = {
 // consumes the same route at another location.
 const DENSE_WORLD_REGIONS = {
   city: {
-    scenes: ["river_gate", "festival_arcade", "secret_map_stall", "glasswright_yard", "moonfish_tavern", "paper_bridge", "old_customs", "seal_vault", "embassy_vestry", "city_steps", "archive_cloister", "hidden_scriptorium", "tribunal_gallery", "council_antechamber", "salt_market", "ropewalk", "courier_locker", "tide_library"],
+    scenes: ["river_gate", "festival_arcade", "secret_map_stall", "glasswright_yard", "moonfish_tavern", "paper_bridge", "old_customs", "seal_vault", "embassy_vestry", "city_steps", "archive_cloister", "hidden_scriptorium", "tribunal_gallery", "council_antechamber", "salt_market", "ropewalk", "courier_locker", "tide_library", "mask_exchange", "water_clock", "bell_foundry", "customs_annex"],
     routes: [
       { id: "festival", label: l("Suivre les ruelles de fête vers les lanternes", "Follow festival lanes toward the lanterns"), to: "festival_arcade" },
       { id: "canal", label: l("Prendre une venelle vers les marches du canal", "Take a lane toward the canal steps"), to: "canal_steps" },
@@ -944,7 +1243,7 @@ const DENSE_WORLD_REGIONS = {
     ],
   },
   waterways: {
-    scenes: ["canal_steps", "undersluice_dock", "river_shrine", "drowned_post", "ferrymen_guild", "rope_chapel", "black_lantern_pier"],
+    scenes: ["canal_steps", "undersluice_dock", "river_shrine", "drowned_post", "ferrymen_guild", "rope_chapel", "black_lantern_pier", "canal_infirmary", "tide_garden"],
     routes: [
       { id: "steps", label: l("Reprendre le chemin des maisons au bord du canal", "Return by the houses along the canal"), to: "canal_steps" },
       { id: "dock", label: l("Suivre les amarres vers le quai de service", "Follow the moorings to the service dock"), to: "undersluice_dock" },
@@ -953,7 +1252,7 @@ const DENSE_WORLD_REGIONS = {
     ],
   },
   riverbed: {
-    scenes: ["dry_bed", "workers_bank", "foreman_parley", "scaffold_shadow", "maintenance_map", "maintenance_crawl", "sluice_passage", "silt_archive", "moss_orchard", "collapsed_baths"],
+    scenes: ["dry_bed", "workers_bank", "foreman_parley", "scaffold_shadow", "maintenance_map", "maintenance_crawl", "sluice_passage", "silt_archive", "moss_orchard", "collapsed_baths", "sluice_workshop", "broken_weir"],
     routes: [
       { id: "bed", label: l("Reprendre l'axe du lit asséché", "Return to the dry riverbed's main course"), to: "dry_bed" },
       { id: "workers", label: l("Surveiller de nouveau le chantier des ouvriers", "Watch the workers' site again"), to: "workers_bank" },
@@ -962,7 +1261,7 @@ const DENSE_WORLD_REGIONS = {
     ],
   },
   depths: {
-    scenes: ["narrow_fissure", "kiki_trust", "dog_scent", "flooded_tunnel", "lantern_landing", "barge_hold", "witness_oath", "smuggler_ledger", "gallery_procession", "poupiquet_cell", "poupiquet_free", "water_chapel", "rite_broken", "echo_well", "aqueduct_gallery"],
+    scenes: ["narrow_fissure", "kiki_trust", "dog_scent", "flooded_tunnel", "lantern_landing", "barge_hold", "witness_oath", "smuggler_ledger", "gallery_procession", "poupiquet_cell", "poupiquet_free", "water_chapel", "rite_broken", "echo_well", "aqueduct_gallery", "submerged_theater", "whisper_stairs", "drowned_oratory"],
     routes: [
       { id: "well", label: l("Écouter le courant jusqu'au puits des échos", "Follow the current's sound to the echo well"), to: "echo_well" },
       { id: "landing", label: l("Revenir au seuil de l'eau noire", "Return to the threshold of black water"), to: "lantern_landing" },
@@ -971,7 +1270,7 @@ const DENSE_WORLD_REGIONS = {
     ],
   },
   machinery: {
-    scenes: ["gate_chamber", "counterweight_loft", "watch_platform", "ember_observatory", "rooftop_cistern", "shield_terrace", "public_reckoning", "underbridge_sluice", "signal_bell"],
+    scenes: ["gate_chamber", "counterweight_loft", "watch_platform", "ember_observatory", "rooftop_cistern", "shield_terrace", "public_reckoning", "underbridge_sluice", "signal_bell", "signal_gallery", "chain_walkway"],
     routes: [
       { id: "gates", label: l("Rejoindre le cœur des mécanismes", "Reach the heart of the mechanisms"), to: "gate_chamber" },
       { id: "city", label: l("Remonter par un escalier de service vers la ville", "Climb a service stair toward the city"), to: "city_steps" },
@@ -993,6 +1292,6 @@ const REGIONAL_ROUTING_CHOICES = Object.fromEntries(
 );
 
 export const FIXED_CHOICES = Object.fromEntries(
-  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(WEB_CHOICES), ...Object.keys(DENSE_WEB_CHOICES), ...Object.keys(FINAL_DENSE_CHOICES), ...Object.keys(REGIONAL_ROUTING_CHOICES)])]
-    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(WEB_CHOICES[sceneId] ?? []), ...(DENSE_WEB_CHOICES[sceneId] ?? []), ...(FINAL_DENSE_CHOICES[sceneId] ?? []), ...(REGIONAL_ROUTING_CHOICES[sceneId] ?? [])]]),
+  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(ANNEX_CHOICES), ...Object.keys(ANNEX_ENTRY_CHOICES), ...Object.keys(LOCAL_RETURN_CHOICES)])]
+    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(ANNEX_CHOICES[sceneId] ?? []), ...(ANNEX_ENTRY_CHOICES[sceneId] ?? []), ...(LOCAL_RETURN_CHOICES[sceneId] ?? [])]]),
 );
