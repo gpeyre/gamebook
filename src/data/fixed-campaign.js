@@ -617,7 +617,382 @@ const CORE_CHOICES = {
   ],
 };
 
+// Cross-links deliberately turn the campaign into a dense directed graph.
+// They remain campaign data: the engine applies the same availability,
+// history, map, condition and consequence rules to every one of them.
+const WEB_CHOICES = {
+  river_gate: [
+    { id: "gate-to-customs", label: l("Suivre un commis inquiet jusqu'aux douanes", "Follow an anxious clerk to the customs house"), to: "old_customs" },
+    { id: "gate-to-city", label: l("Monter vers les marches de la ville", "Climb to the city steps"), to: "city_steps" },
+    { id: "gate-to-moonfish", label: l("Chercher les bateliers au Poisson-Lune", "Seek the boatmen at the Moonfish"), to: "moonfish_tavern" },
+  ],
+  festival_arcade: [
+    { id: "arcade-to-paper-bridge", label: l("Suivre les vendeurs de papiers votifs jusqu'au pont", "Follow votive-paper sellers to the bridge"), to: "paper_bridge" },
+    { id: "arcade-to-salt", label: l("Éviter la foule par le marché du sel bleu", "Avoid the crowd through the blue-salt market"), to: "salt_market" },
+    { id: "arcade-to-city", label: l("Prendre l'escalier des terrasses vers la garde", "Take the terrace stair to the guard"), to: "city_steps" },
+  ],
+  secret_map_stall: [
+    { id: "map-to-well", label: l("Tester sur le terrain le tracé du puits", "Test the well route shown on the map"), to: "echo_well" },
+    { id: "map-to-seals", label: l("Rechercher la matrice indiquée sur le plan", "Seek the die marked on the map"), to: "seal_vault" },
+    { id: "map-back-arcade", label: l("Rejoindre les lanternes avant que la cartographe parte", "Return to the lanterns before the cartographer leaves"), to: "festival_arcade" },
+  ],
+  canal_steps: [
+    { id: "steps-to-salt", label: l("Remonter par les étals de sel", "Climb through the salt stalls"), to: "salt_market" },
+    { id: "steps-to-post", label: l("Prendre la venelle qui mène au relais noyé", "Take the lane to the drowned post"), to: "drowned_post" },
+    { id: "steps-to-city", label: l("Suivre les maisons hautes vers la garde", "Follow the tall houses to the guard"), to: "city_steps" },
+  ],
+  dry_bed: [
+    { id: "dry-bed-to-baths", label: l("Passer sous les briques vers les bains effondrés", "Pass beneath the bricks to the collapsed baths"), to: "collapsed_baths" },
+    { id: "dry-bed-to-dock", label: l("Longer les arches jusqu'au quai sous les vannes", "Follow the arches to the undersluice dock"), to: "undersluice_dock" },
+    { id: "dry-bed-to-orchard", label: l("Suivre les racines noires vers le verger", "Follow black roots to the orchard"), to: "moss_orchard" },
+  ],
+  workers_bank: [
+    { id: "workers-to-customs", label: l("Suivre une caisse sortie du chantier", "Follow a crate leaving the worksite"), effects: [{ op: "increment", path: "expedition.alert", value: 1 }], to: "old_customs" },
+    { id: "workers-to-silt", label: l("Vous fondre dans la boue vers les jalons", "Melt into the mud toward the gauges"), to: "silt_archive" },
+    { id: "workers-to-bridge", label: l("Contourner les ouvriers par le pont de papier", "Circle the workers by the paper bridge"), to: "paper_bridge" },
+  ],
+  narrow_fissure: [
+    { id: "fissure-to-well", label: l("Suivre un filet d'air jusqu'au puits des échos", "Follow a draught to the echo well"), to: "echo_well" },
+    { id: "fissure-to-silt", label: l("Reprendre pied près des archives de limon", "Regain footing near the silt archive"), to: "silt_archive" },
+    { id: "fissure-to-baths", label: l("Ramper vers le bassin des bains", "Crawl toward the baths' basin"), effects: [{ op: "increment", path: "expedition.fatigue", value: 1 }], to: "collapsed_baths" },
+  ],
+  flooded_tunnel: [
+    { id: "tunnel-to-dock", label: l("Suivre les amarres jusqu'au quai de service", "Follow the moorings to the service dock"), to: "undersluice_dock" },
+    { id: "tunnel-to-gallery", label: l("Chercher les glyphes par la galerie Utruz", "Seek the glyphs through the Utruz gallery"), to: "gallery_procession" },
+    { id: "tunnel-to-barge", label: l("Gagner la barge par la corniche basse", "Reach the barge by the low ledge"), to: "barge_hold" },
+  ],
+  lantern_landing: [
+    { id: "landing-to-chapel", label: l("Suivre les serpents d'eau vers la chapelle", "Follow the water serpents to the chapel"), to: "water_chapel" },
+    { id: "landing-to-well", label: l("Remonter par le boyau qui rejoint le puits", "Climb through the crawlspace to the well"), to: "echo_well" },
+    { id: "landing-to-aqueduct", label: l("Prendre la corniche vers l'aqueduc oublié", "Take the ledge to the forgotten aqueduct"), to: "aqueduct_gallery" },
+  ],
+  city_steps: [
+    { id: "city-to-salt", label: l("Descendre écouter les pêcheuses du marché", "Descend to hear the market fishers"), to: "salt_market" },
+    { id: "city-to-festival", label: l("Traverser la fête par la galerie des lanternes", "Cross the festival through the lantern arcade"), to: "festival_arcade" },
+    { id: "city-to-tribunal", label: l("Emprunter la coursive des magistrats", "Use the magistrates' gallery"), to: "tribunal_gallery" },
+    { id: "city-to-watch", label: l("Grimper jusqu'à la plateforme des veilleurs", "Climb to the watchers' platform"), to: "watch_platform" },
+  ],
+  gate_chamber: [
+    { id: "gates-to-underbridge", label: l("Suivre les vibrations jusqu'à la vanne sous le pont", "Follow the vibrations to the underbridge sluice"), to: "underbridge_sluice" },
+    { id: "gates-to-canal", label: l("Sortir par le conduit vers les marches du canal", "Exit through the conduit to the canal steps"), to: "canal_steps" },
+    { id: "gates-to-silt", label: l("Remonter par le déversoir vers les jalons", "Climb the spillway toward the gauges"), to: "silt_archive" },
+    { id: "gates-to-observatory", label: l("Gagner l'observatoire pour lire les pressions", "Reach the observatory to read the pressures"), to: "ember_observatory" },
+  ],
+  salt_market: [
+    { id: "salt-to-arcade", label: l("Rejoindre les lanternes par les étals de rubans", "Reach the lanterns through the ribbon stalls"), to: "festival_arcade" },
+    { id: "salt-to-canal", label: l("Suivre un porteur d'eau jusqu'aux marches", "Follow a water-carrier to the canal steps"), to: "canal_steps" },
+    { id: "salt-to-city", label: l("Monter livrer les rumeurs à la garde", "Climb to deliver the rumours to the guard"), to: "city_steps" },
+  ],
+  ropewalk: [
+    { id: "ropewalk-to-cistern", label: l("Suivre les cordes jusqu'à la citerne des toits", "Follow the ropes to the rooftop cistern"), to: "rooftop_cistern" },
+    { id: "ropewalk-to-embassy", label: l("Glisser vers la sacristie de l'ambassade", "Slip toward the embassy vestry"), effects: [{ op: "increment", path: "expedition.alert", value: 1 }], to: "embassy_vestry" },
+  ],
+  drowned_post: [
+    { id: "post-to-canal", label: l("Rejoindre les marches par l'ancien quai postal", "Reach the steps by the old postal quay"), to: "canal_steps" },
+    { id: "post-to-dock", label: l("Suivre le courrier mouillé jusqu'au quai sous les vannes", "Follow the wet mail to the undersluice dock"), to: "undersluice_dock" },
+  ],
+  tide_library: [
+    { id: "library-to-customs", label: l("Remonter aux douanes avec les relevés", "Return to customs with the readings"), to: "old_customs" },
+    { id: "library-to-archive", label: l("Comparer les rouleaux aux archives municipales", "Compare the rolls with the municipal archives"), to: "archive_cloister" },
+  ],
+  black_lantern_pier: [
+    { id: "pier-to-shrine", label: l("Suivre les cierges flottants vers le sanctuaire", "Follow floating votives to the shrine"), to: "river_shrine" },
+    { id: "pier-to-tunnel", label: l("Prendre la cale sombre vers le tunnel noyé", "Take the dark hold to the flooded tunnel"), to: "flooded_tunnel" },
+  ],
+  courier_locker: [
+    { id: "locker-to-ropewalk", label: l("Reprendre le chemin des cordiers", "Return by the ropemakers' way"), to: "ropewalk" },
+    { id: "locker-to-council", label: l("Emprunter la tournée secrète jusqu'à l'antichambre", "Take the secret route to the antechamber"), requires: { path: "state.clues", includes: "council_ledger" }, to: "council_antechamber" },
+  ],
+  underbridge_sluice: [
+    { id: "underbridge-to-pier", label: l("Remonter par les piles jusqu'au quai noir", "Climb the piers to the black-lantern pier"), to: "black_lantern_pier" },
+    { id: "underbridge-to-aqueduct", label: l("Revenir par la galerie de l'aqueduc", "Return through the aqueduct gallery"), to: "aqueduct_gallery" },
+  ],
+  signal_bell: [
+    { id: "bell-to-chapel", label: l("Suivre le conduit de résonance jusqu'à la chapelle", "Follow the resonance conduit to the chapel"), to: "water_chapel" },
+    { id: "bell-to-watch", label: l("Monter par l'échelle des veilleurs", "Climb the watchers' ladder"), to: "watch_platform" },
+  ],
+};
+
+// Secondary locations are not dead ends. These authored links give each
+// investigation, rescue and ritual scene several ways to rejoin the wider city.
+const DENSE_WEB_CHOICES = {
+  maintenance_map: [
+    { id: "plan-to-workers", label: l("Revenir observer le chantier depuis les madriers", "Return to watch the worksite from the beams"), to: "workers_bank" },
+    { id: "plan-to-silt", label: l("Comparer le plan aux jalons de limon", "Compare the plan with the silt gauges"), to: "silt_archive" },
+    { id: "plan-to-sluice", label: l("Suivre la marge jusqu'au passage des vannes", "Follow the margin to the sluice passage"), to: "sluice_passage" },
+    { id: "plan-to-customs", label: l("Porter les initiales de Poupiquet aux douanes", "Take Poupiquet's initials to customs"), to: "old_customs" },
+  ],
+  maintenance_crawl: [
+    { id: "crawl-to-sluice", label: l("Sortir par l'embranchement des vannes", "Exit through the sluice junction"), to: "sluice_passage" },
+    { id: "crawl-to-tunnel", label: l("Suivre le conduit humide jusqu'au tunnel noyé", "Follow the damp conduit to the flooded tunnel"), to: "flooded_tunnel" },
+    { id: "crawl-to-silt", label: l("Revenir vers les jalons par le drain", "Return to the gauges through the drain"), to: "silt_archive" },
+    { id: "crawl-to-counterweights", label: l("Grimper vers le grenier des contrepoids", "Climb toward the counterweight loft"), to: "counterweight_loft" },
+  ],
+  dog_scent: [
+    { id: "scent-to-barge", label: l("Suivre l'odeur de résine jusqu'à la barge", "Follow the resin scent to the barge"), to: "barge_hold" },
+    { id: "scent-to-well", label: l("Laisser Kiki retrouver le puits des échos", "Let Kiki find the echo well"), to: "echo_well" },
+    { id: "scent-to-dock", label: l("Remonter les traces humides vers le quai", "Follow wet tracks up to the dock"), to: "undersluice_dock" },
+    { id: "scent-to-shrine", label: l("Rentrer par le sanctuaire des rives", "Return by the riverside shrine"), to: "river_shrine" },
+  ],
+  witness_oath: [
+    { id: "witnesses-to-city", label: l("Escorter les témoins jusqu'aux marches", "Escort the witnesses to the city steps"), to: "city_steps" },
+    { id: "witnesses-to-moonfish", label: l("Cacher les voyageurs au Poisson-Lune", "Hide the travellers at the Moonfish"), to: "moonfish_tavern" },
+    { id: "witnesses-to-dock", label: l("Les guider jusqu'au quai sous les vannes", "Guide them to the undersluice dock"), to: "undersluice_dock" },
+    { id: "witnesses-to-council", label: l("Chercher une audience à l'antichambre", "Seek a hearing in the antechamber"), to: "council_antechamber" },
+  ],
+  poupiquet_free: [
+    { id: "poupiquet-to-gallery", label: l("Laisser Poupiquet relire les glyphes", "Let Poupiquet reread the glyphs"), to: "gallery_procession" },
+    { id: "poupiquet-to-gates", label: l("Suivre ses calculs jusqu'aux portes", "Follow his calculations to the gates"), to: "gate_chamber" },
+    { id: "poupiquet-to-well", label: l("Prendre le raccourci du puits", "Take the well shortcut"), to: "echo_well" },
+    { id: "poupiquet-to-city", label: l("Remonter chercher le sergent avec lui", "Climb to seek the sergeant with him"), to: "city_steps" },
+  ],
+  rite_broken: [
+    { id: "broken-rite-to-chapel", label: l("Revenir vérifier l'autel apaisé", "Return to inspect the calmed altar"), to: "water_chapel" },
+    { id: "broken-rite-to-terrace", label: l("Gagner la terrasse des boucliers par la brèche", "Reach the shield terrace through the breach"), to: "shield_terrace" },
+    { id: "broken-rite-to-aqueduct", label: l("Suivre l'eau claire vers l'aqueduc", "Follow clear water toward the aqueduct"), to: "aqueduct_gallery" },
+    { id: "broken-rite-to-well", label: l("Remonter au puits avec le courant", "Climb to the well with the current"), to: "echo_well" },
+  ],
+  foreman_parley: [
+    { id: "parley-to-sluice", label: l("Suivre son regard vers le passage des vannes", "Follow his glance to the sluice passage"), to: "sluice_passage" },
+    { id: "parley-to-customs", label: l("Comparer son jargon aux registres des douanes", "Compare his jargon with customs records"), to: "old_customs" },
+    { id: "parley-to-shadow", label: l("Revenir écouter sous l'échafaudage", "Return to listen beneath the scaffolding"), to: "scaffold_shadow" },
+  ],
+  scaffold_shadow: [
+    { id: "shadow-to-maintenance", label: l("Suivre les outils jusqu'au conduit oublié", "Follow the tools to the forgotten conduit"), to: "maintenance_map" },
+    { id: "shadow-to-dock", label: l("Sortir par les arches jusqu'au quai", "Leave through the arches to the dock"), to: "undersluice_dock" },
+    { id: "shadow-to-gates", label: l("Ramper sous les madriers vers les portes", "Crawl beneath the beams toward the gates"), to: "gate_chamber" },
+  ],
+  sluice_passage: [
+    { id: "sluice-to-underbridge", label: l("Suivre le grondement jusqu'à la vanne sous le pont", "Follow the rumble to the underbridge sluice"), to: "underbridge_sluice" },
+    { id: "sluice-to-counterweights", label: l("Prendre l'échelle des contrepoids", "Take the counterweight ladder"), to: "counterweight_loft" },
+    { id: "sluice-to-workers", label: l("Reparaître derrière les faux ouvriers", "Reappear behind the false workers"), to: "workers_bank" },
+  ],
+  kiki_trust: [
+    { id: "kiki-to-shrine", label: l("Faire bénir Kiki au sanctuaire", "Have Kiki blessed at the shrine"), to: "river_shrine" },
+    { id: "kiki-to-well", label: l("Laisser Kiki choisir la piste du puits", "Let Kiki choose the well trail"), to: "echo_well" },
+    { id: "kiki-to-market", label: l("Remonter par le marché où Kiki est connu", "Climb through the market where Kiki is known"), to: "salt_market" },
+  ],
+  barge_hold: [
+    { id: "barge-to-gallery", label: l("Passer par l'écoutille vers les glyphes", "Pass through the hatch toward the glyphs"), to: "gallery_procession" },
+    { id: "barge-to-pier", label: l("Rejoindre le quai des lanternes noires", "Reach the black-lantern pier"), to: "black_lantern_pier" },
+    { id: "barge-to-cell", label: l("Suivre des griffures jusqu'à la prison de pierre", "Follow scratches to the stone prison"), to: "poupiquet_cell" },
+  ],
+  smuggler_ledger: [
+    { id: "ledger-to-customs", label: l("Comparer le manifeste aux livres des douanes", "Compare the manifest with customs ledgers"), to: "old_customs" },
+    { id: "ledger-to-locker", label: l("Chercher les noms des coursiers dans leur casier", "Seek the couriers' names in their locker"), to: "courier_locker" },
+    { id: "ledger-to-city", label: l("Porter le manifeste vers la garde", "Carry the manifest to the guard"), to: "city_steps" },
+  ],
+  gallery_procession: [
+    { id: "gallery-to-chapel", label: l("Suivre le chant gravé jusqu'à la chapelle", "Follow the engraved song to the chapel"), to: "water_chapel" },
+    { id: "gallery-to-aqueduct", label: l("Prendre le couloir des pierres de pression", "Take the pressure-stone corridor"), to: "aqueduct_gallery" },
+    { id: "gallery-to-barge", label: l("Revenir vers la barge par les glyphes effacés", "Return to the barge by faded glyphs"), to: "barge_hold" },
+  ],
+  poupiquet_cell: [
+    { id: "cell-to-rite", label: l("Chercher la brèche du cinquième anneau", "Seek the fifth-ring breach"), to: "rite_broken" },
+    { id: "cell-to-tunnel", label: l("Suivre l'eau vers le tunnel noyé", "Follow the water to the flooded tunnel"), to: "flooded_tunnel" },
+    { id: "cell-to-gates", label: l("Forcer le passage vers les engrenages", "Force a passage toward the gears"), effects: [{ op: "increment", path: "expedition.fatigue", value: 1 }], to: "gate_chamber" },
+  ],
+  water_chapel: [
+    { id: "chapel-to-gallery", label: l("Revenir déchiffrer les glyphes avant d'agir", "Return to decipher the glyphs before acting"), to: "gallery_procession" },
+    { id: "chapel-to-bell", label: l("Suivre les vibrations jusqu'à la cloche", "Follow the vibrations to the bell"), to: "signal_bell" },
+    { id: "chapel-to-dock", label: l("Sortir par le bassin vers le quai", "Leave through the basin toward the dock"), to: "undersluice_dock" },
+  ],
+  shield_terrace: [
+    { id: "terrace-to-gates", label: l("Revenir examiner les gonds", "Return to inspect the hinges"), to: "gate_chamber" },
+    { id: "terrace-to-watch", label: l("Rejoindre la plateforme des veilleurs", "Reach the watchers' platform"), to: "watch_platform" },
+    { id: "terrace-to-city", label: l("Prendre le sentier des quartiers bas", "Take the lower-ward path"), to: "city_steps" },
+  ],
+  public_reckoning: [
+    { id: "reckoning-to-council", label: l("Retourner consulter le Conseil", "Return to consult the Council"), to: "council_antechamber" },
+    { id: "reckoning-to-gates", label: l("Redescendre vérifier les portes", "Descend to check the gates"), to: "gate_chamber" },
+    { id: "reckoning-to-witnesses", label: l("Écouter encore le serment des voyageurs", "Hear the travellers' oath again"), to: "witness_oath" },
+  ],
+  glasswright_yard: [
+    { id: "glass-to-pier", label: l("Suivre les sphères bleues jusqu'au quai", "Follow the blue spheres to the pier"), to: "black_lantern_pier" },
+    { id: "glass-to-salt", label: l("Porter un éclat au marché du sel", "Take a shard to the salt market"), to: "salt_market" },
+    { id: "glass-to-observatory", label: l("Montrer les pigments à l'astronome", "Show the pigments to the astronomer"), to: "ember_observatory" },
+  ],
+  seal_vault: [
+    { id: "vault-to-locker", label: l("Suivre les cachets jusqu'au casier des coursiers", "Follow the seals to the courier's locker"), to: "courier_locker" },
+    { id: "vault-to-scriptorium", label: l("Chercher les copies derrière le cloître", "Seek copies behind the cloister"), to: "hidden_scriptorium" },
+    { id: "vault-to-market", label: l("Sortir par les entrepôts vers le marché", "Exit through the warehouses to the market"), to: "salt_market" },
+  ],
+  embassy_vestry: [
+    { id: "vestry-to-locker", label: l("Suivre la tournée des messagers", "Follow the messengers' circuit"), to: "courier_locker" },
+    { id: "vestry-to-cistern", label: l("Passer par les toits jusqu'à la citerne", "Cross the rooftops to the cistern"), to: "rooftop_cistern" },
+    { id: "vestry-to-council", label: l("Gagner l'antichambre avec les rubans", "Reach the antechamber with the ribbons"), to: "council_antechamber" },
+  ],
+  paper_bridge: [
+    { id: "bridge-to-festival", label: l("Suivre les feuilles votives vers les lanternes", "Follow votive sheets to the lanterns"), to: "festival_arcade" },
+    { id: "bridge-to-ropewalk", label: l("Passer sous l'arche vers la corderie", "Pass beneath the arch to the ropewalk"), to: "ropewalk" },
+    { id: "bridge-to-canal", label: l("Redescendre aux marches du canal", "Descend to the canal steps"), to: "canal_steps" },
+  ],
+  echo_well: [
+    { id: "well-to-baths", label: l("Suivre le troisième écho jusqu'aux bains", "Follow the third echo to the baths"), to: "collapsed_baths" },
+    { id: "well-to-post", label: l("Remonter par l'ancien relais postal", "Climb through the old postal relay"), to: "drowned_post" },
+    { id: "well-to-chapel", label: l("Descendre avec le murmure vers la chapelle", "Descend with the murmur to the chapel"), to: "water_chapel" },
+  ],
+  collapsed_baths: [
+    { id: "baths-to-well", label: l("Suivre les canalisations jusqu'au puits", "Follow the pipes to the well"), to: "echo_well" },
+    { id: "baths-to-fissure", label: l("Gagner la fissure par les fondations", "Reach the fissure through the foundations"), to: "narrow_fissure" },
+    { id: "baths-to-aqueduct", label: l("Prendre la galerie haute de l'aqueduc", "Take the high aqueduct gallery"), to: "aqueduct_gallery" },
+  ],
+  counterweight_loft: [
+    { id: "loft-to-gates", label: l("Redescendre entre les chaînes vers les portes", "Descend between the chains to the gates"), to: "gate_chamber" },
+    { id: "loft-to-sluice", label: l("Suivre le câble jusqu'aux vannes", "Follow the cable to the sluices"), to: "sluice_passage" },
+    { id: "loft-to-observatory", label: l("Prendre la passerelle vers l'observatoire", "Take the catwalk to the observatory"), to: "ember_observatory" },
+  ],
+  ember_observatory: [
+    { id: "observatory-to-watch", label: l("Rejoindre la plateforme pour vérifier la ville", "Reach the platform to check the city"), to: "watch_platform" },
+    { id: "observatory-to-bell", label: l("Suivre le fil de cuivre jusqu'à la cloche", "Follow the copper wire to the bell"), to: "signal_bell" },
+    { id: "observatory-to-city", label: l("Descendre alerter la garde", "Descend to warn the guard"), to: "city_steps" },
+  ],
+  rooftop_cistern: [
+    { id: "cistern-to-ropewalk", label: l("Suivre les cordes à linge jusqu'à la corderie", "Follow clotheslines to the ropewalk"), to: "ropewalk" },
+    { id: "cistern-to-locker", label: l("Descendre au casier des coursiers", "Descend to the courier's locker"), to: "courier_locker" },
+    { id: "cistern-to-tribunal", label: l("Traverser les toits jusqu'au Tribunal", "Cross the roofs to the Tribunal"), to: "tribunal_gallery" },
+  ],
+  hidden_scriptorium: [
+    { id: "scriptorium-to-seals", label: l("Comparer les copies aux matrices de plomb", "Compare copies with the lead dies"), to: "seal_vault" },
+    { id: "scriptorium-to-locker", label: l("Suivre une note jusqu'au casier des coursiers", "Follow a note to the courier's locker"), to: "courier_locker" },
+    { id: "scriptorium-to-city", label: l("Sortir par la fenêtre basse vers la garde", "Exit the low window toward the guard"), to: "city_steps" },
+  ],
+  tribunal_gallery: [
+    { id: "tribunal-to-embassy", label: l("Suivre la coursive diplomatique", "Follow the diplomatic passage"), to: "embassy_vestry" },
+    { id: "tribunal-to-cistern", label: l("Passer par les combles jusqu'à la citerne", "Cross the attics to the cistern"), to: "rooftop_cistern" },
+    { id: "tribunal-to-watch", label: l("Gagner les hauteurs des veilleurs", "Reach the watchers' heights"), to: "watch_platform" },
+  ],
+  council_antechamber: [
+    { id: "council-to-archive", label: l("Vérifier les preuves au cloître", "Verify the evidence at the cloister"), to: "archive_cloister" },
+    { id: "council-to-city", label: l("Rejoindre le sergent sur les marches", "Join the sergeant on the steps"), to: "city_steps" },
+    { id: "council-to-locker", label: l("Suivre la piste des messagers", "Follow the messengers' trail"), to: "courier_locker" },
+  ],
+  ferrymen_guild: [
+    { id: "guild-to-shrine", label: l("Consulter la prêtresse des rives", "Consult the riverside priestess"), to: "river_shrine" },
+    { id: "guild-to-post", label: l("Envoyer un appel au relais noyé", "Send a call to the drowned post"), to: "drowned_post" },
+    { id: "guild-to-canal", label: l("Ressortir aux marches du canal", "Return to the canal steps"), to: "canal_steps" },
+  ],
+  rope_chapel: [
+    { id: "chapel-rope-to-guild", label: l("Revenir demander conseil aux passeurs", "Return to seek the ferrymen's counsel"), to: "ferrymen_guild" },
+    { id: "chapel-rope-to-pier", label: l("Suivre les amarres vers le quai noir", "Follow the moorings to the black pier"), to: "black_lantern_pier" },
+    { id: "chapel-rope-to-well", label: l("Prendre le passage des cordes vers le puits", "Take the rope passage to the well"), to: "echo_well" },
+  ],
+};
+
+const FINAL_DENSE_CHOICES = {
+  silt_archive: [
+    { id: "silt-to-workers", label: l("Suivre les traces blanches vers les ouvriers", "Follow white tracks to the workers"), to: "workers_bank" },
+    { id: "silt-to-well", label: l("Tester le niveau d'eau au puits des échos", "Test the water level at the echo well"), to: "echo_well" },
+  ],
+  undersluice_dock: [
+    { id: "dock-to-post", label: l("Longer les anneaux rouillés jusqu'au relais noyé", "Follow the rusted rings to the drowned post"), to: "drowned_post" },
+    { id: "dock-to-bell", label: l("Remonter le câble jusqu'à la cloche", "Follow the cable up to the bell"), to: "signal_bell" },
+  ],
+  old_customs: [
+    { id: "customs-to-library", label: l("Faire vérifier les chiffres à la bibliothèque des marées", "Have the tide library verify the figures"), to: "tide_library" },
+    { id: "customs-to-tribunal", label: l("Porter les doubles registres au Tribunal", "Carry the duplicate ledgers to the Tribunal"), to: "tribunal_gallery" },
+  ],
+  river_shrine: [
+    { id: "shrine-to-market", label: l("Suivre les offrandes jusqu'au marché du sel", "Follow the offerings to the salt market"), to: "salt_market" },
+    { id: "shrine-to-chapel", label: l("Chercher la source sous la chapelle de l'eau", "Seek the source beneath the water chapel"), to: "water_chapel" },
+  ],
+  moonfish_tavern: [
+    { id: "moonfish-to-pier", label: l("Prendre la sortie des bateliers vers le quai noir", "Use the boatmen's exit to the black pier"), to: "black_lantern_pier" },
+    { id: "moonfish-to-customs", label: l("Suivre un receveur jusqu'aux douanes", "Follow a collector to customs"), to: "old_customs" },
+  ],
+  moss_orchard: [
+    { id: "orchard-to-fissure", label: l("Suivre les racines jusqu'à la fissure", "Follow the roots to the fissure"), to: "narrow_fissure" },
+    { id: "orchard-to-post", label: l("Remonter par l'ancien verger vers le relais", "Climb through the old orchard to the post"), to: "drowned_post" },
+  ],
+  watch_platform: [
+    { id: "watch-to-gates", label: l("Descendre par l'escalier des mécaniciens", "Descend by the mechanics' stair"), to: "gate_chamber" },
+    { id: "watch-to-tribunal", label: l("Suivre les toits jusqu'à la galerie du Tribunal", "Follow the rooftops to the Tribunal gallery"), to: "tribunal_gallery" },
+  ],
+  archive_cloister: [
+    { id: "cloister-to-library", label: l("Comparer les copies aux rouleaux des marées", "Compare the copies with the tide rolls"), to: "tide_library" },
+    { id: "cloister-to-council", label: l("Porter les feuillets directement à l'antichambre", "Carry the folios directly to the antechamber"), to: "council_antechamber" },
+  ],
+  tide_library: [
+    { id: "library-to-pier", label: l("Suivre les relevés jusqu'au quai des lanternes", "Follow the readings to the lantern pier"), to: "black_lantern_pier" },
+  ],
+  courier_locker: [
+    { id: "locker-to-pier", label: l("Prendre le passage de service vers le quai noir", "Take the service passage to the black pier"), to: "black_lantern_pier" },
+  ],
+  aqueduct_gallery: [
+    { id: "aqueduct-to-tunnel", label: l("Descendre au tunnel par le regard d'eau", "Descend to the tunnel by the water-eye"), to: "flooded_tunnel" },
+    { id: "aqueduct-to-gates", label: l("Suivre la pente jusqu'à la chambre des portes", "Follow the slope to the gate chamber"), to: "gate_chamber" },
+  ],
+  underbridge_sluice: [
+    { id: "underbridge-to-rope-chapel", label: l("Prendre le passage des amarres vers la chapelle", "Take the mooring passage to the rope chapel"), to: "rope_chapel" },
+  ],
+  signal_bell: [
+    { id: "bell-to-cistern", label: l("Monter par le conduit sec jusqu'à la citerne", "Climb the dry conduit to the cistern"), to: "rooftop_cistern" },
+  ],
+};
+
+// A data-defined routing overlay keeps every return visit strategically open.
+// The identifiers are made local to their origin, so using one route never
+// consumes the same route at another location.
+const DENSE_WORLD_REGIONS = {
+  city: {
+    scenes: ["river_gate", "festival_arcade", "secret_map_stall", "glasswright_yard", "moonfish_tavern", "paper_bridge", "old_customs", "seal_vault", "embassy_vestry", "city_steps", "archive_cloister", "hidden_scriptorium", "tribunal_gallery", "council_antechamber", "salt_market", "ropewalk", "courier_locker", "tide_library"],
+    routes: [
+      { id: "festival", label: l("Suivre les ruelles de fête vers les lanternes", "Follow festival lanes toward the lanterns"), to: "festival_arcade" },
+      { id: "canal", label: l("Prendre une venelle vers les marches du canal", "Take a lane toward the canal steps"), to: "canal_steps" },
+      { id: "customs", label: l("Remonter une piste officielle jusqu'aux douanes", "Follow an official trail to customs"), to: "old_customs" },
+      { id: "guard", label: l("Chercher la garde sur les marches de la ville", "Seek the guard on the city steps"), to: "city_steps" },
+    ],
+  },
+  waterways: {
+    scenes: ["canal_steps", "undersluice_dock", "river_shrine", "drowned_post", "ferrymen_guild", "rope_chapel", "black_lantern_pier"],
+    routes: [
+      { id: "steps", label: l("Reprendre le chemin des maisons au bord du canal", "Return by the houses along the canal"), to: "canal_steps" },
+      { id: "dock", label: l("Suivre les amarres vers le quai de service", "Follow the moorings to the service dock"), to: "undersluice_dock" },
+      { id: "pier", label: l("Chercher une barque au quai des lanternes noires", "Seek a boat at the black-lantern pier"), to: "black_lantern_pier" },
+      { id: "shrine", label: l("Faire un détour par le sanctuaire des rives", "Make a detour through the riverside shrine"), to: "river_shrine" },
+    ],
+  },
+  riverbed: {
+    scenes: ["dry_bed", "workers_bank", "foreman_parley", "scaffold_shadow", "maintenance_map", "maintenance_crawl", "sluice_passage", "silt_archive", "moss_orchard", "collapsed_baths"],
+    routes: [
+      { id: "bed", label: l("Reprendre l'axe du lit asséché", "Return to the dry riverbed's main course"), to: "dry_bed" },
+      { id: "workers", label: l("Surveiller de nouveau le chantier des ouvriers", "Watch the workers' site again"), to: "workers_bank" },
+      { id: "gates", label: l("Suivre les vibrations jusqu'à la chambre des portes", "Follow the vibrations to the gate chamber"), to: "gate_chamber" },
+      { id: "silt", label: l("Chercher une réponse parmi les jalons de limon", "Seek an answer among the silt gauges"), to: "silt_archive" },
+    ],
+  },
+  depths: {
+    scenes: ["narrow_fissure", "kiki_trust", "dog_scent", "flooded_tunnel", "lantern_landing", "barge_hold", "witness_oath", "smuggler_ledger", "gallery_procession", "poupiquet_cell", "poupiquet_free", "water_chapel", "rite_broken", "echo_well", "aqueduct_gallery"],
+    routes: [
+      { id: "well", label: l("Écouter le courant jusqu'au puits des échos", "Follow the current's sound to the echo well"), to: "echo_well" },
+      { id: "landing", label: l("Revenir au seuil de l'eau noire", "Return to the threshold of black water"), to: "lantern_landing" },
+      { id: "glyphs", label: l("Suivre les signes gravés vers la galerie Utruz", "Follow carved signs to the Utruz gallery"), to: "gallery_procession" },
+      { id: "chapel", label: l("Chercher une issue vers la chapelle immergée", "Seek a way to the submerged chapel"), to: "water_chapel" },
+    ],
+  },
+  machinery: {
+    scenes: ["gate_chamber", "counterweight_loft", "watch_platform", "ember_observatory", "rooftop_cistern", "shield_terrace", "public_reckoning", "underbridge_sluice", "signal_bell"],
+    routes: [
+      { id: "gates", label: l("Rejoindre le cœur des mécanismes", "Reach the heart of the mechanisms"), to: "gate_chamber" },
+      { id: "city", label: l("Remonter par un escalier de service vers la ville", "Climb a service stair toward the city"), to: "city_steps" },
+      { id: "watch", label: l("Gagner les hauteurs des veilleurs", "Reach the watchers' heights"), to: "watch_platform" },
+      { id: "sluice", label: l("Suivre un câble jusqu'à la vanne sous le pont", "Follow a cable to the underbridge sluice"), to: "underbridge_sluice" },
+    ],
+  },
+};
+
+const REGIONAL_ROUTING_CHOICES = Object.fromEntries(
+  Object.values(DENSE_WORLD_REGIONS).flatMap(({ scenes, routes }) => scenes.map((sceneId) => [
+    sceneId,
+    routes.filter((route) => route.to !== sceneId).map((route) => ({
+      id: `route-${sceneId}-${route.id}`,
+      label: route.label,
+      to: route.to,
+    })),
+  ])),
+);
+
 export const FIXED_CHOICES = Object.fromEntries(
-  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES)])]
-    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? [])]]),
+  [...new Set([...Object.keys(CORE_CHOICES), ...Object.keys(WORLD_EXPANSION_CHOICES), ...Object.keys(WEB_CHOICES), ...Object.keys(DENSE_WEB_CHOICES), ...Object.keys(FINAL_DENSE_CHOICES), ...Object.keys(REGIONAL_ROUTING_CHOICES)])]
+    .map((sceneId) => [sceneId, [...(CORE_CHOICES[sceneId] ?? []), ...(WORLD_EXPANSION_CHOICES[sceneId] ?? []), ...(WEB_CHOICES[sceneId] ?? []), ...(DENSE_WEB_CHOICES[sceneId] ?? []), ...(FINAL_DENSE_CHOICES[sceneId] ?? []), ...(REGIONAL_ROUTING_CHOICES[sceneId] ?? [])]]),
 );

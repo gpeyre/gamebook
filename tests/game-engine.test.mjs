@@ -34,7 +34,8 @@ test("the graph contains distinct authored rescue, investigation, and rite route
   choose(state, "follow-water");
   choose(state, "light-lantern");
   const options = getChoices(state).map((choice) => choice.id);
-  assert.deepEqual(options, ["board-barge", "read-glyphs"]);
+  assert.ok(options.includes("board-barge"));
+  assert.ok(options.includes("read-glyphs"));
   choose(state, "read-glyphs");
   choose(state, "decipher-rite");
   choose(state, "free-poupiquet");
@@ -130,6 +131,31 @@ test("the eastern canal route exposes the signal network and rejoins the gates",
   assert.match(result.message.fr, /cloche de l'heure blanche est muette/i);
 });
 
+test("a return to a familiar hub reveals unused routes without reopening spent ones", () => {
+  const state = createInitialState("en");
+  choose(state, "browse-lanterns");
+  choose(state, "watch-festival");
+  assert.equal(state.currentScene, "river_gate");
+  assert.equal(state.memory.visitedScenes.river_gate, 2);
+  const options = getChoices(state).map((choice) => choice.id);
+  assert.ok(!options.includes("browse-lanterns"));
+  assert.ok(options.includes("visit-salt-market"));
+  assert.ok(options.includes("gate-to-customs"));
+  assert.ok(options.includes("gate-to-city"));
+});
+
+test("every non-final scene is authored as a meaningful decision hub", () => {
+  const sparseScenes = Object.entries(GAME_DB.scenes)
+    .filter(([, scene]) => !scene.ending)
+    .filter(([sceneId]) => sceneId in GAME_DB.fixedChoices)
+    .filter(([sceneId]) => (GAME_DB.fixedChoices[sceneId] ?? []).length < 8)
+    .map(([sceneId]) => sceneId);
+  assert.deepEqual(sparseScenes, []);
+
+  const ids = Object.values(GAME_DB.fixedChoices).flat().map((choice) => choice.id);
+  assert.equal(new Set(ids).size, ids.length);
+});
+
 test("the data-driven minimap marks the current place, visited places, and available routes", () => {
   const state = createInitialState("en");
   let map = getWorldMap(state);
@@ -150,4 +176,6 @@ test("every fixed route endpoint is represented on the campaign map without dupl
   assert.equal(new Set(edgeKeys).size, edgeKeys.length);
   assert.ok(GAME_DB.scenes.signal_bell);
   assert.ok(map.nodes.some((node) => node.id === "signal_bell"));
+  assert.ok(GAME_DB.fixedChoices.river_gate.length >= 8);
+  assert.ok(GAME_DB.fixedChoices.gate_chamber.length >= 8);
 });
