@@ -221,19 +221,132 @@ test("the second lore layer connects the warning system, civic law, and displace
 test("the final choice carries the discovered history into a public or protected record", () => {
   const publicState = createInitialState("en");
   publicState.currentScene = "public_reckoning";
+  publicState.flags.disabledSabotage = true;
   publicState.flags.disarmedShields = true;
   publicState.clues.push("valdrick_manifest", "water_rite", "brass_concord", "first_exiles");
   const publicEnding = choose(publicState, "save-city");
   assert.equal(publicState.flags.publicRecord, true);
+  assert.equal(publicState.flags.campaignResolved, true);
   assert.match(publicEnding.message.en, /Council to reopen the name of Low Vire/i);
 
   const quietState = createInitialState("en");
   quietState.currentScene = "public_reckoning";
+  quietState.flags.disabledSabotage = true;
   quietState.flags.disarmedShields = true;
-  quietState.clues.push("brass_concord");
+  quietState.clues.push("brass_concord", "water_rite", "valdrick_manifest");
   const quietEnding = choose(quietState, "save-quietly");
   assert.equal(quietState.flags.keptArchive, true);
+  assert.equal(quietState.flags.campaignResolved, true);
   assert.match(quietEnding.message.en, /Silence is a choice of survival/i);
+});
+
+test("the twelve authored conclusions depend on distinct alliances and evidence", () => {
+  const endings = [
+    ["save-city", {}, [], {}, "ending_dawn"],
+    ["save-quietly", {}, [], {}, "ending_silent"],
+    ["end-vire-covenant", { vireAssembly: true }, ["mutual_oath"], { witnesses: "public" }, "ending_vire_covenant"],
+    ["end-workers-open", {}, ["repair_covenant", "forged_orders"], { gates: "collective" }, "ending_workers_open"],
+    ["end-lantern-network", { haraNetwork: true }, ["relief_routes"], { reserve: "shared" }, "ending_lantern_network"],
+    ["end-civic-warrant", { othranCommitted: true }, ["guard_warrant"], {}, "ending_civic_warrant"],
+    ["end-courier-truth", { yorraDefected: true }, ["courier_chain"], {}, "ending_courier_truth"],
+    ["end-common-signal", {}, ["common_signal", "double_chime"], { signal: "open" }, "ending_common_signal"],
+    ["end-many-hands", { vireAssembly: true, haraNetwork: true }, ["repair_covenant", "common_signal"], { witnesses: "public", reserve: "shared", signal: "open", gates: "collective" }, "ending_many_hands"],
+    ["end-guarded-archive", { yorraDefected: true, metTovar: true, metIlyra: true }, [], { witnesses: "protected", signal: "covert" }, "ending_guarded_archive"],
+    ["end-broken-compact", {}, ["souleyna_compact"], { embassy: "expose" }, "ending_broken_compact"],
+    ["end-exile-passage", { metAvel: true }, ["hostage_passage"], { embassy: "passage" }, "ending_exile_passage"],
+  ];
+
+  for (const [choiceId, flags, extraClues, dilemmas, sceneId] of endings) {
+    const state = createInitialState("en");
+    state.currentScene = "public_reckoning";
+    state.flags.disabledSabotage = true;
+    state.flags.disarmedShields = true;
+    Object.assign(state.flags, flags);
+    Object.assign(state.dilemmas, dilemmas);
+    state.clues.push("valdrick_manifest", "water_rite", ...extraClues);
+    choose(state, choiceId);
+    assert.equal(state.currentScene, sceneId);
+    assert.equal(state.flags.campaignResolved, true);
+  }
+});
+
+test("the embassy dilemma trades public accountability against an immediate family passage", () => {
+  const expose = createInitialState("en");
+  expose.currentScene = "embassy_court";
+  expose.clues.push("souleyna_compact");
+  choose(expose, "expose-souleyna-compact");
+  assert.equal(expose.dilemmas.embassy, "expose");
+  assert.ok(expose.clues.includes("public_compact"));
+  assert.ok(!getChoices(expose).some((choice) => choice.id === "secure-family-passage"));
+
+  const passage = createInitialState("en");
+  passage.currentScene = "embassy_court";
+  passage.flags.metAvel = true;
+  passage.clues.push("hostage_passage");
+  choose(passage, "secure-family-passage");
+  assert.equal(passage.dilemmas.embassy, "passage");
+  assert.equal(passage.expedition.wealth, 4);
+  assert.ok(!getChoices(passage).some((choice) => choice.id === "expose-souleyna-compact"));
+});
+
+test("the final reckoning permits voluntary hero and NPC sacrifices before an outcome", () => {
+  const state = createInitialState("en");
+  state.currentScene = "public_reckoning";
+  state.flags.disabledSabotage = true;
+  state.flags.disarmedShields = true;
+  state.flags.yorraDefected = true;
+  state.dilemmas.signal = "open";
+  state.clues.push("valdrick_manifest", "water_rite", "common_signal", "double_chime");
+
+  choose(state, "aldren-holds-first-light");
+  assert.equal(state.heroConditions.aldren, "fallen");
+  assert.ok(state.casualties.includes("Aldren Varkel"));
+  choose(state, "yorra-cuts-last-route");
+  assert.equal(state.flags.yorraFallen, true);
+  assert.ok(state.casualties.includes("Yorra Vale"));
+
+  const ending = choose(state, "end-common-signal");
+  assert.equal(state.currentScene, "ending_common_signal");
+  assert.match(ending.message.en, /Aldren remained beneath the dome/i);
+  assert.match(ending.message.en, /Yorra cut the final courier chain/i);
+});
+
+test("four irreversible pivots trade public strength, safety, speed, and control", () => {
+  const state = createInitialState("fr");
+
+  state.currentScene = "fifth_quarter_assembly";
+  state.flags.vireAssembly = true;
+  choose(state, "publish-vire-names");
+  assert.equal(state.dilemmas.witnesses, "public");
+  assert.ok(!getChoices(state).some((choice) => choice.id === "protect-vire-names"));
+
+  state.currentScene = "waterkeepers_court";
+  state.flags.metMiren = true;
+  choose(state, "share-retention-reserve");
+  assert.equal(state.dilemmas.reserve, "shared");
+  assert.equal(state.expedition.supplies, 1);
+
+  state.currentScene = "first_light_chamber";
+  state.clues.push("common_signal");
+  choose(state, "open-common-signal");
+  assert.equal(state.dilemmas.signal, "open");
+  assert.ok(!getChoices(state).some((choice) => choice.id === "mask-common-signal"));
+
+  state.currentScene = "worksong_chapel";
+  state.clues.push("repair_covenant");
+  choose(state, "share-gate-authority");
+  assert.equal(state.dilemmas.gates, "collective");
+  assert.ok(state.clues.includes("collective_repair"));
+});
+
+test("a spent local hub offers data-defined recovery routes until the campaign ends", () => {
+  const state = createInitialState("fr");
+  state.currentScene = "public_reckoning";
+  state.memory.exploredChoices = GAME_DB.fixedChoices.public_reckoning.map((choice) => choice.id);
+  const choices = getChoices(state);
+  assert.ok(choices.some((choice) => choice.id === "recovery-city-steps"));
+  assert.ok(choices.some((choice) => choice.id === "recovery-gate-chamber"));
+  assert.ok(choices.every((choice) => choice.once === false));
 });
 
 test("the campaign has no turn limit or automatic flood ending", () => {

@@ -1,6 +1,6 @@
 import { GAME_DB } from "./game-db.js";
 
-export const STATE_VERSION = 17;
+export const STATE_VERSION = 20;
 
 export function createInitialState(language = "fr", database = GAME_DB) {
   return {
@@ -21,9 +21,11 @@ export function hydrateState(savedState, database = GAME_DB) {
     version: STATE_VERSION,
     flags: { ...fresh.flags, ...savedState.flags },
     relationships: { ...fresh.relationships, ...savedState.relationships },
+    dilemmas: { ...fresh.dilemmas, ...savedState.dilemmas },
     quests: { ...fresh.quests, ...savedState.quests },
     expedition: { ...fresh.expedition, ...savedState.expedition },
     heroConditions: { ...fresh.heroConditions, ...savedState.heroConditions },
+    casualties: Array.isArray(savedState.casualties) ? savedState.casualties : fresh.casualties,
     memory: { ...fresh.memory, ...savedState.memory, exploredChoices: savedState.memory?.exploredChoices ?? [], visitedScenes: savedState.memory?.visitedScenes ?? {} },
     transcript: Array.isArray(savedState.transcript) ? savedState.transcript : fresh.transcript,
   };

@@ -166,7 +166,9 @@ function fixedChoiceAvailable(choice, state) {
 
 /** Returns only authored choices that have not already been consumed. */
 export function getChoices(state) {
-  return (activeDatabase.fixedChoices?.[state.currentScene] ?? []).filter((choice) => fixedChoiceAvailable(choice, state));
+  const authored = (activeDatabase.fixedChoices?.[state.currentScene] ?? []).filter((choice) => fixedChoiceAvailable(choice, state));
+  if (authored.length || activeDatabase.scenes[state.currentScene]?.ending) return authored;
+  return (activeDatabase.recoveryChoices ?? []).filter((choice) => fixedChoiceAvailable(choice, state));
 }
 
 function mergeNarration(first, second) {

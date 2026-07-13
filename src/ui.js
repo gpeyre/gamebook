@@ -49,7 +49,7 @@ function renderChoices(state, onChoice) {
     const note = document.createElement("p"); note.className = "choice-ending"; note.textContent = UI_TEXT[state.language].endingHint; elements.suggestions.append(note); return;
   }
   if (!choices.length && !getScene(state).ending) {
-    const note = document.createElement("p"); note.className = "empty"; note.textContent = state.language === "fr" ? "Toutes les pistes disponibles ont été épuisées." : "Every available lead has been exhausted."; elements.suggestions.append(note);
+    const note = document.createElement("p"); note.className = "empty"; note.textContent = state.language === "fr" ? "Le récit attend une route de reprise." : "The story is waiting for a route back in."; elements.suggestions.append(note);
   }
   for (const choice of choices) {
     const button = document.createElement("button"); button.type = "button"; button.textContent = t(choice.label, state.language); button.addEventListener("click", () => onChoice(choice.id)); elements.suggestions.append(button);
